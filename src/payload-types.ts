@@ -177,6 +177,40 @@ export interface Homepage {
      */
     videoAlt?: string | null;
   };
+  pengumumanSection: {
+    /**
+     * Section title for the announcements carousel
+     */
+    title: string;
+    /**
+     * Section subtitle/description
+     */
+    subtitle?: string | null;
+    /**
+     * Upload images for the pengumuman carousel
+     */
+    images?:
+      | {
+          /**
+           * Title/name for this announcement image
+           */
+          title: string;
+          /**
+           * Upload the announcement image
+           */
+          image: string | Media;
+          /**
+           * Alternative text for accessibility
+           */
+          alt?: string | null;
+          /**
+           * Optional link when image is clicked
+           */
+          link?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -286,6 +320,21 @@ export interface HomepageSelect<T extends boolean = true> {
         title?: T;
         video?: T;
         videoAlt?: T;
+      };
+  pengumumanSection?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        images?:
+          | T
+          | {
+              title?: T;
+              image?: T;
+              alt?: T;
+              link?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

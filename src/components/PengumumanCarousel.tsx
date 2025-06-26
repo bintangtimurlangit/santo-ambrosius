@@ -2,13 +2,28 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import Image from 'next/image'
+import { getMediaURL } from '@/lib/getHomepageData'
+import type { Media } from '@/payload-types'
 
-const PengumumanCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(2) // Start with middle image active
+interface CarouselImage {
+  title: string
+  image: string | Media
+  alt?: string | null | undefined
+  link?: string | null | undefined
+  id?: string | null | undefined
+}
+
+interface PengumumanCarouselProps {
+  images?: CarouselImage[] | null | undefined
+}
+
+const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
+  const carouselImages = images || []
+  const totalImages = carouselImages.length || 5 // Fallback to 5 for backwards compatibility
+  const [currentIndex, setCurrentIndex] = useState(Math.floor(totalImages / 2)) // Start with middle image active
   const [isClient, setIsClient] = useState(false) // Track if we're on client side
   const timerRef = useRef<NodeJS.Timeout | null>(null)
-
-  const totalImages = 5
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % totalImages)
@@ -148,20 +163,37 @@ const PengumumanCarousel = () => {
 
   return (
     <div className="flex justify-center items-center relative h-[400px] sm:h-[450px] md:h-[500px] lg:h-[700px] mt-8 overflow-hidden">
-      {Array.from({ length: totalImages }, (_, index) => (
-        <div
-          key={index}
-          className="absolute w-[250px] h-[353px] sm:w-[280px] sm:h-[396px] md:w-[300px] md:h-[424px] lg:w-[400px] lg:h-[565px] transition-all duration-500 ease-in-out cursor-pointer hover:z-10"
-          style={getCardStyle(index)}
-          onClick={() => handleUserInteraction(() => setCurrentIndex(index))}
-        >
-          <div className="w-full h-full bg-white border border-gray-300 rounded-lg flex items-center justify-center relative shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-400 hover:shadow-[0_0_30px_rgba(50,70,90,0.6),0_4px_20px_rgba(0,0,0,0.15)] hover:border-slate-700/30">
-            <span className="text-gray-400 text-sm sm:text-base font-medium">
-              A4 Document {index + 1}
-            </span>
+      {Array.from({ length: totalImages }, (_, index) => {
+        const imageData = carouselImages[index]
+        const imageUrl = imageData ? getMediaURL(imageData.image) : ''
+
+        return (
+          <div
+            key={index}
+            className="absolute w-[250px] h-[353px] sm:w-[280px] sm:h-[396px] md:w-[300px] md:h-[424px] lg:w-[400px] lg:h-[565px] transition-all duration-500 ease-in-out cursor-pointer hover:z-10"
+            style={getCardStyle(index)}
+            onClick={() => handleUserInteraction(() => setCurrentIndex(index))}
+          >
+            <div className="w-full h-full bg-white border border-gray-300 rounded-lg overflow-hidden relative shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-400 hover:shadow-[0_0_30px_rgba(50,70,90,0.6),0_4px_20px_rgba(0,0,0,0.15)] hover:border-slate-700/30">
+              {imageData && imageUrl ? (
+                <Image
+                  src={imageUrl}
+                  alt={imageData.alt || imageData.title || `Pengumuman ${index + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 250px, (max-width: 768px) 280px, (max-width: 1024px) 300px, 400px"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="text-gray-400 text-sm sm:text-base font-medium">
+                    A4 Document {index + 1}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
 
       {/* Left Navigation */}
       <button

@@ -1,17 +1,20 @@
-import { getPayload } from 'payload'
-import config from '@/payload.config'
 import type { Homepage, Media } from '@/payload-types'
 
 export async function getHomepageData(): Promise<Homepage | null> {
   try {
-    const payload = await getPayload({ config })
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/homepage`,
+      {
+        next: { revalidate: 60 }, // Cache for 60 seconds
+      },
+    )
 
-    const result = await payload.find({
-      collection: 'homepage',
-      limit: 1,
-    })
+    if (!response.ok) {
+      throw new Error('Failed to fetch homepage data')
+    }
 
-    return result.docs[0] || null
+    const result = await response.json()
+    return result.success ? result.data : null
   } catch (error) {
     console.error('Error fetching homepage data:', error)
     return null

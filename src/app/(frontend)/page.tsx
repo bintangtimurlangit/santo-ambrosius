@@ -45,12 +45,13 @@ export default async function HomePage() {
       <section className="bg-gradient-to-t from-slate-700 to-white py-20 px-4 sm:px-8 md:px-12 pb-64 m-0">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-5xl md:text-4xl font-semibold tracking-tight text-slate-700 mb-6">
-            Pengumuman
+            {homepageData?.pengumumanSection?.title || 'Pengumuman'}
           </h2>
           <p className="text-sm text-gray-500 leading-relaxed max-w-4xl mx-auto mb-12">
-            Simak pengumuman terbaru dari Gereja Santo Ambrosius.
+            {homepageData?.pengumumanSection?.subtitle ||
+              'Simak pengumuman terbaru dari Gereja Santo Ambrosius.'}
           </p>
-          <PengumumanCarousel />
+          <PengumumanCarousel images={homepageData?.pengumumanSection?.images} />
         </div>
       </section>
 
