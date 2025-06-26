@@ -99,12 +99,9 @@ export default function Navbar() {
             {/* Invisible bridge for smooth hover */}
             <div className="absolute top-full left-0 right-0 h-1 bg-transparent z-50"></div>
 
-            <Link
-              href="/tentang-kami"
-              className="no-underline text-black font-light text-base transition-all duration-200 hover:drop-shadow-[0.5px_0_0_currentColor] cursor-pointer"
-            >
+            <span className="no-underline text-black font-light text-base transition-all duration-200 hover:drop-shadow-[0.5px_0_0_currentColor] cursor-pointer">
               Tentang Kami
-            </Link>
+            </span>
             {isDropdownOpen && (
               <div className="absolute top-full left-0 mt-1 bg-white border border-slate-700/10 rounded-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] py-3 min-w-[220px] z-50 backdrop-blur-sm animate-[dropdownFadeIn_0.2s_ease-out]">
                 <Link
@@ -149,12 +146,9 @@ export default function Navbar() {
             {/* Invisible bridge for smooth hover */}
             <div className="absolute top-full left-0 right-0 h-1 bg-transparent z-50"></div>
 
-            <Link
-              href="/sapta-bidang"
-              className="no-underline text-black font-light text-base transition-all duration-200 hover:drop-shadow-[0.5px_0_0_currentColor] cursor-pointer"
-            >
+            <span className="no-underline text-black font-light text-base transition-all duration-200 hover:drop-shadow-[0.5px_0_0_currentColor] cursor-pointer">
               Sapta Bidang
-            </Link>
+            </span>
             {isSaptaBidangDropdownOpen && (
               <div className="absolute top-full left-0 mt-1 bg-white border border-slate-700/10 rounded-lg shadow-[0_8px_32px_rgba(0,0,0,0.15)] py-3 min-w-[220px] z-50 backdrop-blur-sm animate-[dropdownFadeIn_0.2s_ease-out]">
                 <Link
