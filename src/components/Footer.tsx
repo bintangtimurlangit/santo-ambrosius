@@ -3,7 +3,15 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaFacebook, FaInstagram, FaYoutube, FaTwitter } from 'react-icons/fa'
+import {
+  FaFacebook,
+  FaInstagram,
+  FaYoutube,
+  FaTwitter,
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope,
+} from 'react-icons/fa'
 
 export default function Footer() {
   return (
@@ -68,15 +76,15 @@ export default function Footer() {
               </h3>
               <div className="space-y-4 mt-4">
                 <div className="text-gray-300 text-sm flex items-center justify-center md:justify-start gap-2">
-                  <span className="text-sky-400">📍</span>
+                  <FaMapMarkerAlt className="text-white" size={14} />
                   <span>Jl. Villa Melati Mas, Serpong</span>
                 </div>
                 <div className="text-gray-300 text-sm flex items-center justify-center md:justify-start gap-2">
-                  <span className="text-sky-400">📞</span>
+                  <FaPhone className="text-white" size={14} />
                   <span>+62 858-1026-2017</span>
                 </div>
                 <div className="text-gray-300 text-sm flex items-center justify-center md:justify-start gap-2">
-                  <span className="text-sky-400">✉️</span>
+                  <FaEnvelope className="text-white" size={14} />
                   <span>info@santoambrosius.org</span>
                 </div>
               </div>
