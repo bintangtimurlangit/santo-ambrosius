@@ -114,6 +114,12 @@ export default function Navbar() {
                   Sejarah Paroki
                 </Link>
                 <Link
+                  href="/tentang-kami/visi-misi"
+                  className="block py-3.5 px-6 no-underline text-slate-700 text-sm font-normal transition-all duration-200 border-b border-slate-700/5 leading-tight hover:bg-slate-700/8 hover:text-slate-700 hover:pl-7 last:border-b-0"
+                >
+                  Visi Misi
+                </Link>
+                <Link
                   href="/tentang-kami/profil-santo-pelindung"
                   className="block py-3.5 px-6 no-underline text-slate-700 text-sm font-normal transition-all duration-200 border-b border-slate-700/5 leading-tight hover:bg-slate-700/8 hover:text-slate-700 hover:pl-7 last:border-b-0"
                 >
@@ -130,18 +136,6 @@ export default function Navbar() {
                   className="block py-3.5 px-6 no-underline text-slate-700 text-sm font-normal transition-all duration-200 border-b border-slate-700/5 leading-tight hover:bg-slate-700/8 hover:text-slate-700 hover:pl-7 last:border-b-0"
                 >
                   Romo Paroki
-                </Link>
-                <Link
-                  href="/tentang-kami/demografi"
-                  className="block py-3.5 px-6 no-underline text-slate-700 text-sm font-normal transition-all duration-200 border-b border-slate-700/5 leading-tight hover:bg-slate-700/8 hover:text-slate-700 hover:pl-7 last:border-b-0"
-                >
-                  Demografi
-                </Link>
-                <Link
-                  href="/tentang-kami/organisasi"
-                  className="block py-3.5 px-6 no-underline text-slate-700 text-sm font-normal transition-all duration-200 border-b border-slate-700/5 leading-tight hover:bg-slate-700/8 hover:text-slate-700 hover:pl-7 last:border-b-0"
-                >
-                  Organisasi
                 </Link>
               </div>
             )}
@@ -303,6 +297,12 @@ export default function Navbar() {
                   Sejarah Paroki
                 </Link>
                 <Link
+                  href="/tentang-kami/visi-misi"
+                  className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
+                >
+                  Visi Misi
+                </Link>
+                <Link
                   href="/tentang-kami/profil-santo-pelindung"
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
@@ -319,18 +319,6 @@ export default function Navbar() {
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Romo Paroki
-                </Link>
-                <Link
-                  href="/tentang-kami/demografi"
-                  className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
-                >
-                  Demografi
-                </Link>
-                <Link
-                  href="/tentang-kami/organisasi"
-                  className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
-                >
-                  Organisasi
                 </Link>
               </div>
             )}

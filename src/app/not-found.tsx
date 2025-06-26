@@ -13,7 +13,7 @@ export default function NotFound() {
         className="mx-2 rounded-b-2xl shadow-sm"
         style={{
           background:
-            'linear-gradient(to bottom, rgb(186 230 253) 5%, rgb(186 230 253) 3%, white 20%, rgb(249 250 251) 100%)',
+            'linear-gradient(to bottom, rgb(186 230 253) 5%, rgb(186 230 253) 3%, white 60%, rgb(249 250 251) 100%)',
         }}
       >
         {/* Content Section */}
