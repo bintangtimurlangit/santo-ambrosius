@@ -69,8 +69,8 @@ export default function Navbar() {
   return (
     <nav
       className={`
-        bg-sky-200 border-b border-sky-300 p-4 pr-4 md:pr-12 pl-4 
-        ${isFloating ? 'rounded-2xl m-2 top-2 shadow-lg' : 'rounded-t-2xl mt-2 mx-2'} 
+        bg-sky-200 p-4 pr-4 md:pr-12 pl-4 
+        ${isFloating ? 'rounded-2xl m-2 top-2 shadow-lg' : 'rounded-t-2xl mt-2 mx-2 border-b border-sky-300'} 
         sticky top-0 z-50 transition-all duration-300 ease-in-out
       `}
     >

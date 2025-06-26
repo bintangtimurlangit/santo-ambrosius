@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     homepage: Homepage;
+    'sejarah-paroki': SejarahParoki;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,6 +80,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
+    'sejarah-paroki': SejarahParokiSelect<false> | SejarahParokiSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -215,6 +217,73 @@ export interface Homepage {
   createdAt: string;
 }
 /**
+ * Manage Sejarah Paroki (Parish History) page content
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sejarah-paroki".
+ */
+export interface SejarahParoki {
+  id: string;
+  /**
+   * Page title for the Sejarah Paroki page
+   */
+  title: string;
+  heroSection: {
+    /**
+     * Hero section title
+     */
+    title: string;
+    /**
+     * Hero section subtitle/description
+     */
+    subtitle?: string | null;
+    /**
+     * Hero background image (church/historical photo)
+     */
+    backgroundImage?: (string | null) | Media;
+  };
+  content: {
+    /**
+     * Main article content about the parish history
+     */
+    article: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    /**
+     * Featured image for the article
+     */
+    featuredImage?: (string | null) | Media;
+    /**
+     * Caption for the featured image
+     */
+    imageCaption?: string | null;
+    quote?: {
+      /**
+       * Quote text
+       */
+      text?: string | null;
+      /**
+       * Quote author
+       */
+      author?: string | null;
+    };
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -232,6 +301,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'homepage';
         value: string | Homepage;
+      } | null)
+    | ({
+        relationTo: 'sejarah-paroki';
+        value: string | SejarahParoki;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -334,6 +407,35 @@ export interface HomepageSelect<T extends boolean = true> {
               alt?: T;
               link?: T;
               id?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sejarah-paroki_select".
+ */
+export interface SejarahParokiSelect<T extends boolean = true> {
+  title?: T;
+  heroSection?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        backgroundImage?: T;
+      };
+  content?:
+    | T
+    | {
+        article?: T;
+        featuredImage?: T;
+        imageCaption?: T;
+        quote?:
+          | T
+          | {
+              text?: T;
+              author?: T;
             };
       };
   updatedAt?: T;
