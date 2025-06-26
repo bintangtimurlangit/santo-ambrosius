@@ -20,18 +20,29 @@ interface PengumumanCarouselProps {
 
 const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
   const carouselImages = images || []
-  const totalImages = carouselImages.length || 5 // Fallback to 5 for backwards compatibility
+  const totalImages = carouselImages.length
   const [currentIndex, setCurrentIndex] = useState(Math.floor(totalImages / 2)) // Start with middle image active
   const [isClient, setIsClient] = useState(false) // Track if we're on client side
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
-  const nextSlide = () => {
+  const nextSlide = React.useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % totalImages)
-  }
+  }, [totalImages])
 
-  const prevSlide = () => {
+  const prevSlide = React.useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + totalImages) % totalImages)
-  }
+  }, [totalImages])
+
+  const startAutoAdvance = React.useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+    }
+
+    timerRef.current = setTimeout(() => {
+      nextSlide()
+      startAutoAdvance() // Restart timer for next advance
+    }, 8000) // 8 seconds
+  }, [nextSlide])
 
   const handleUserInteraction = (action: () => void) => {
     // Clear existing timer
@@ -45,17 +56,6 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
     // Restart the auto-advance timer
     startAutoAdvance()
   }
-
-  const startAutoAdvance = React.useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current)
-    }
-
-    timerRef.current = setTimeout(() => {
-      nextSlide()
-      startAutoAdvance() // Restart timer for next advance
-    }, 8000) // 8 seconds
-  }, [])
 
   // Handle client-side mounting to prevent hydration mismatch
   useEffect(() => {
@@ -78,75 +78,55 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
   }, [currentIndex, isClient, startAutoAdvance])
 
   const getCardStyle = (index: number) => {
-    let diff = index - currentIndex
-
-    // Handle wrapping for circular effect
-    if (diff > 2) {
-      diff = diff - totalImages
-    } else if (diff < -2) {
-      diff = diff + totalImages
-    }
-
     // Check screen size - only on client side to prevent hydration mismatch
     const isMobile = isClient && window.innerWidth <= 640 // sm breakpoint
     const isTablet = isClient && window.innerWidth <= 768 && window.innerWidth > 640 // md breakpoint
 
-    // Adjust spacing and visibility based on screen size
-    let baseSpacing = 160 // default for lg+
-    let maxVisibleCards = 2 // show center + 2 on each side for lg+
+    // Adjust spacing based on screen size
+    let baseSpacing = 180 // default spacing for lg+
 
     if (isMobile) {
-      baseSpacing = 70 // even tighter spacing for mobile to prevent overflow
-      maxVisibleCards = 1 // only show center + 1 on each side for mobile
+      baseSpacing = 100 // tighter spacing for mobile
     } else if (isTablet) {
-      baseSpacing = 120 // medium spacing for tablet
-      maxVisibleCards = 1 // show center + 1 on each side for tablet
+      baseSpacing = 140 // medium spacing for tablet
     }
 
-    // Calculate position and scale based on distance from center
-    let translateX = 0
-    let scale = 1
-    let zIndex = 1
-    let opacity = 0
+    // For different numbers of images, adjust spacing
+    if (totalImages === 1) {
+      baseSpacing = 0
+    } else if (totalImages === 2) {
+      baseSpacing = isMobile ? 120 : isTablet ? 160 : 200
+    } else if (totalImages === 3) {
+      baseSpacing = isMobile ? 100 : isTablet ? 140 : 180
+    }
 
-    if (diff === 0) {
-      // Center card
-      translateX = 0
+    // Calculate the rotated position based on currentIndex
+    // This creates the rotating effect: 1-2-3 → 3-1-2 → 2-3-1
+    const rotatedIndex = (index - currentIndex + totalImages) % totalImages
+
+    // Calculate position relative to center
+    const centerPosition = Math.floor(totalImages / 2)
+    const diff = rotatedIndex - centerPosition
+
+    const translateX = diff * baseSpacing
+    let scale = 1
+    let zIndex = 5
+    const opacity = 1
+
+    // Center image (middle position after rotation) gets special styling
+    if (rotatedIndex === centerPosition) {
       scale = isMobile ? 1 : 1.1
-      zIndex = 5
-      opacity = 1
-    } else if (Math.abs(diff) === 1 && Math.abs(diff) <= maxVisibleCards) {
-      // Adjacent cards - close to center
-      translateX = diff * baseSpacing
-      scale = isMobile ? 0.85 : 0.95
-      zIndex = 4
-      opacity = 1
-    } else if (Math.abs(diff) === 2 && Math.abs(diff) <= maxVisibleCards) {
-      // Outer cards - only show on larger screens
-      translateX = diff * baseSpacing * 1
-      scale = 0.88
-      zIndex = 3
-      opacity = 1
+      zIndex = 10
     } else {
-      // Hidden cards - completely hide on mobile/tablet, keep far on desktop
-      if (isMobile || isTablet) {
-        opacity = 0
-        translateX = diff * baseSpacing * 2
-        scale = 0.7
-        zIndex = 1
-      } else {
-        translateX = diff * baseSpacing * 1.4
-        scale = 0.8
-        zIndex = 2
-        opacity = 0.8
-      }
+      scale = isMobile ? 0.9 : 0.95
+      zIndex = 5 - Math.abs(diff)
     }
 
     return {
       transform: `translateX(${translateX}px) scale(${scale})`,
       zIndex,
       opacity,
-      transition: 'all 0.5s ease',
+      transition: 'all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1)',
     }
   }
 
@@ -157,6 +137,15 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
         <div className="w-[250px] h-[353px] sm:w-[280px] sm:h-[396px] md:w-[300px] md:h-[424px] lg:w-[400px] lg:h-[565px] bg-white border border-gray-300 rounded-lg flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.15)]">
           <span className="text-gray-400 text-sm sm:text-base font-medium">Loading...</span>
         </div>
+      </div>
+    )
+  }
+
+  // Don't render carousel if no images
+  if (totalImages === 0) {
+    return (
+      <div className="flex justify-center items-center relative h-[400px] sm:h-[450px] md:h-[500px] lg:h-[700px] mt-8">
+        <div className="text-gray-400 text-lg">No announcements available</div>
       </div>
     )
   }
@@ -195,21 +184,26 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
         )
       })}
 
-      {/* Left Navigation */}
-      <button
-        className="absolute top-1/2 -translate-y-1/2 left-2 sm:left-4 md:left-6 lg:left-4 xl:left-6 bg-white/95 text-slate-700 border-2 border-slate-700/30 rounded-full w-10 h-10 sm:w-11 sm:h-11 md:w-10 md:h-10 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer text-sm sm:text-base lg:text-base transition-all duration-300 z-40 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:bg-slate-700 hover:text-white hover:border-slate-700 hover:scale-110 hover:shadow-[0_8px_25px_rgba(50,70,90,0.3)]"
-        onClick={() => handleUserInteraction(prevSlide)}
-      >
-        <FaChevronLeft />
-      </button>
+      {/* Navigation buttons - only show if more than 1 image */}
+      {totalImages > 1 && (
+        <>
+          {/* Left Navigation */}
+          <button
+            className="absolute top-1/2 -translate-y-1/2 left-2 sm:left-4 md:left-6 lg:left-4 xl:left-6 bg-white/95 text-slate-700 border-2 border-slate-700/30 rounded-full w-10 h-10 sm:w-11 sm:h-11 md:w-10 md:h-10 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer text-sm sm:text-base lg:text-base transition-all duration-300 z-40 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:bg-slate-700 hover:text-white hover:border-slate-700 hover:scale-110 hover:shadow-[0_8px_25px_rgba(50,70,90,0.3)]"
+            onClick={() => handleUserInteraction(prevSlide)}
+          >
+            <FaChevronLeft />
+          </button>
 
-      {/* Right Navigation */}
-      <button
-        className="absolute top-1/2 -translate-y-1/2 right-2 sm:right-4 md:right-6 lg:right-4 xl:right-6 bg-white/95 text-slate-700 border-2 border-slate-700/30 rounded-full w-10 h-10 sm:w-11 sm:h-11 md:w-10 md:h-10 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer text-sm sm:text-base lg:text-base transition-all duration-300 z-40 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:bg-slate-700 hover:text-white hover:border-slate-700 hover:scale-110 hover:shadow-[0_8px_25px_rgba(50,70,90,0.3)]"
-        onClick={() => handleUserInteraction(nextSlide)}
-      >
-        <FaChevronRight />
-      </button>
+          {/* Right Navigation */}
+          <button
+            className="absolute top-1/2 -translate-y-1/2 right-2 sm:right-4 md:right-6 lg:right-4 xl:right-6 bg-white/95 text-slate-700 border-2 border-slate-700/30 rounded-full w-10 h-10 sm:w-11 sm:h-11 md:w-10 md:h-10 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer text-sm sm:text-base lg:text-base transition-all duration-300 z-40 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:bg-slate-700 hover:text-white hover:border-slate-700 hover:scale-110 hover:shadow-[0_8px_25px_rgba(50,70,90,0.3)]"
+            onClick={() => handleUserInteraction(nextSlide)}
+          >
+            <FaChevronRight />
+          </button>
+        </>
+      )}
     </div>
   )
 }

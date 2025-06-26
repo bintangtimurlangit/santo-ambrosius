@@ -11,15 +11,17 @@ export default function Footer() {
       {/* Main Footer Content */}
       <div className="px-4 sm:px-8 md:px-12 py-12 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-6 text-center md:text-left">
             {/* Navigasi */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-white">Navigasi</h3>
-              <ul className="space-y-2">
+            <div className="mb-8 md:mb-0">
+              <h3 className="text-lg font-semibold mb-6 text-white border-b border-slate-600 pb-2 inline-block">
+                Navigasi
+              </h3>
+              <ul className="space-y-3 mt-4">
                 <li>
                   <Link
                     href="/tentang-kami"
-                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline"
+                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline block py-1"
                   >
                     Tentang Kami
                   </Link>
@@ -27,7 +29,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/sapta-bidang"
-                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline"
+                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline block py-1"
                   >
                     Sapta Bidang
                   </Link>
@@ -35,7 +37,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/jadwal"
-                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline"
+                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline block py-1"
                   >
                     Jadwal Misa
                   </Link>
@@ -43,7 +45,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/hubungi-kami"
-                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline"
+                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline block py-1"
                   >
                     Hubungi Kami
                   </Link>
@@ -51,7 +53,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/porta-sancta"
-                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline"
+                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline block py-1"
                   >
                     Porta Sancta
                   </Link>
@@ -60,54 +62,67 @@ export default function Footer() {
             </div>
 
             {/* Kontak */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-white">Kontak</h3>
-              <div className="space-y-3">
-                <div className="text-gray-300 text-sm">📍 Jl. Villa Melati Mas, Serpong</div>
-                <div className="text-gray-300 text-sm">📞 +62 858-1026-2017</div>
-                <div className="text-gray-300 text-sm">✉️ info@santoambrosius.org</div>
+            <div className="mb-8 md:mb-0">
+              <h3 className="text-lg font-semibold mb-6 text-white border-b border-slate-600 pb-2 inline-block">
+                Kontak
+              </h3>
+              <div className="space-y-4 mt-4">
+                <div className="text-gray-300 text-sm flex items-center justify-center md:justify-start gap-2">
+                  <span className="text-sky-400">📍</span>
+                  <span>Jl. Villa Melati Mas, Serpong</span>
+                </div>
+                <div className="text-gray-300 text-sm flex items-center justify-center md:justify-start gap-2">
+                  <span className="text-sky-400">📞</span>
+                  <span>+62 858-1026-2017</span>
+                </div>
+                <div className="text-gray-300 text-sm flex items-center justify-center md:justify-start gap-2">
+                  <span className="text-sky-400">✉️</span>
+                  <span>info@santoambrosius.org</span>
+                </div>
               </div>
             </div>
 
             {/* Ikuti Kami */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-white">Ikuti Kami</h3>
-              <div className="flex gap-3">
+            <div className="mb-8 md:mb-0">
+              <h3 className="text-lg font-semibold mb-6 text-white border-b border-slate-600 pb-2 inline-block">
+                Ikuti Kami
+              </h3>
+              <div className="flex gap-3 justify-center md:justify-start mt-4">
                 <a
                   href="https://www.facebook.com/santoambrosius"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-slate-700 hover:bg-blue-600 rounded-lg p-2 text-white no-underline transition-all duration-200"
+                  className="bg-slate-700 hover:bg-blue-600 rounded-lg p-3 text-white no-underline transition-all duration-200 hover:scale-110"
                   aria-label="Facebook"
                 >
-                  <FaFacebook size={16} />
+                  <FaFacebook size={18} />
                 </a>
                 <a
                   href="https://www.instagram.com/santoambrosius"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-slate-700 hover:bg-pink-600 rounded-lg p-2 text-white no-underline transition-all duration-200"
+                  className="bg-slate-700 hover:bg-pink-600 rounded-lg p-3 text-white no-underline transition-all duration-200 hover:scale-110"
                   aria-label="Instagram"
                 >
-                  <FaInstagram size={16} />
+                  <FaInstagram size={18} />
                 </a>
                 <a
                   href="https://www.youtube.com/@santoambrosius"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-slate-700 hover:bg-red-600 rounded-lg p-2 text-white no-underline transition-all duration-200"
+                  className="bg-slate-700 hover:bg-red-600 rounded-lg p-3 text-white no-underline transition-all duration-200 hover:scale-110"
                   aria-label="YouTube"
                 >
-                  <FaYoutube size={16} />
+                  <FaYoutube size={18} />
                 </a>
                 <a
                   href="https://twitter.com/santoambrosius"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-slate-700 hover:bg-blue-400 rounded-lg p-2 text-white no-underline transition-all duration-200"
+                  className="bg-slate-700 hover:bg-blue-400 rounded-lg p-3 text-white no-underline transition-all duration-200 hover:scale-110"
                   aria-label="Twitter"
                 >
-                  <FaTwitter size={16} />
+                  <FaTwitter size={18} />
                 </a>
               </div>
             </div>
