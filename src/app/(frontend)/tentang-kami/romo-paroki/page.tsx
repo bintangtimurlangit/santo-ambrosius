@@ -33,7 +33,7 @@ export default function RomoParokiPage() {
                   <div className="lg:col-span-1">
                     <div className="relative aspect-[3/4] w-full max-w-sm mx-auto rounded-xl overflow-hidden shadow-lg">
                       <Image
-                        src="/images/romo-yosef.jpg"
+                        src="/images/romo-nat.jpg"
                         alt="Rm. Yosef Natalis Kurnianto"
                         fill
                         className="object-cover"
@@ -41,7 +41,7 @@ export default function RomoParokiPage() {
                       />
                     </div>
                     <div className="text-center mt-4">
-                      <h2 className="text-xl md:text-2xl font-medium text-slate-800">
+                      <h2 className="text-lg md:text-xl font-medium text-slate-800">
                         Rm. Yosef Natalis Kurnianto, Pr
                       </h2>
                     </div>
@@ -125,7 +125,7 @@ export default function RomoParokiPage() {
                   <div className="lg:col-span-1">
                     <div className="relative aspect-[3/4] w-full max-w-sm mx-auto rounded-xl overflow-hidden shadow-lg">
                       <Image
-                        src="/images/romo-albertus.jpg"
+                        src="/images/romo-hendar.jpg"
                         alt="Rm. Albertus Hendaryono"
                         fill
                         className="object-cover"
@@ -133,7 +133,7 @@ export default function RomoParokiPage() {
                       />
                     </div>
                     <div className="text-center mt-4">
-                      <h2 className="text-xl md:text-2xl font-medium text-slate-800">
+                      <h2 className="text-lg md:text-xl font-medium text-slate-800">
                         Rm. Albertus Hendaryono, Pr
                       </h2>
                     </div>

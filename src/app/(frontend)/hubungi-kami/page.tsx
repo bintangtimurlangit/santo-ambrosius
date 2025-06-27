@@ -116,7 +116,7 @@ export default function HubungiKamiPage() {
                 </div>
                 <div className="w-full h-96 bg-gray-100 rounded-xl">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.5969267820447!2d106.66988031477393!3d-6.315832595445748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69e5d2e764b12d%3A0x3d2ad6e1e0e8c8a0!2sVilla%20Melati%20Mas%2C%20Serpong%20Utara%2C%20South%20Tangerang%20City%2C%20Banten!5e0!3m2!1sen!2sid!4v1645234567890!5m2!1sen!2sid"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.969430668367!2d106.66186467602921!3d-6.2677507937209205!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69fb061e18d241%3A0x5d1b87a4deeae527!2sGereja%20Katolik%20Santo%20Ambrosius%20Villa%20Melati%20Mas!5e0!3m2!1sen!2sid!4v1750992249224!5m2!1sen!2sid"
                     width="100%"
                     height="100%"
                     style={{ border: 0, borderRadius: '0.75rem' }}
