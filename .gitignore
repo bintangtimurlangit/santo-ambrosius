@@ -41,3 +41,10 @@ next-env.d.ts
 .env
 
 /media
+
+# next-video
+media/*
+!media/*.json
+!media/*.js
+!media/*.ts
+public/_next-video

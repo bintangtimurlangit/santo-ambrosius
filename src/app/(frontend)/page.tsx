@@ -4,7 +4,7 @@ import YubileumRibbon from '@/components/YubileumRibbon'
 import BlogArtikel from '@/components/BlogArtikel'
 import Footer from '@/components/Footer'
 import RichText from '@/components/RichText'
-import { getHomepageData, getMediaURL } from '@/lib/getHomepageData'
+import { getHomepageData } from '@/lib/getHomepageData'
 
 export default async function HomePage() {
   const homepageData = await getHomepageData()
@@ -27,11 +27,7 @@ export default async function HomePage() {
           <div className="lg:flex-1 aspect-video lg:aspect-auto lg:min-h-[600px] rounded-3xl overflow-hidden mr-12">
             <video
               className="w-full h-full object-cover object-center rounded-3xl"
-              src={
-                homepageData?.heroSection?.video
-                  ? getMediaURL(homepageData.heroSection.video)
-                  : '/videos/hero-video.mp4'
-              }
+              src="/media/hero-video.mp4"
               autoPlay
               muted
               loop
