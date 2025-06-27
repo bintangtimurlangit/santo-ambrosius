@@ -16,6 +16,9 @@
 /.next/
 /out/
 
+# next-video cache
+/public/_next-video
+
 # production
 /build
 
