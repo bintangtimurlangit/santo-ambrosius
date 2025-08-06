@@ -1,5 +1,3 @@
-import Footer from '@/components/Footer'
-
 export default function PetaWilayahPage() {
   return (
     <div className="min-h-screen">
@@ -46,9 +44,6 @@ export default function PetaWilayahPage() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }

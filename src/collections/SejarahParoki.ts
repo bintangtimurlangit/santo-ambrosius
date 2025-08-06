@@ -58,10 +58,10 @@ export const SejarahParoki: CollectionConfig = {
       fields: [
         {
           name: 'article',
-          type: 'richText',
-          required: true,
+          type: 'textarea',
           admin: {
-            description: 'Main article content about the parish history',
+            description:
+              'Main article content about the parish history (optional - if not provided, timeline will be shown)',
           },
         },
         {
@@ -96,6 +96,62 @@ export const SejarahParoki: CollectionConfig = {
               type: 'text',
               admin: {
                 description: 'Quote author',
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'timeline',
+      type: 'group',
+      label: 'Timeline Section',
+      fields: [
+        {
+          name: 'introTitle',
+          type: 'textarea',
+          admin: {
+            description: 'Timeline introduction title (displays when no article content)',
+          },
+        },
+        {
+          name: 'introDescription',
+          type: 'textarea',
+          admin: {
+            description: 'Timeline introduction description (displays when no article content)',
+          },
+        },
+        {
+          name: 'events',
+          type: 'array',
+          label: 'Timeline Events',
+          minRows: 1,
+          admin: {
+            description: 'Add timeline events with years, titles, and descriptions',
+          },
+          fields: [
+            {
+              name: 'year',
+              type: 'text',
+              required: true,
+              admin: {
+                description: 'Year of the event (e.g., "1979", "2017")',
+              },
+            },
+            {
+              name: 'title',
+              type: 'text',
+              required: true,
+              admin: {
+                description: 'Title of the timeline event',
+              },
+            },
+            {
+              name: 'content',
+              type: 'textarea',
+              required: true,
+              admin: {
+                description: 'Detailed description of the event (supports HTML)',
               },
             },
           ],

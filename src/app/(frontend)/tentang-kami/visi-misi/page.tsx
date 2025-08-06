@@ -1,5 +1,3 @@
-import Footer from '@/components/Footer'
-
 export default function VisiMisiPage() {
   return (
     <div className="min-h-screen">
@@ -153,9 +151,6 @@ export default function VisiMisiPage() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }

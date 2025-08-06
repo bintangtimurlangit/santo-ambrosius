@@ -249,25 +249,11 @@ export interface SejarahParoki {
      */
     backgroundImage?: (string | null) | Media;
   };
-  content: {
+  content?: {
     /**
-     * Main article content about the parish history
+     * Main article content about the parish history (optional - if not provided, timeline will be shown)
      */
-    article: {
-      root: {
-        type: string;
-        children: {
-          type: string;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    };
+    article?: string | null;
     /**
      * Featured image for the article
      */
@@ -286,6 +272,36 @@ export interface SejarahParoki {
        */
       author?: string | null;
     };
+  };
+  timeline?: {
+    /**
+     * Timeline introduction title (displays when no article content)
+     */
+    introTitle?: string | null;
+    /**
+     * Timeline introduction description (displays when no article content)
+     */
+    introDescription?: string | null;
+    /**
+     * Add timeline events with years, titles, and descriptions
+     */
+    events?:
+      | {
+          /**
+           * Year of the event (e.g., "1979", "2017")
+           */
+          year: string;
+          /**
+           * Title of the timeline event
+           */
+          title: string;
+          /**
+           * Detailed description of the event (supports HTML)
+           */
+          content: string;
+          id?: string | null;
+        }[]
+      | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -450,6 +466,20 @@ export interface SejarahParokiSelect<T extends boolean = true> {
           | {
               text?: T;
               author?: T;
+            };
+      };
+  timeline?:
+    | T
+    | {
+        introTitle?: T;
+        introDescription?: T;
+        events?:
+          | T
+          | {
+              year?: T;
+              title?: T;
+              content?: T;
+              id?: T;
             };
       };
   updatedAt?: T;

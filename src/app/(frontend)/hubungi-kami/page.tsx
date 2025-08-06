@@ -1,6 +1,5 @@
 import React from 'react'
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'
-import Footer from '@/components/Footer'
 
 export default function HubungiKamiPage() {
   return (
@@ -195,9 +194,6 @@ export default function HubungiKamiPage() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }

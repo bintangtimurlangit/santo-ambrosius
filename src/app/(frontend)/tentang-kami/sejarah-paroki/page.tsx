@@ -2,7 +2,6 @@ import React from 'react'
 import { getSejarahParokiData } from '@/lib/getSejarahParokiData'
 import SejarahParokiHero from '@/components/SejarahParokiHero'
 import SejarahParokiContent from '@/components/SejarahParokiContent'
-import Footer from '@/components/Footer'
 
 export default async function SejarahParokiPage() {
   const data = await getSejarahParokiData()
@@ -21,11 +20,8 @@ export default async function SejarahParokiPage() {
         <SejarahParokiHero data={data?.heroSection} />
 
         {/* Main Content Section */}
-        <SejarahParokiContent data={data?.content} />
+        <SejarahParokiContent data={data} />
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }

@@ -149,13 +149,13 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm text-center sm:text-left">
-              © 2024 Gereja Santo Ambrosius. All rights reserved.
+              © 2025 Gereja Santo Ambrosius. All rights reserved.
             </p>
 
             {/* Luce Mascot standing on copyright bar */}
             <div className="hidden xl:block absolute right-8 xl:right-20 2xl:right-44 -top-56">
               <Image
-                src="/images/Luce_mascot.png"
+                src="/luce-mascot.png"
                 alt="Luce - Vatican Mascot for Jubilee 2025"
                 width={150}
                 height={200}

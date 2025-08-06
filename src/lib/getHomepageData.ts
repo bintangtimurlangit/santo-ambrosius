@@ -3,7 +3,7 @@ import type { Homepage, Media } from '@/payload-types'
 export async function getHomepageData(): Promise<Homepage | null> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/homepage`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/api/homepage?limit=1`,
       {
         next: { revalidate: 60 }, // Cache for 60 seconds
       },
@@ -14,7 +14,8 @@ export async function getHomepageData(): Promise<Homepage | null> {
     }
 
     const result = await response.json()
-    return result.success ? result.data : null
+    // Payload's built-in API returns documents in a 'docs' array
+    return result.docs && result.docs.length > 0 ? result.docs[0] : null
   } catch (error) {
     console.error('Error fetching homepage data:', error)
     return null

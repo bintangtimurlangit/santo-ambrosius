@@ -79,7 +79,7 @@ export default function Navbar() {
         <div className="navbar-logo">
           <Link href="/" className="no-underline block">
             <Image
-              src="/images/logo.png"
+              src="/logo.png"
               alt="Santo Ambrosius Logo"
               width={348}
               height={114}

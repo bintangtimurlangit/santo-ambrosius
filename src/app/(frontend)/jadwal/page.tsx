@@ -1,5 +1,3 @@
-import Footer from '@/components/Footer'
-
 export default function JadwalPage() {
   return (
     <div className="min-h-screen">
@@ -95,9 +93,6 @@ export default function JadwalPage() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }

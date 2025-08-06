@@ -2,26 +2,24 @@ import React from 'react'
 import PengumumanCarousel from '@/components/PengumumanCarousel'
 import YubileumRibbon from '@/components/YubileumRibbon'
 import BlogArtikel from '@/components/BlogArtikel'
-import Footer from '@/components/Footer'
-import RichText from '@/components/RichText'
 import { getHomepageData, getMediaURL } from '@/lib/getHomepageData'
+import '@/styles/global.css'
 
 export default async function HomePage() {
   const homepageData = await getHomepageData()
+
   return (
     <div className="min-h-screen">
       <section className="bg-sky-200 mx-2 mb-12 rounded-b-2xl lg:min-h-screen pt-16 pb-8 pl-12 flex flex-col gap-12">
         <div className="w-full flex flex-col gap-12 lg:flex-1">
-          {homepageData?.heroSection?.title ? (
-            <RichText
-              content={homepageData.heroSection.title}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-slate-700 leading-tight m-0 tracking-tight pr-8"
-            />
-          ) : (
+          {homepageData?.heroSection?.title && (
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-slate-700 leading-tight m-0 tracking-tight pr-8">
-              Paguyuban umat beriman
-              <br />
-              yang peduli, berbagi dan merakyat.
+              {homepageData.heroSection.title.split('\n').map((line, index) => (
+                <React.Fragment key={index}>
+                  {line}
+                  {index < homepageData.heroSection.title.split('\n').length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </h1>
           )}
           <div className="lg:flex-1 aspect-video lg:aspect-auto lg:min-h-[600px] rounded-3xl overflow-hidden mr-12">
@@ -60,8 +58,6 @@ export default async function HomePage() {
       </div>
 
       <BlogArtikel />
-
-      <Footer />
     </div>
   )
 }

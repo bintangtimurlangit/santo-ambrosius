@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import Footer from '@/components/Footer'
 
 export default function ProfilSantoPelindungPage() {
   return (
@@ -198,9 +197,6 @@ export default function ProfilSantoPelindungPage() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }

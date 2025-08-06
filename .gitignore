@@ -16,9 +16,6 @@
 /.next/
 /out/
 
-# next-video cache
-/public/_next-video
-
 # production
 /build
 
@@ -44,3 +41,10 @@ next-env.d.ts
 .env
 
 /media
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

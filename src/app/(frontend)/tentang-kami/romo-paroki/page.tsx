@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import Footer from '@/components/Footer'
 
 export default function RomoParokiPage() {
   return (
@@ -33,7 +32,7 @@ export default function RomoParokiPage() {
                   <div className="lg:col-span-1">
                     <div className="relative aspect-[3/4] w-full max-w-sm mx-auto rounded-xl overflow-hidden shadow-lg">
                       <Image
-                        src="/images/romo-nat.jpg"
+                        src="/romo-nat.jpg"
                         alt="Rm. Yosef Natalis Kurnianto"
                         fill
                         className="object-cover"
@@ -125,7 +124,7 @@ export default function RomoParokiPage() {
                   <div className="lg:col-span-1">
                     <div className="relative aspect-[3/4] w-full max-w-sm mx-auto rounded-xl overflow-hidden shadow-lg">
                       <Image
-                        src="/images/romo-hendar.jpg"
+                        src="/romo-hendar.jpg"
                         alt="Rm. Albertus Hendaryono"
                         fill
                         className="object-cover"
@@ -199,9 +198,6 @@ export default function RomoParokiPage() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }
