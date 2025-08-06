@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
+import Link from 'next/link'
 import { beritaBidangData } from '@/data/beritaBidang'
 
 interface Article {
@@ -258,7 +259,10 @@ export default function BeritaTerkiniPage() {
                             {article.description}
                           </p>
 
-                          <button className="text-sm font-medium text-slate-700 hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
+                          <Link
+                            href={`/berita/${article.id}`}
+                            className="text-sm font-medium text-slate-700 hover:text-slate-800 transition-colors duration-200 flex items-center gap-1 no-underline"
+                          >
                             Baca selengkapnya
                             <svg
                               className="w-4 h-4"
@@ -273,7 +277,7 @@ export default function BeritaTerkiniPage() {
                                 d="M9 5l7 7-7 7"
                               />
                             </svg>
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     ))}
