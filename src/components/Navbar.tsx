@@ -176,10 +176,10 @@ export default function Navbar() {
                   PITK
                 </Link>
                 <Link
-                  href="/sapta-bidang/pemerhati-monitoring"
+                  href="/sapta-bidang/pemerhati"
                   className="block py-3.5 px-6 no-underline text-slate-700 text-sm font-normal transition-all duration-200 border-b border-slate-700/5 leading-tight hover:bg-slate-700/8 hover:text-slate-700 hover:pl-7 last:border-b-0"
                 >
-                  Pemerhati / Monitoring
+                  Pemerhati
                 </Link>
                 <Link
                   href="/sapta-bidang/peribadatan"

@@ -16,7 +16,7 @@ export default function OkkPage() {
               {/* Page Introduction */}
               <div className="text-center mb-20 pt-16 px-12">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-slate-700 leading-tight m-0 tracking-tight mb-8">
-                  Organisasi Kesekretariatan
+                  Bidang Organisasi Kesekretariatan
                   <br />
                   dan Keuangan
                 </h1>
