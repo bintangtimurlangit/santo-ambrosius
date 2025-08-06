@@ -60,7 +60,7 @@ export default function BeritaTerkiniPage() {
     // Duplicate articles to have more content for pagination demo
     const duplicatedArticles: Article[] = []
     for (let i = 0; i < 3; i++) {
-      articles.forEach((article, index) => {
+      articles.forEach((article, _index) => {
         duplicatedArticles.push({
           ...article,
           id: duplicatedArticles.length + 1,

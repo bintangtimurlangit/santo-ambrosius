@@ -44,7 +44,7 @@ function getAllArticles(): Article[] {
   // Duplicate articles 3 times for demo
   const duplicatedArticles: Article[] = []
   for (let i = 0; i < 3; i++) {
-    articles.forEach((article, index) => {
+    articles.forEach((article, _index) => {
       duplicatedArticles.push({
         ...article,
         id: duplicatedArticles.length + 1,
@@ -157,7 +157,7 @@ export default function BeritaDetailPage({ params }: PageProps) {
                 <li className="text-slate-400">/</li>
                 <li>
                   <Link href="/berita" className="hover:text-slate-800 transition-colors">
-                    Berita Terkini
+                    Berita
                   </Link>
                 </li>
                 <li className="text-slate-400">/</li>

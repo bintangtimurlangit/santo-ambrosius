@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 const BlogArtikel = () => {
   const articles = [
@@ -128,9 +129,11 @@ const BlogArtikel = () => {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <button className="px-8 py-3 bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors duration-200">
-            Lihat Semua Artikel
-          </button>
+          <Link href="/berita">
+            <button className="px-8 py-3 bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors duration-200">
+              Lihat Semua Artikel
+            </button>
+          </Link>
         </div>
       </div>
     </section>
