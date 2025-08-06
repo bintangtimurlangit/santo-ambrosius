@@ -1,3 +1,6 @@
+import BeritaBidang from '@/components/BeritaBidang'
+import { beritaBidangData } from '@/data/beritaBidang'
+
 export default function PersekutuanPage() {
   return (
     <div className="min-h-screen">
@@ -74,6 +77,9 @@ export default function PersekutuanPage() {
                   </div>
                 </div>
               </div>
+
+              {/* News Section for Bidang Persekutuan */}
+              <BeritaBidang bidangName="Persekutuan" articles={beritaBidangData.Persekutuan} />
             </div>
           </div>
         </div>

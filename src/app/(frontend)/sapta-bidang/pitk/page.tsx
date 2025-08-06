@@ -1,3 +1,6 @@
+import BeritaBidang from '@/components/BeritaBidang'
+import { beritaBidangData } from '@/data/beritaBidang'
+
 export default function PitkPage() {
   return (
     <div className="min-h-screen">
@@ -173,6 +176,9 @@ export default function PitkPage() {
                   </div>
                 </div>
               </div>
+
+              {/* News Section for Bidang PITK */}
+              <BeritaBidang bidangName="PITK" articles={beritaBidangData.PITK} />
             </div>
           </div>
         </div>

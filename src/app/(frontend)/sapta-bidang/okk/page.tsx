@@ -1,3 +1,6 @@
+import BeritaBidang from '@/components/BeritaBidang'
+import { beritaBidangData } from '@/data/beritaBidang'
+
 export default function OkkPage() {
   return (
     <div className="min-h-screen">
@@ -86,6 +89,9 @@ export default function OkkPage() {
                   </div>
                 </div>
               </div>
+
+              {/* News Section for Bidang OKK */}
+              <BeritaBidang bidangName="OKK" articles={beritaBidangData.OKK} />
             </div>
           </div>
         </div>
