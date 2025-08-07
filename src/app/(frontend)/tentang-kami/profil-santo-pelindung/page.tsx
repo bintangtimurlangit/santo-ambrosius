@@ -31,7 +31,7 @@ export default function ProfilSantoPelindungPage() {
                 <div className="text-center">
                   <div className="relative aspect-[3/4] w-full max-w-sm mx-auto mb-6 rounded-xl overflow-hidden shadow-lg">
                     <Image
-                      src="/images/St Ambrose.jpg"
+                      src="/st-ambrose.jpg"
                       alt="Santo Ambrosius"
                       fill
                       className="object-cover"

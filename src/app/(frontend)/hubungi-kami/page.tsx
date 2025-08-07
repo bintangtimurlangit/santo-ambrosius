@@ -94,7 +94,7 @@ export default function HubungiKamiPage() {
                       <div>
                         <p className="text-sm font-medium text-slate-800 mb-1">Call Center</p>
                         <a
-                          href="tel:+6285810262017"
+                          href="https://wa.me/6285810262017"
                           className="text-slate-600 hover:text-slate-900 transition-colors duration-200"
                         >
                           +62 858 1026 2017

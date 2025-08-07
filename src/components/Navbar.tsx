@@ -410,7 +410,7 @@ export default function Navbar() {
           {/* Mobile Action Buttons (only on very small screens) */}
           <div className="flex gap-2 p-4 border-t border-slate-200 bg-slate-50">
             <a
-              href="https://wa.me/your-phone-number"
+              href="https://wa.me/6285810262017"
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 bg-slate-700 text-white py-2 px-4 rounded-lg text-center text-sm font-medium hover:bg-slate-800 transition-colors duration-200 no-underline"
