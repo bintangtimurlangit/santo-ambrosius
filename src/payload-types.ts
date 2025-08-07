@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     homepage: Homepage;
     'sejarah-paroki': SejarahParoki;
+    news: News;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -81,6 +82,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     'sejarah-paroki': SejarahParokiSelect<false> | SejarahParokiSelect<true>;
+    news: NewsSelect<false> | NewsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -307,6 +309,75 @@ export interface SejarahParoki {
   createdAt: string;
 }
 /**
+ * Manage news articles for the parish website
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news".
+ */
+export interface News {
+  id: string;
+  /**
+   * The title of the news article
+   */
+  title: string;
+  /**
+   * URL-friendly slug for the article (e.g., "perayaan-misa-natal-2024")
+   */
+  slug: string;
+  /**
+   * Short description/excerpt of the article (used in previews)
+   */
+  description: string;
+  /**
+   * Choose which Sapta Bidang this news belongs to
+   */
+  saptaBidang: 'pewartaan' | 'pelayanan' | 'persekutuan' | 'peribadatan' | 'pemerhati' | 'pitk' | 'okk';
+  /**
+   * Main image for the article (will be shown in previews and at the top of the article)
+   */
+  featuredImage: string | Media;
+  /**
+   * Main content of the article (supports rich text formatting and images)
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Name of the article author
+   */
+  author: string;
+  /**
+   * Date when the article was first published
+   */
+  publishedDate: string;
+  /**
+   * Estimated reading time in minutes (auto-calculated based on content length)
+   */
+  readingTime?: number | null;
+  /**
+   * Mark as featured article (will appear prominently on homepage)
+   */
+  featured?: boolean | null;
+  /**
+   * Publication status of the article
+   */
+  status: 'draft' | 'published' | 'archived';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -328,6 +399,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'sejarah-paroki';
         value: string | SejarahParoki;
+      } | null)
+    | ({
+        relationTo: 'news';
+        value: string | News;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -482,6 +557,25 @@ export interface SejarahParokiSelect<T extends boolean = true> {
               id?: T;
             };
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news_select".
+ */
+export interface NewsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  saptaBidang?: T;
+  featuredImage?: T;
+  content?: T;
+  author?: T;
+  publishedDate?: T;
+  readingTime?: T;
+  featured?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }

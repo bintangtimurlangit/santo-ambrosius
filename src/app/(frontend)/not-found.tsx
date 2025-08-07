@@ -4,9 +4,6 @@ import Navbar from '@/components/Navbar'
 export default function NotFound() {
   return (
     <div className="min-h-screen">
-      {/* Navbar */}
-      <Navbar />
-
       {/* Main Content */}
       <div
         className="mx-2 rounded-b-2xl shadow-sm"

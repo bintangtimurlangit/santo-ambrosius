@@ -1,5 +1,4 @@
 import BeritaBidang from '@/components/BeritaBidang'
-import { beritaBidangData } from '@/data/beritaBidang'
 
 export default function PersekutuanPage() {
   return (
@@ -79,7 +78,7 @@ export default function PersekutuanPage() {
               </div>
 
               {/* News Section for Bidang Persekutuan */}
-              <BeritaBidang bidangName="Persekutuan" articles={beritaBidangData.Persekutuan} />
+              <BeritaBidang bidangName="Persekutuan" />
             </div>
           </div>
         </div>

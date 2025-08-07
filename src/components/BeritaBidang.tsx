@@ -1,19 +1,63 @@
-import React from 'react'
+'use client'
 
-interface Article {
-  id: number
-  title: string
-  description: string
-  category: string
-  date: string
-}
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import {
+  type NewsArticle,
+  getNewsData,
+  getSaptaBidangLabel,
+  getSaptaBidangColor,
+  formatDate,
+} from '@/lib/getNewsData'
 
 interface BeritaBidangProps {
   bidangName: string
-  articles: Article[]
 }
 
-const BeritaBidang: React.FC<BeritaBidangProps> = ({ bidangName, articles }) => {
+const BeritaBidang: React.FC<BeritaBidangProps> = ({ bidangName }) => {
+  const [articles, setArticles] = useState<NewsArticle[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        // Map bidang name to sapta bidang value
+        const bidangMap: Record<string, string> = {
+          Pewartaan: 'pewartaan',
+          Pelayanan: 'pelayanan',
+          Persekutuan: 'persekutuan',
+          Peribadatan: 'peribadatan',
+          Pemerhati: 'pemerhati',
+          PITK: 'pitk',
+          OKK: 'okk',
+        }
+
+        const saptaBidang = bidangMap[bidangName]
+        if (!saptaBidang) {
+          setLoading(false)
+          return
+        }
+
+        const data = await getNewsData({
+          status: 'published',
+          saptaBidang,
+        })
+        setArticles(data)
+      } catch (error) {
+        console.error('Error fetching articles:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchArticles()
+  }, [bidangName])
+
+  // If no articles, don't render anything
+  if (loading || articles.length === 0) {
+    return null
+  }
+
   return (
     <div className="max-w-5xl mx-auto mt-20">
       <div className="text-center mb-16">
@@ -27,64 +71,82 @@ const BeritaBidang: React.FC<BeritaBidangProps> = ({ bidangName, articles }) => 
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {articles.map((article) => (
-          <div
-            key={article.id}
-            className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-          >
-            {/* Placeholder Image */}
-            <div className="w-full h-48 bg-gradient-to-br from-sky-100 to-slate-200 flex items-center justify-center">
-              <div className="text-center text-gray-400">
-                <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
-                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+          <Link key={article.id} href={`/berita/${article.slug}`} className="group">
+            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              {/* Article Image */}
+              {article.featuredImage ? (
+                <div className="w-full h-48 overflow-hidden">
+                  <img
+                    src={article.featuredImage.url}
+                    alt={article.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="w-full h-48 bg-gradient-to-br from-sky-100 to-slate-200 flex items-center justify-center">
+                  <div className="text-center text-gray-400">
+                    <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
+                      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                          fillRule="evenodd"
+                          d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-xs">Gambar Artikel</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="mb-3">
+                  <span
+                    className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${getSaptaBidangColor(article.saptaBidang)}`}
+                  >
+                    {getSaptaBidangLabel(article.saptaBidang)}
+                  </span>
+                </div>
+
+                <h3 className="text-lg font-semibold text-slate-800 mb-3 line-clamp-2 group-hover:text-slate-600 transition-colors">
+                  {article.title}
+                </h3>
+
+                <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                  {article.description}
+                </p>
+
+                <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                  <span>{formatDate(article.publishedDate)}</span>
+                  <span>{article.readingTime} menit baca</span>
+                </div>
+
+                <div className="text-sm font-medium text-slate-700 group-hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
+                  Baca selengkapnya
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
-                      fillRule="evenodd"
-                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                      clipRule="evenodd"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
                     />
                   </svg>
                 </div>
-                <p className="text-xs">Gambar Artikel</p>
               </div>
             </div>
-
-            {/* Content */}
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-3">
-                <span className="inline-block px-3 py-1 text-xs font-medium text-slate-700 bg-sky-200 rounded-full">
-                  {article.category}
-                </span>
-                <span className="text-xs text-gray-500">{article.date}</span>
-              </div>
-
-              <h3 className="text-lg font-semibold text-slate-800 mb-3 line-clamp-2">
-                {article.title}
-              </h3>
-
-              <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3">
-                {article.description}
-              </p>
-
-              <button className="text-sm font-medium text-slate-700 hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
-                Baca selengkapnya
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
+          </Link>
         ))}
       </div>
 
       {/* View All Button */}
       <div className="text-center mt-12">
-        <button className="px-8 py-3 bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors duration-200">
+        <Link
+          href="/berita"
+          className="inline-flex items-center gap-2 px-8 py-3 bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors duration-200"
+        >
           Lihat Semua Berita {bidangName}
-        </button>
+        </Link>
       </div>
     </div>
   )

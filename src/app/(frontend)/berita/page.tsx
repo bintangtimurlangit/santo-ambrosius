@@ -1,23 +1,22 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
-import { beritaBidangData } from '@/data/beritaBidang'
-
-interface Article {
-  id: number
-  title: string
-  description: string
-  category: string
-  date: string
-  bidang: string
-}
+import {
+  type NewsArticle,
+  getNewsData,
+  getSaptaBidangLabel,
+  getSaptaBidangColor,
+  formatDate,
+} from '@/lib/getNewsData'
 
 export default function BeritaTerkiniPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('Semua')
   const [currentPage, setCurrentPage] = useState(1)
   const [articlesPerPage, setArticlesPerPage] = useState(9) // Default for lg screens
+  const [allArticles, setAllArticles] = useState<NewsArticle[]>([])
+  const [loading, setLoading] = useState(true)
 
   // Update articles per page based on screen size
   React.useEffect(() => {
@@ -44,55 +43,16 @@ export default function BeritaTerkiniPage() {
     return () => window.removeEventListener('resize', updateArticlesPerPage)
   }, [])
 
-  // Flatten all articles from all bidang and add bidang field
-  const allArticles: Article[] = useMemo(() => {
-    const articles: Article[] = []
-    Object.entries(beritaBidangData).forEach(([bidangName, bidangArticles]) => {
-      bidangArticles.forEach((article) => {
-        articles.push({
-          ...article,
-          bidang: bidangName,
-          id: articles.length + 1, // Ensure unique IDs
-        })
-      })
-    })
-
-    // Duplicate articles to have more content for pagination demo
-    const duplicatedArticles: Article[] = []
-    for (let i = 0; i < 3; i++) {
-      articles.forEach((article, _index) => {
-        duplicatedArticles.push({
-          ...article,
-          id: duplicatedArticles.length + 1,
-          date: getDeterministicDate(duplicatedArticles.length),
-        })
-      })
-    }
-
-    // Sort by date (newest first)
-    return duplicatedArticles.sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-    )
-  }, [])
-
-  // Get deterministic date based on article index for SSR consistency
-  function getDeterministicDate(index: number) {
-    const baseDate = new Date('2025-01-01')
-    // Create deterministic but varied dates by adding different days based on index
-    const daysToAdd = (index * 7) % 90 // Vary within ~3 months
-    baseDate.setDate(baseDate.getDate() + daysToAdd)
-    return baseDate.toLocaleDateString('id-ID', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    })
-  }
-
-  // Get unique categories
+  // Get unique categories (Sapta Bidang)
   const categories = useMemo(() => {
     const cats = new Set<string>()
-    allArticles.forEach((article) => cats.add(article.category))
-    return ['Semua', ...Array.from(cats).sort()]
+    allArticles.forEach((article) => cats.add(article.saptaBidang))
+    return [
+      'Semua',
+      ...Array.from(cats)
+        .map((cat) => getSaptaBidangLabel(cat))
+        .sort(),
+    ]
   }, [allArticles])
 
   // Filter articles based on search and category
@@ -101,8 +61,10 @@ export default function BeritaTerkiniPage() {
       const matchesSearch =
         article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         article.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        article.bidang.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesCategory = selectedCategory === 'Semua' || article.category === selectedCategory
+        getSaptaBidangLabel(article.saptaBidang).toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesCategory =
+        selectedCategory === 'Semua' ||
+        getSaptaBidangLabel(article.saptaBidang) === selectedCategory
       return matchesSearch && matchesCategory
     })
   }, [allArticles, searchTerm, selectedCategory])
@@ -111,6 +73,22 @@ export default function BeritaTerkiniPage() {
   const totalPages = Math.ceil(filteredArticles.length / articlesPerPage)
   const startIndex = (currentPage - 1) * articlesPerPage
   const currentArticles = filteredArticles.slice(startIndex, startIndex + articlesPerPage)
+
+  // Fetch articles on component mount
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const data = await getNewsData({ status: 'published' })
+        setAllArticles(data)
+      } catch (error) {
+        console.error('Error fetching articles:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchArticles()
+  }, [])
 
   // Reset to page 1 when search, filter, or articles per page changes
   React.useEffect(() => {
@@ -185,7 +163,7 @@ export default function BeritaTerkiniPage() {
                         htmlFor="category"
                         className="block text-sm font-medium text-slate-700 mb-2"
                       >
-                        Kategori
+                        Sapta Bidang
                       </label>
                       <select
                         id="category"
@@ -201,26 +179,90 @@ export default function BeritaTerkiniPage() {
                       </select>
                     </div>
                   </div>
-
-                  {/* Results Info */}
-                  <div className="mt-6 text-sm text-slate-600">
-                    Menampilkan {currentArticles.length} dari {filteredArticles.length} berita
-                    {searchTerm && <span> untuk pencarian &ldquo;{searchTerm}&rdquo;</span>}
-                    {selectedCategory !== 'Semua' && (
-                      <span> dalam kategori &ldquo;{selectedCategory}&rdquo;</span>
-                    )}
+                    </div>
                   </div>
+
+              {/* Articles Grid */}
+              {loading ? (
+                // Loading State
+                <div className="text-center py-16">
+                  <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-8 h-8 text-gray-400 animate-spin"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <p className="text-gray-600">Memuat berita...</p>
+                </div>
+              ) : allArticles.length === 0 ? (
+                // Empty State
+                <div className="text-center py-16">
+                  <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-12 h-12 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3v8m0 0V9a2 2 0 012-2h2M9 7v4a2 2 0 002 2h2"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-700 mb-3">Belum Ada Berita</h3>
+                  <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                    Saat ini belum ada berita yang tersedia. Silakan kembali lagi nanti untuk
+                    membaca berita terbaru dari paroki.
+                  </p>
+                  <Link
+                    href="/"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors duration-200"
+                  >
+                    Kembali ke Beranda
+                  </Link>
+                </div>
+              ) : (
+                <>
+                  {/* Results Count */}
+                  <div className="text-center mb-8">
+                    <p className="text-slate-600">
+                      Menampilkan {filteredArticles.length} dari {allArticles.length} berita
+                    </p>
                 </div>
 
                 {/* Articles Grid */}
-                {currentArticles.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {currentArticles.map((article) => (
-                      <div
-                        key={article.id}
-                        className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-                      >
-                        {/* Placeholder Image */}
+                      <Link key={article.id} href={`/berita/${article.slug}`} className="group">
+                        <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                          {/* Article Image */}
+                          {article.featuredImage ? (
+                            <div className="w-full h-48 overflow-hidden">
+                              <img
+                                src={article.featuredImage.url}
+                                alt={article.title}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          ) : (
                         <div className="w-full h-48 bg-gradient-to-br from-sky-100 to-slate-200 flex items-center justify-center">
                           <div className="text-center text-gray-400">
                             <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
@@ -235,23 +277,19 @@ export default function BeritaTerkiniPage() {
                             <p className="text-xs">Gambar Artikel</p>
                           </div>
                         </div>
+                          )}
 
                         {/* Content */}
                         <div className="p-6">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="inline-block px-3 py-1 text-xs font-medium text-slate-700 bg-sky-200 rounded-full">
-                              {article.category}
-                            </span>
-                            <span className="text-xs text-gray-500">{article.date}</span>
-                          </div>
-
-                          <div className="mb-2">
-                            <span className="inline-block px-2 py-1 text-xs font-medium text-white bg-slate-600 rounded">
-                              {article.bidang}
+                            <div className="mb-3">
+                              <span
+                                className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${getSaptaBidangColor(article.saptaBidang)}`}
+                              >
+                                {getSaptaBidangLabel(article.saptaBidang)}
                             </span>
                           </div>
 
-                          <h3 className="text-lg font-semibold text-slate-800 mb-3 line-clamp-2">
+                            <h3 className="text-lg font-semibold text-slate-800 mb-3 line-clamp-2 group-hover:text-slate-600 transition-colors">
                             {article.title}
                           </h3>
 
@@ -259,10 +297,12 @@ export default function BeritaTerkiniPage() {
                             {article.description}
                           </p>
 
-                          <Link
-                            href={`/berita/${article.id}`}
-                            className="text-sm font-medium text-slate-700 hover:text-slate-800 transition-colors duration-200 flex items-center gap-1 no-underline"
-                          >
+                            <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                              <span>{formatDate(article.publishedDate)}</span>
+                              <span>{article.readingTime} menit baca</span>
+                            </div>
+
+                            <div className="text-sm font-medium text-slate-700 group-hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
                             Baca selengkapnya
                             <svg
                               className="w-4 h-4"
@@ -277,145 +317,51 @@ export default function BeritaTerkiniPage() {
                                 d="M9 5l7 7-7 7"
                               />
                             </svg>
-                          </Link>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     ))}
                   </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-gray-200 rounded-full flex items-center justify-center">
-                      <svg
-                        className="w-12 h-12 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="text-lg font-medium text-slate-700 mb-2">
-                      Tidak ada berita ditemukan
-                    </h3>
-                    <p className="text-slate-500">
-                      Coba ubah kata kunci pencarian atau filter kategori
-                    </p>
-                  </div>
-                )}
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                  <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
-                    {/* Mobile: Simple Previous/Next with page info */}
-                    <div className="flex sm:hidden items-center gap-4">
+                    <div className="flex justify-center mt-12">
+                      <nav className="flex items-center space-x-2">
                       <button
-                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                          onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                         disabled={currentPage === 1}
-                        className="px-3 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                      >
-                        ← Sebelumnya
-                      </button>
-
-                      <span className="text-sm text-slate-600 font-medium">
-                        {currentPage} / {totalPages}
-                      </span>
-
-                      <button
-                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                        disabled={currentPage === totalPages}
-                        className="px-3 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                      >
-                        Selanjutnya →
-                      </button>
-                    </div>
-
-                    {/* Desktop: Full pagination */}
-                    <div className="hidden sm:flex items-center gap-2">
-                      <button
-                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                        disabled={currentPage === 1}
-                        className="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                          className="px-3 py-2 text-sm font-medium text-slate-500 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Sebelumnya
                       </button>
 
-                      <div className="flex gap-1">
-                        {(() => {
-                          const pages = []
-                          const maxVisiblePages = 7
-
-                          if (totalPages <= maxVisiblePages) {
-                            // Show all pages if total is small
-                            for (let i = 1; i <= totalPages; i++) {
-                              pages.push(i)
-                            }
-                          } else {
-                            // Show smart pagination with ellipsis
-                            if (currentPage <= 3) {
-                              // Near the beginning
-                              pages.push(1, 2, 3, 4, '...', totalPages)
-                            } else if (currentPage >= totalPages - 2) {
-                              // Near the end
-                              pages.push(
-                                1,
-                                '...',
-                                totalPages - 3,
-                                totalPages - 2,
-                                totalPages - 1,
-                                totalPages,
-                              )
-                            } else {
-                              // In the middle
-                              pages.push(
-                                1,
-                                '...',
-                                currentPage - 1,
-                                currentPage,
-                                currentPage + 1,
-                                '...',
-                                totalPages,
-                              )
-                            }
-                          }
-
-                          return pages.map((page, index) =>
-                            page === '...' ? (
-                              <span key={`ellipsis-${index}`} className="px-3 py-2 text-slate-400">
-                                ...
-                              </span>
-                            ) : (
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                               <button
                                 key={page}
-                                onClick={() => setCurrentPage(page as number)}
-                                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                            onClick={() => setCurrentPage(page)}
+                            className={`px-3 py-2 text-sm font-medium rounded-lg ${
                                   currentPage === page
                                     ? 'bg-slate-700 text-white'
-                                    : 'text-slate-700 hover:bg-slate-100'
+                                : 'text-slate-500 bg-white border border-slate-300 hover:bg-slate-50'
                                 }`}
                               >
                                 {page}
                               </button>
-                            ),
-                          )
-                        })()}
-                      </div>
+                        ))}
 
                       <button
-                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                          onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                         disabled={currentPage === totalPages}
-                        className="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                          className="px-3 py-2 text-sm font-medium text-slate-500 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Selanjutnya
                       </button>
+                      </nav>
                     </div>
-                  </div>
+                  )}
+                </>
                 )}
-              </div>
             </div>
           </div>
         </div>

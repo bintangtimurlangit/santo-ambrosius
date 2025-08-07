@@ -1,5 +1,4 @@
 import BeritaBidang from '@/components/BeritaBidang'
-import { beritaBidangData } from '@/data/beritaBidang'
 
 export default function OkkPage() {
   return (
@@ -91,7 +90,7 @@ export default function OkkPage() {
               </div>
 
               {/* News Section for Bidang OKK */}
-              <BeritaBidang bidangName="OKK" articles={beritaBidangData.OKK} />
+              <BeritaBidang bidangName="OKK" />
             </div>
           </div>
         </div>
