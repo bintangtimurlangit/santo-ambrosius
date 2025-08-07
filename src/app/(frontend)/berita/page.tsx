@@ -43,17 +43,20 @@ export default function BeritaTerkiniPage() {
     return () => window.removeEventListener('resize', updateArticlesPerPage)
   }, [])
 
-  // Get unique categories (Sapta Bidang)
+  // Get all available Sapta Bidang categories
   const categories = useMemo(() => {
-    const cats = new Set<string>()
-    allArticles.forEach((article) => cats.add(article.saptaBidang))
-    return [
-      'Semua',
-      ...Array.from(cats)
-        .map((cat) => getSaptaBidangLabel(cat))
-        .sort(),
+    const allSaptaBidang = [
+      'pewartaan',
+      'pelayanan',
+      'persekutuan',
+      'peribadatan',
+      'pemerhati',
+      'pitk',
+      'okk',
     ]
-  }, [allArticles])
+
+    return ['Semua', ...allSaptaBidang.map((cat) => getSaptaBidangLabel(cat))]
+  }, [])
 
   // Filter articles based on search and category
   const filteredArticles = useMemo(() => {
@@ -179,8 +182,8 @@ export default function BeritaTerkiniPage() {
                       </select>
                     </div>
                   </div>
-                    </div>
-                  </div>
+                </div>
+              </div>
 
               {/* Articles Grid */}
               {loading ? (
@@ -210,7 +213,7 @@ export default function BeritaTerkiniPage() {
                   <p className="text-gray-600">Memuat berita...</p>
                 </div>
               ) : allArticles.length === 0 ? (
-                // Empty State
+                // Empty State - No articles at all
                 <div className="text-center py-16">
                   <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
                     <svg
@@ -239,6 +242,52 @@ export default function BeritaTerkiniPage() {
                     Kembali ke Beranda
                   </Link>
                 </div>
+              ) : filteredArticles.length === 0 ? (
+                // Empty State - No articles for selected category/search
+                <div className="text-center py-16">
+                  <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-12 h-12 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-700 mb-3">
+                    Tidak Ada Berita Ditemukan
+                  </h3>
+                  <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                    {selectedCategory !== 'Semua'
+                      ? `Belum ada berita untuk bidang "${selectedCategory}". Silakan coba bidang lain atau hapus filter.`
+                      : searchTerm
+                        ? `Tidak ada berita yang cocok dengan pencarian "${searchTerm}". Silakan coba kata kunci lain.`
+                        : 'Tidak ada berita yang sesuai dengan filter yang dipilih.'}
+                  </p>
+                  <div className="flex gap-3 justify-center">
+                    <button
+                      onClick={() => {
+                        setSearchTerm('')
+                        setSelectedCategory('Semua')
+                      }}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors duration-200"
+                    >
+                      Hapus Filter
+                    </button>
+                    <Link
+                      href="/"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-colors duration-200"
+                    >
+                      Kembali ke Beranda
+                    </Link>
+                  </div>
+                </div>
               ) : (
                 <>
                   {/* Results Count */}
@@ -246,16 +295,20 @@ export default function BeritaTerkiniPage() {
                     <p className="text-slate-600">
                       Menampilkan {filteredArticles.length} dari {allArticles.length} berita
                     </p>
-                </div>
+                  </div>
 
-                {/* Articles Grid */}
+                  {/* Articles Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {currentArticles.map((article) => (
-                      <Link key={article.id} href={`/berita/${article.slug}`} className="group">
-                        <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                      <Link
+                        key={article.id}
+                        href={`/berita/${article.slug}`}
+                        className="group h-full"
+                      >
+                        <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
                           {/* Article Image */}
                           {article.featuredImage ? (
-                            <div className="w-full h-48 overflow-hidden">
+                            <div className="w-full h-48 overflow-hidden flex-shrink-0">
                               <img
                                 src={article.featuredImage.url}
                                 alt={article.title}
@@ -263,60 +316,62 @@ export default function BeritaTerkiniPage() {
                               />
                             </div>
                           ) : (
-                        <div className="w-full h-48 bg-gradient-to-br from-sky-100 to-slate-200 flex items-center justify-center">
-                          <div className="text-center text-gray-400">
-                            <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
-                              <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                  fillRule="evenodd"
-                                  d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
+                            <div className="w-full h-48 bg-gradient-to-br from-sky-100 to-slate-200 flex items-center justify-center flex-shrink-0">
+                              <div className="text-center text-gray-400">
+                                <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
+                                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                      clipRule="evenodd"
+                                    />
+                                  </svg>
+                                </div>
+                                <p className="text-xs">Gambar Artikel</p>
+                              </div>
                             </div>
-                            <p className="text-xs">Gambar Artikel</p>
-                          </div>
-                        </div>
                           )}
 
-                        {/* Content */}
-                        <div className="p-6">
+                          {/* Content */}
+                          <div className="p-6 flex flex-col flex-1">
                             <div className="mb-3">
                               <span
                                 className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${getSaptaBidangColor(article.saptaBidang)}`}
                               >
                                 {getSaptaBidangLabel(article.saptaBidang)}
-                            </span>
-                          </div>
-
-                            <h3 className="text-lg font-semibold text-slate-800 mb-3 line-clamp-2 group-hover:text-slate-600 transition-colors">
-                            {article.title}
-                          </h3>
-
-                          <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3">
-                            {article.description}
-                          </p>
-
-                            <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                              <span>{formatDate(article.publishedDate)}</span>
-                              <span>{article.readingTime} menit baca</span>
+                              </span>
                             </div>
 
-                            <div className="text-sm font-medium text-slate-700 group-hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
-                            Baca selengkapnya
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 5l7 7-7 7"
-                              />
-                            </svg>
+                            <h3 className="text-lg font-semibold text-slate-800 mb-3 line-clamp-2 group-hover:text-slate-600 transition-colors">
+                              {article.title}
+                            </h3>
+
+                            <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3 flex-1">
+                              {article.description}
+                            </p>
+
+                            <div className="mt-auto">
+                              <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                                <span>{formatDate(article.publishedDate)}</span>
+                                <span>{article.readingTime} menit baca</span>
+                              </div>
+
+                              <div className="text-sm font-medium text-slate-700 group-hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
+                                Baca selengkapnya
+                                <svg
+                                  className="w-4 h-4"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M9 5l7 7-7 7"
+                                  />
+                                </svg>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -324,44 +379,44 @@ export default function BeritaTerkiniPage() {
                     ))}
                   </div>
 
-                {/* Pagination */}
-                {totalPages > 1 && (
+                  {/* Pagination */}
+                  {totalPages > 1 && (
                     <div className="flex justify-center mt-12">
                       <nav className="flex items-center space-x-2">
-                      <button
+                        <button
                           onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                        disabled={currentPage === 1}
+                          disabled={currentPage === 1}
                           className="px-3 py-2 text-sm font-medium text-slate-500 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        Sebelumnya
-                      </button>
+                        >
+                          Sebelumnya
+                        </button>
 
                         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                              <button
-                                key={page}
+                          <button
+                            key={page}
                             onClick={() => setCurrentPage(page)}
                             className={`px-3 py-2 text-sm font-medium rounded-lg ${
-                                  currentPage === page
-                                    ? 'bg-slate-700 text-white'
+                              currentPage === page
+                                ? 'bg-slate-700 text-white'
                                 : 'text-slate-500 bg-white border border-slate-300 hover:bg-slate-50'
-                                }`}
-                              >
-                                {page}
-                              </button>
+                            }`}
+                          >
+                            {page}
+                          </button>
                         ))}
 
-                      <button
+                        <button
                           onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                        disabled={currentPage === totalPages}
+                          disabled={currentPage === totalPages}
                           className="px-3 py-2 text-sm font-medium text-slate-500 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        Selanjutnya
-                      </button>
+                        >
+                          Selanjutnya
+                        </button>
                       </nav>
                     </div>
                   )}
                 </>
-                )}
+              )}
             </div>
           </div>
         </div>

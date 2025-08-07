@@ -103,11 +103,11 @@ const BlogArtikel = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {articles.map((article) => (
-              <Link key={article.id} href={`/berita/${article.slug}`} className="group">
-                <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+              <Link key={article.id} href={`/berita/${article.slug}`} className="group h-full">
+                <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
                   {/* Article Image */}
                   {article.featuredImage ? (
-                    <div className="w-full h-48 overflow-hidden relative">
+                    <div className="w-full h-48 overflow-hidden relative flex-shrink-0">
                       <Image
                         src={article.featuredImage.url}
                         alt={article.title}
@@ -117,7 +117,7 @@ const BlogArtikel = () => {
                       />
                     </div>
                   ) : (
-                    <div className="w-full h-48 bg-gradient-to-br from-sky-100 to-slate-200 flex items-center justify-center">
+                    <div className="w-full h-48 bg-gradient-to-br from-sky-100 to-slate-200 flex items-center justify-center flex-shrink-0">
                       <div className="text-center text-gray-400">
                         <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
                           <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
@@ -134,7 +134,7 @@ const BlogArtikel = () => {
                   )}
 
                   {/* Content */}
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-1">
                     <div className="mb-3">
                       <span
                         className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${getSaptaBidangColor(article.saptaBidang)}`}
@@ -147,30 +147,32 @@ const BlogArtikel = () => {
                       {article.title}
                     </h3>
 
-                    <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                    <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3 flex-1">
                       {article.description}
                     </p>
 
-                    <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                      <span>{formatDate(article.publishedDate)}</span>
-                      <span>{article.readingTime} menit baca</span>
-                    </div>
+                    <div className="mt-auto">
+                      <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                        <span>{formatDate(article.publishedDate)}</span>
+                        <span>{article.readingTime} menit baca</span>
+                      </div>
 
-                    <div className="text-sm font-medium text-slate-700 group-hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
-                      Baca selengkapnya
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                      <div className="text-sm font-medium text-slate-700 group-hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
+                        Baca selengkapnya
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
                     </div>
                   </div>
                 </div>
