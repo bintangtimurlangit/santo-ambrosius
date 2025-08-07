@@ -1,4 +1,4 @@
-export interface NewsArticle {
+export interface ArtikelArticle {
   id: string
   title: string
   slug: string
@@ -20,14 +20,14 @@ export interface NewsArticle {
 }
 
 /**
- * Fetch news articles from Payload CMS
+ * Fetch artikel articles from Payload CMS
  */
-export async function getNewsData(options?: {
+export async function getArtikelData(options?: {
   limit?: number
   status?: 'draft' | 'published' | 'archived'
   saptaBidang?: string
   featured?: boolean
-}): Promise<NewsArticle[]> {
+}): Promise<ArtikelArticle[]> {
   try {
     const searchParams = new URLSearchParams()
     if (options?.limit) searchParams.set('limit', options.limit.toString())
@@ -43,24 +43,24 @@ export async function getNewsData(options?: {
 
     // Use absolute URL for server-side fetch
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const response = await fetch(`${baseUrl}/api/news?${searchParams.toString()}`)
+    const response = await fetch(`${baseUrl}/api/artikel?${searchParams.toString()}`)
     if (!response.ok) {
-      console.error('Failed to fetch news:', response.statusText)
+      console.error('Failed to fetch artikel:', response.statusText)
       return []
     }
 
     const data = await response.json()
     return data.docs || []
   } catch (error) {
-    console.error('Error fetching news:', error)
+    console.error('Error fetching artikel:', error)
     return []
   }
 }
 
 /**
- * Fetch a single news article by slug
+ * Fetch a single artikel article by slug
  */
-export async function getNewsBySlug(slug: string): Promise<NewsArticle | null> {
+export async function getArtikelBySlug(slug: string): Promise<ArtikelArticle | null> {
   try {
     const searchParams = new URLSearchParams()
     searchParams.set('where[slug][equals]', slug)
@@ -69,12 +69,12 @@ export async function getNewsBySlug(slug: string): Promise<NewsArticle | null> {
 
     // Use absolute URL for server-side fetch
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const url = `${baseUrl}/api/news?${searchParams.toString()}`
+    const url = `${baseUrl}/api/artikel?${searchParams.toString()}`
     console.log('Fetching article with URL:', url)
 
     const response = await fetch(url)
     if (!response.ok) {
-      console.error('Failed to fetch news by slug:', response.statusText)
+      console.error('Failed to fetch artikel by slug:', response.statusText)
       return null
     }
 
@@ -82,7 +82,7 @@ export async function getNewsBySlug(slug: string): Promise<NewsArticle | null> {
     console.log('API response:', data)
     return data.docs?.[0] || null
   } catch (error) {
-    console.error('Error fetching news by slug:', error)
+    console.error('Error fetching artikel by slug:', error)
     return null
   }
 }

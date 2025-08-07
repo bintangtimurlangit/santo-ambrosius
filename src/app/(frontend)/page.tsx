@@ -5,6 +5,7 @@ import BlogArtikel from '@/components/BlogArtikel'
 import { getHomepageData, getMediaURL } from '@/lib/getHomepageData'
 import '@/styles/global.css'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default async function HomePage() {
   const homepageData = await getHomepageData()
@@ -24,8 +25,18 @@ export default async function HomePage() {
             </h1>
           )}
           {/* Porta Sancta CTA Box */}
-          <div className="hidden lg:flex flex-1 justify-end items-center">
-            <div className="bg-sky-100 rounded-2xl shadow-sm px-6 py-6 max-w-xs w-full text-right flex flex-col items-end">
+          <div className="hidden lg:flex flex-1 justify-end items-center relative">
+            {/* Luce Mascot Image */}
+            <div className="absolute -top-32 -right-6 w-48 h-48 z-0">
+              <Image
+                src="/luce-mascot-alt.png"
+                alt="Luce Mascot"
+                width={256}
+                height={256}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="bg-sky-100 rounded-2xl shadow-sm px-6 py-6 max-w-xs w-full text-right flex flex-col items-end relative z-10">
               <div>
                 <p className="text-base font-normal text-slate-700 mb-2 leading-snug">
                   Ingin mengunjungi

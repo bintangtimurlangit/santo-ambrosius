@@ -1,4 +1,4 @@
-import BeritaBidang from '@/components/BeritaBidang'
+import ArtikelBidang from '@/components/ArtikelBidang'
 
 export default function PewartaanPage() {
   return (
@@ -124,8 +124,8 @@ export default function PewartaanPage() {
                 </div>
               </div>
 
-              {/* News Section for Bidang Pewartaan */}
-              <BeritaBidang bidangName="Pewartaan" />
+              {/* Artikel Section for Bidang Pewartaan */}
+              <ArtikelBidang bidangName="Pewartaan" />
             </div>
           </div>
         </div>

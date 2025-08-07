@@ -1,4 +1,4 @@
-import BeritaBidang from '@/components/BeritaBidang'
+import ArtikelBidang from '@/components/ArtikelBidang'
 
 export default function PemerhatiPage() {
   return (
@@ -91,8 +91,8 @@ export default function PemerhatiPage() {
                 </div>
               </div>
 
-              {/* News Section for Bidang Pemerhati */}
-              <BeritaBidang bidangName="Pemerhati" />
+              {/* Artikel Section for Bidang Pemerhati */}
+              <ArtikelBidang bidangName="Pemerhati" />
             </div>
           </div>
         </div>

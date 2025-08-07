@@ -1,4 +1,4 @@
-import BeritaBidang from '@/components/BeritaBidang'
+import ArtikelBidang from '@/components/ArtikelBidang'
 
 export default function PersekutuanPage() {
   return (
@@ -77,8 +77,8 @@ export default function PersekutuanPage() {
                 </div>
               </div>
 
-              {/* News Section for Bidang Persekutuan */}
-              <BeritaBidang bidangName="Persekutuan" />
+              {/* Artikel Section for Bidang Persekutuan */}
+              <ArtikelBidang bidangName="Persekutuan" />
             </div>
           </div>
         </div>

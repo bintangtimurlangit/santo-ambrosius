@@ -10,11 +10,11 @@ import {
   FaUser,
 } from 'react-icons/fa'
 import {
-  getNewsBySlug,
+  getArtikelBySlug,
   formatDate,
   getSaptaBidangColor,
   getSaptaBidangLabel,
-} from '@/lib/getNewsData'
+} from '@/lib/getArtikelData'
 import RichTextRenderer from '@/components/RichTextRenderer'
 
 interface PageProps {
@@ -23,14 +23,14 @@ interface PageProps {
   }>
 }
 
-export default async function BeritaDetailPage({ params }: PageProps) {
+export default async function ArtikelDetailPage({ params }: PageProps) {
   const resolvedParams = await params
   const slug = resolvedParams.slug
 
   console.log('Looking for article with slug:', slug)
 
   // Fetch the article by slug
-  const article = await getNewsBySlug(slug)
+  const article = await getArtikelBySlug(slug)
 
   console.log('Found article:', article)
 
@@ -64,8 +64,8 @@ export default async function BeritaDetailPage({ params }: PageProps) {
                 </li>
                 <li className="text-slate-400">/</li>
                 <li>
-                  <Link href="/berita" className="hover:text-slate-800 transition-colors">
-                    Berita
+                  <Link href="/artikel" className="hover:text-slate-800 transition-colors">
+                    Artikel
                   </Link>
                 </li>
                 <li className="text-slate-400">/</li>
@@ -148,14 +148,14 @@ export default async function BeritaDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Back to News List */}
+            {/* Back to Artikel List */}
             <div className="mt-16 pt-8 border-t border-slate-200">
               <Link
-                href="/berita"
+                href="/artikel"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white rounded-lg hover:bg-slate-800 transition-colors font-medium no-underline"
               >
                 <FaChevronLeft className="w-4 h-4" />
-                Kembali ke Berita Terkini
+                Kembali ke Artikel Terkini
               </Link>
             </div>
           </div>

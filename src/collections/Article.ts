@@ -1,10 +1,10 @@
 import type { CollectionConfig } from 'payload'
 
-export const News: CollectionConfig = {
-  slug: 'news',
+export const Article: CollectionConfig = {
+  slug: 'artikel',
   admin: {
     useAsTitle: 'title',
-    description: 'Manage news articles for the parish website',
+    description: 'Manage articles for the parish website',
     defaultColumns: ['title', 'saptaBidang', 'author', 'publishedDate', 'updatedAt'],
   },
   access: {
@@ -16,7 +16,7 @@ export const News: CollectionConfig = {
       type: 'text',
       required: true,
       admin: {
-        description: 'The title of the news article',
+        description: 'The title of the article',
       },
     },
     {
@@ -66,7 +66,7 @@ export const News: CollectionConfig = {
         { label: 'OKK', value: 'okk' },
       ],
       admin: {
-        description: 'Choose which Sapta Bidang this news belongs to',
+        description: 'Choose which Sapta Bidang this article belongs to',
       },
     },
     {

@@ -92,10 +92,10 @@ export default function Navbar() {
         {/* Desktop Menu */}
         <div className="hidden lg:flex gap-8 items-center">
           <Link
-            href="/berita"
+            href="/artikel"
             className="no-underline text-black font-light text-base transition-all duration-200 hover:drop-shadow-[0.5px_0_0_currentColor]"
           >
-            Berita Terkini
+            Artikel Terkini
           </Link>
           <div
             className="relative inline-block"
@@ -280,10 +280,10 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="lg:hidden mt-4 bg-white rounded-lg border border-slate-200 shadow-lg overflow-hidden animate-[mobileMenuSlideDown_0.3s_ease-out]">
           <Link
-            href="/berita"
+            href="/artikel"
             className="block px-4 py-3 text-slate-700 font-medium hover:bg-slate-50 transition-colors duration-200 no-underline border-b border-slate-200"
           >
-            Berita Terkini
+            Artikel Terkini
           </Link>
           {/* Tentang Kami Section */}
           <div className="border-b border-slate-200">

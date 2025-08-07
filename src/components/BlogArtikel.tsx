@@ -4,21 +4,21 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
-  type NewsArticle,
-  getNewsData,
+  type ArtikelArticle,
+  getArtikelData,
   getSaptaBidangLabel,
   getSaptaBidangColor,
   formatDate,
-} from '@/lib/getNewsData'
+} from '@/lib/getArtikelData'
 
 const BlogArtikel = () => {
-  const [articles, setArticles] = useState<NewsArticle[]>([])
+  const [articles, setArticles] = useState<ArtikelArticle[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchFeaturedArticles = async () => {
       try {
-        const data = await getNewsData({
+        const data = await getArtikelData({
           limit: 8,
           status: 'published',
           featured: true,
@@ -94,7 +94,7 @@ const BlogArtikel = () => {
               membaca artikel terbaru dari paroki.
             </p>
             <Link
-              href="/berita"
+              href="/artikel"
               className="inline-flex items-center gap-2 px-6 py-3 bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors duration-200"
             >
               Lihat Semua Artikel
@@ -103,7 +103,7 @@ const BlogArtikel = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {articles.map((article) => (
-              <Link key={article.id} href={`/berita/${article.slug}`} className="group h-full">
+              <Link key={article.id} href={`/artikel/${article.slug}`} className="group h-full">
                 <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
                   {/* Article Image */}
                   {article.featuredImage ? (
@@ -184,7 +184,7 @@ const BlogArtikel = () => {
         {/* View All Button - only show if there are articles */}
         {articles.length > 0 && (
           <div className="text-center mt-12">
-            <Link href="/berita">
+            <Link href="/artikel">
               <button className="px-8 py-3 bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors duration-200">
                 Lihat Semua Artikel
               </button>

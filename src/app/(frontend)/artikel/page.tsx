@@ -3,19 +3,19 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import {
-  type NewsArticle,
-  getNewsData,
+  type ArtikelArticle,
+  getArtikelData,
   getSaptaBidangLabel,
   getSaptaBidangColor,
   formatDate,
-} from '@/lib/getNewsData'
+} from '@/lib/getArtikelData'
 
-export default function BeritaTerkiniPage() {
+export default function ArtikelTerkiniPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('Semua')
   const [currentPage, setCurrentPage] = useState(1)
   const [articlesPerPage, setArticlesPerPage] = useState(9) // Default for lg screens
-  const [allArticles, setAllArticles] = useState<NewsArticle[]>([])
+  const [allArticles, setAllArticles] = useState<ArtikelArticle[]>([])
   const [loading, setLoading] = useState(true)
 
   // Update articles per page based on screen size
@@ -81,7 +81,7 @@ export default function BeritaTerkiniPage() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const data = await getNewsData({ status: 'published' })
+        const data = await getArtikelData({ status: 'published' })
         setAllArticles(data)
       } catch (error) {
         console.error('Error fetching articles:', error)
@@ -210,7 +210,7 @@ export default function BeritaTerkiniPage() {
                       ></path>
                     </svg>
                   </div>
-                  <p className="text-gray-600">Memuat berita...</p>
+                  <p className="text-gray-600">Memuat artikel...</p>
                 </div>
               ) : allArticles.length === 0 ? (
                 // Empty State - No articles at all
@@ -230,10 +230,10 @@ export default function BeritaTerkiniPage() {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold text-slate-700 mb-3">Belum Ada Berita</h3>
+                  <h3 className="text-xl font-semibold text-slate-700 mb-3">Belum Ada Artikel</h3>
                   <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                    Saat ini belum ada berita yang tersedia. Silakan kembali lagi nanti untuk
-                    membaca berita terbaru dari paroki.
+                    Saat ini belum ada artikel yang tersedia. Silakan kembali lagi nanti untuk
+                    membaca artikel terbaru dari paroki.
                   </p>
                   <Link
                     href="/"
@@ -261,14 +261,14 @@ export default function BeritaTerkiniPage() {
                     </svg>
                   </div>
                   <h3 className="text-xl font-semibold text-slate-700 mb-3">
-                    Tidak Ada Berita Ditemukan
+                    Tidak Ada Artikel Ditemukan
                   </h3>
                   <p className="text-gray-600 mb-6 max-w-md mx-auto">
                     {selectedCategory !== 'Semua'
-                      ? `Belum ada berita untuk bidang "${selectedCategory}". Silakan coba bidang lain atau hapus filter.`
+                      ? `Belum ada artikel untuk bidang "${selectedCategory}". Silakan coba bidang lain atau hapus filter.`
                       : searchTerm
-                        ? `Tidak ada berita yang cocok dengan pencarian "${searchTerm}". Silakan coba kata kunci lain.`
-                        : 'Tidak ada berita yang sesuai dengan filter yang dipilih.'}
+                        ? `Tidak ada artikel yang cocok dengan pencarian "${searchTerm}". Silakan coba kata kunci lain.`
+                        : 'Tidak ada artikel yang sesuai dengan filter yang dipilih.'}
                   </p>
                   <div className="flex gap-3 justify-center">
                     <button
@@ -293,7 +293,7 @@ export default function BeritaTerkiniPage() {
                   {/* Results Count */}
                   <div className="text-center mb-8">
                     <p className="text-slate-600">
-                      Menampilkan {filteredArticles.length} dari {allArticles.length} berita
+                      Menampilkan {filteredArticles.length} dari {allArticles.length} artikel
                     </p>
                   </div>
 
@@ -302,7 +302,7 @@ export default function BeritaTerkiniPage() {
                     {currentArticles.map((article) => (
                       <Link
                         key={article.id}
-                        href={`/berita/${article.slug}`}
+                        href={`/artikel/${article.slug}`}
                         className="group h-full"
                       >
                         <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">

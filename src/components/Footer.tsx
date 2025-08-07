@@ -28,18 +28,10 @@ export default function Footer() {
               <ul className="space-y-3 mt-4">
                 <li>
                   <Link
-                    href="/tentang-kami"
+                    href="/artikel"
                     className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline block py-1"
                   >
-                    Tentang Kami
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/sapta-bidang"
-                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline block py-1"
-                  >
-                    Sapta Bidang
+                    Artikel Terkini
                   </Link>
                 </li>
                 <li>

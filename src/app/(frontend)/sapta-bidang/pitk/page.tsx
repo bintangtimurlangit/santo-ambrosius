@@ -1,4 +1,4 @@
-import BeritaBidang from '@/components/BeritaBidang'
+import ArtikelBidang from '@/components/ArtikelBidang'
 
 export default function PitkPage() {
   return (
@@ -176,8 +176,8 @@ export default function PitkPage() {
                 </div>
               </div>
 
-              {/* News Section for Bidang PITK */}
-              <BeritaBidang bidangName="PITK" />
+              {/* Artikel Section for Bidang PITK */}
+              <ArtikelBidang bidangName="PITK" />
             </div>
           </div>
         </div>

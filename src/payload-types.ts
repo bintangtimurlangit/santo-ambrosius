@@ -71,7 +71,7 @@ export interface Config {
     media: Media;
     homepage: Homepage;
     'sejarah-paroki': SejarahParoki;
-    news: News;
+    artikel: Artikel;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -82,7 +82,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     'sejarah-paroki': SejarahParokiSelect<false> | SejarahParokiSelect<true>;
-    news: NewsSelect<false> | NewsSelect<true>;
+    artikel: ArtikelSelect<false> | ArtikelSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -309,15 +309,15 @@ export interface SejarahParoki {
   createdAt: string;
 }
 /**
- * Manage news articles for the parish website
+ * Manage articles for the parish website
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "news".
+ * via the `definition` "artikel".
  */
-export interface News {
+export interface Artikel {
   id: string;
   /**
-   * The title of the news article
+   * The title of the article
    */
   title: string;
   /**
@@ -329,7 +329,7 @@ export interface News {
    */
   description: string;
   /**
-   * Choose which Sapta Bidang this news belongs to
+   * Choose which Sapta Bidang this article belongs to
    */
   saptaBidang: 'pewartaan' | 'pelayanan' | 'persekutuan' | 'peribadatan' | 'pemerhati' | 'pitk' | 'okk';
   /**
@@ -401,8 +401,8 @@ export interface PayloadLockedDocument {
         value: string | SejarahParoki;
       } | null)
     | ({
-        relationTo: 'news';
-        value: string | News;
+        relationTo: 'artikel';
+        value: string | Artikel;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -562,9 +562,9 @@ export interface SejarahParokiSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "news_select".
+ * via the `definition` "artikel_select".
  */
-export interface NewsSelect<T extends boolean = true> {
+export interface ArtikelSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   description?: T;

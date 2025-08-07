@@ -3,19 +3,19 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import {
-  type NewsArticle,
-  getNewsData,
+  type ArtikelArticle,
+  getArtikelData,
   getSaptaBidangLabel,
   getSaptaBidangColor,
   formatDate,
-} from '@/lib/getNewsData'
+} from '@/lib/getArtikelData'
 
-interface BeritaBidangProps {
+interface ArtikelBidangProps {
   bidangName: string
 }
 
-const BeritaBidang: React.FC<BeritaBidangProps> = ({ bidangName }) => {
-  const [articles, setArticles] = useState<NewsArticle[]>([])
+const ArtikelBidang: React.FC<ArtikelBidangProps> = ({ bidangName }) => {
+  const [articles, setArticles] = useState<ArtikelArticle[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const BeritaBidang: React.FC<BeritaBidangProps> = ({ bidangName }) => {
           return
         }
 
-        const data = await getNewsData({
+        const data = await getArtikelData({
           status: 'published',
           saptaBidang,
         })
@@ -62,7 +62,7 @@ const BeritaBidang: React.FC<BeritaBidangProps> = ({ bidangName }) => {
     <div className="max-w-5xl mx-auto mt-20">
       <div className="text-center mb-16">
         <h2 className="text-5xl md:text-4xl font-semibold tracking-tight text-slate-700 mb-6">
-          Berita Bidang {bidangName}
+          Artikel Bidang {bidangName}
         </h2>
         <p className="text-sm text-gray-500 leading-relaxed max-w-4xl mx-auto">
           Ikuti kegiatan dan program terbaru dari Tim Bidang {bidangName}
@@ -71,7 +71,7 @@ const BeritaBidang: React.FC<BeritaBidangProps> = ({ bidangName }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {articles.map((article) => (
-          <Link key={article.id} href={`/berita/${article.slug}`} className="group">
+          <Link key={article.id} href={`/artikel/${article.slug}`} className="group">
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               {/* Article Image */}
               {article.featuredImage ? (
@@ -142,14 +142,14 @@ const BeritaBidang: React.FC<BeritaBidangProps> = ({ bidangName }) => {
       {/* View All Button */}
       <div className="text-center mt-12">
         <Link
-          href="/berita"
+          href="/artikel"
           className="inline-flex items-center gap-2 px-8 py-3 bg-slate-700 text-white font-medium rounded-lg hover:bg-slate-800 transition-colors duration-200"
         >
-          Lihat Semua Berita {bidangName}
+          Lihat Semua Artikel {bidangName}
         </Link>
       </div>
     </div>
   )
 }
 
-export default BeritaBidang
+export default ArtikelBidang
