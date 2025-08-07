@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   type ArtikelArticle,
   getArtikelData,
@@ -115,7 +116,7 @@ export default function ArtikelTerkiniPage() {
               {/* Page Introduction */}
               <div className="text-center mb-20 pt-16 px-12">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-slate-700 leading-tight m-0 tracking-tight mb-8">
-                  Berita Terkini
+                  Artikel Terkini
                 </h1>
                 <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
                   Ikuti perkembangan terbaru dan kegiatan-kegiatan dari seluruh bidang di Gereja
@@ -133,7 +134,7 @@ export default function ArtikelTerkiniPage() {
                         htmlFor="search"
                         className="block text-sm font-medium text-slate-700 mb-2"
                       >
-                        Cari Berita
+                        Cari Artikel
                       </label>
                       <div className="relative">
                         <input
@@ -309,10 +310,12 @@ export default function ArtikelTerkiniPage() {
                           {/* Article Image */}
                           {article.featuredImage ? (
                             <div className="w-full h-48 overflow-hidden flex-shrink-0">
-                              <img
+                              <Image
                                 src={article.featuredImage.url}
                                 alt={article.title}
-                                className="w-full h-full object-cover"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                               />
                             </div>
                           ) : (
