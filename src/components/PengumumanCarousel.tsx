@@ -25,6 +25,12 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
   const [isClient, setIsClient] = useState(false) // Track if we're on client side
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
+  // Touch/swipe state
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [isSwiping, setIsSwiping] = useState(false)
+  const carouselRef = useRef<HTMLDivElement>(null)
+
   const nextSlide = React.useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % totalImages)
   }, [totalImages])
@@ -57,6 +63,44 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
     startAutoAdvance()
   }
 
+  // Touch event handlers for swipe functionality
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX)
+    setTouchEnd(null)
+    setIsSwiping(true)
+
+    // Pause auto-advance during swipe
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+    }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) {
+      setIsSwiping(false)
+      return
+    }
+
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > 50
+    const isRightSwipe = distance < -50
+
+    if (isLeftSwipe) {
+      handleUserInteraction(nextSlide)
+    } else if (isRightSwipe) {
+      handleUserInteraction(prevSlide)
+    }
+
+    // Reset touch state
+    setTouchStart(null)
+    setTouchEnd(null)
+    setIsSwiping(false)
+  }
+
   // Handle client-side mounting to prevent hydration mismatch
   useEffect(() => {
     setIsClient(true)
@@ -72,10 +116,10 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
 
   // Restart timer when currentIndex changes (including auto-advance)
   useEffect(() => {
-    if (isClient) {
+    if (isClient && !isSwiping) {
       startAutoAdvance()
     }
-  }, [currentIndex, isClient, startAutoAdvance])
+  }, [currentIndex, isClient, startAutoAdvance, isSwiping])
 
   const getCardStyle = (index: number) => {
     // Check screen size - only on client side to prevent hydration mismatch
@@ -126,7 +170,7 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
       transform: `translateX(${translateX}px) scale(${scale})`,
       zIndex,
       opacity,
-      transition: 'all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1)',
+      transition: isSwiping ? 'none' : 'all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1)',
     }
   }
 
@@ -151,7 +195,13 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
   }
 
   return (
-    <div className="flex justify-center items-center relative h-[400px] sm:h-[450px] md:h-[500px] lg:h-[700px] mt-8 overflow-hidden">
+    <div
+      ref={carouselRef}
+      className="flex justify-center items-center relative h-[400px] sm:h-[450px] md:h-[500px] lg:h-[700px] mt-8 overflow-hidden touch-pan-y"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {Array.from({ length: totalImages }, (_, index) => {
         const imageData = carouselImages[index]
         const imageUrl = imageData ? getMediaURL(imageData.image) : ''
