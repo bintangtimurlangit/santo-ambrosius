@@ -408,7 +408,7 @@ export default function Navbar() {
           </Link>
 
           {/* Mobile Action Buttons (only on very small screens) */}
-          <div className="sm:hidden flex gap-2 p-4 border-t border-slate-200 bg-slate-50">
+          <div className="flex gap-2 p-4 border-t border-slate-200 bg-slate-50">
             <a
               href="https://wa.me/your-phone-number"
               target="_blank"
