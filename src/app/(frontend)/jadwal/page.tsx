@@ -84,7 +84,14 @@ export default function JadwalPage() {
                 <div className="mt-12 text-center">
                   <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
                     <p className="text-slate-600 leading-relaxed">
-                      Untuk informasi lebih lanjut, silakan hubungi sekretariat paroki.
+                      Untuk informasi lebih lanjut, silakan{' '}
+                      <a
+                        href="/hubungi-kami"
+                        className="text-slate-800 font-medium hover:text-slate-900 transition-colors duration-200 underline"
+                      >
+                        hubungi kami
+                      </a>
+                      .
                     </p>
                   </div>
                 </div>

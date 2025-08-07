@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa'
 
 export default function HubungiKamiPage() {
   return (
@@ -32,21 +32,21 @@ export default function HubungiKamiPage() {
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
                   <div className="flex items-center mb-6">
                     <div className="bg-slate-700 p-3 rounded-full mr-4">
-                      <FaMapMarkerAlt className="text-white text-xl" />
+                      <FaMapMarkerAlt className="text-white text-lg" />
                     </div>
-                    <h2 className="text-xl md:text-2xl font-medium text-slate-800">Alamat</h2>
+                    <h3 className="text-lg md:text-xl font-medium text-slate-800">Alamat</h3>
                   </div>
                   <div className="text-slate-600 leading-relaxed">
-                    <p className="text-lg">Villa Melati Mas</p>
-                    <p className="text-lg">Blok O6 No. 26</p>
-                    <p className="text-lg">Kecamatan Serpong Utara</p>
-                    <p className="text-lg">Kota Tangerang Selatan</p>
-                    <p className="text-lg font-medium">15323</p>
+                    <p className="text-md">Villa Melati Mas</p>
+                    <p className="text-md">Blok O6 No. 26</p>
+                    <p className="text-md">Kecamatan Serpong Utara</p>
+                    <p className="text-md">Kota Tangerang Selatan</p>
+                    <p className="text-md">15323</p>
                   </div>
                 </div>
 
                 {/* Contact Methods */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {/* Email */}
                   <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
                     <div className="flex items-center mb-4">
@@ -55,47 +55,52 @@ export default function HubungiKamiPage() {
                       </div>
                       <h3 className="text-lg font-medium text-slate-800">Email</h3>
                     </div>
-                    <div className="space-y-2">
-                      <a
-                        href="mailto:sekretariat.stambrosius@gmail.com"
-                        className="text-slate-600 hover:text-slate-900 transition-colors duration-200 block whitespace-nowrap overflow-hidden text-ellipsis"
-                      >
-                        sekretariat.stambrosius@gmail.com
-                      </a>
-                      <a
-                        href="mailto:info@santoambrosius.org"
-                        className="text-slate-600 hover:text-slate-900 transition-colors duration-200 block whitespace-nowrap overflow-hidden text-ellipsis"
-                      >
-                        info@santoambrosius.org
-                      </a>
+                    <div className="grid grid-cols-1 gap-3">
+                      <div className="text-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
+                        <a
+                          href="mailto:sekretariat.stambrosius@gmail.com"
+                          className="text-slate-600 hover:text-slate-900 transition-colors duration-200 text-xs block break-all"
+                        >
+                          sekretariat.stambrosius@gmail.com
+                        </a>
+                      </div>
+                      <div className="text-center p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
+                        <a
+                          href="mailto:info@santoambrosius.org"
+                          className="text-slate-600 hover:text-slate-900 transition-colors duration-200 text-sm block break-all"
+                        >
+                          info@santoambrosius.org
+                        </a>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Phone Numbers */}
-                  <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                  {/* Phone & WhatsApp */}
+                  <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 h-58">
                     <div className="flex items-center mb-4">
                       <div className="bg-slate-700 p-2.5 rounded-full mr-3">
                         <FaPhone className="text-white text-lg" />
                       </div>
-                      <h3 className="text-lg font-medium text-slate-800">Telepon</h3>
+                      <h3 className="text-lg font-medium text-slate-800">Phone & WhatsApp</h3>
                     </div>
-
                     <div className="space-y-3">
                       <div>
                         <p className="text-sm font-medium text-slate-800 mb-1">Landline</p>
                         <a
                           href="tel:+622153864233"
-                          className="text-slate-600 hover:text-slate-900 transition-colors duration-200"
+                          className="text-base text-slate-600 hover:text-slate-900 transition-colors duration-200"
                         >
                           +62 21 538 6423
                         </a>
                       </div>
-
                       <div>
-                        <p className="text-sm font-medium text-slate-800 mb-1">Call Center</p>
+                        <p className="text-sm font-medium text-slate-800 mb-1 flex items-center">
+                          <FaWhatsapp className="text-green-600 mr-2 text-sm" />
+                          WhatsApp
+                        </p>
                         <a
                           href="https://wa.me/6285810262017"
-                          className="text-slate-600 hover:text-slate-900 transition-colors duration-200"
+                          className="text-base text-slate-600 hover:text-slate-900 transition-colors duration-200"
                         >
                           +62 858 1026 2017
                         </a>
@@ -109,9 +114,9 @@ export default function HubungiKamiPage() {
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
                 <div className="flex items-center mb-6">
                   <div className="bg-slate-700 p-3 rounded-full mr-4">
-                    <FaMapMarkerAlt className="text-white text-xl" />
+                    <FaMapMarkerAlt className="text-white text-lg" />
                   </div>
-                  <h2 className="text-xl md:text-2xl font-medium text-slate-800">Lokasi Kami</h2>
+                  <h2 className="text-lg md:text-xl font-medium text-slate-800">Lokasi Kami</h2>
                 </div>
                 <div className="w-full h-96 bg-gray-100 rounded-xl">
                   <iframe
@@ -132,9 +137,9 @@ export default function HubungiKamiPage() {
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
               <div className="flex items-center mb-8">
                 <div className="bg-slate-700 p-3 rounded-full mr-4">
-                  <FaPhone className="text-white text-xl" />
+                  <FaPhone className="text-white text-lg" />
                 </div>
-                <h2 className="text-xl md:text-2xl font-medium text-slate-800">
+                <h2 className="text-lg md:text-xl font-medium text-slate-800">
                   TPKA (Team Pelayanan Kedukaan Ambrosius)
                 </h2>
               </div>
