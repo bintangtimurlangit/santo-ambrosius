@@ -143,7 +143,7 @@ export default function HubungiKamiPage() {
                 <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
                   <p className="text-slate-800 mb-3 font-medium">Moni</p>
                   <a
-                    href="tel:+6281808946662"
+                    href="https://wa.me/6281808946662"
                     className="text-slate-600 hover:text-slate-900 transition-colors duration-200 text-sm block"
                   >
                     (+62) 818 0894 6662
@@ -153,7 +153,7 @@ export default function HubungiKamiPage() {
                 <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
                   <p className="text-slate-800 mb-3 font-medium">Lie</p>
                   <a
-                    href="tel:+6282299503400"
+                    href="https://wa.me/6282299503400"
                     className="text-slate-600 hover:text-slate-900 transition-colors duration-200 text-sm block"
                   >
                     (+62) 822 9950 3400
@@ -163,7 +163,7 @@ export default function HubungiKamiPage() {
                 <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
                   <p className="text-slate-800 mb-3 font-medium">Lussy</p>
                   <a
-                    href="tel:+6281292972120"
+                    href="https://wa.me/6281292972120"
                     className="text-slate-600 hover:text-slate-900 transition-colors duration-200 text-sm block"
                   >
                     (+62) 812 9297 212
@@ -173,7 +173,7 @@ export default function HubungiKamiPage() {
                 <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
                   <p className="text-slate-800 mb-3 font-medium">Johanes</p>
                   <a
-                    href="tel:+6287808053810"
+                    href="https://wa.me/6287808053810"
                     className="text-slate-600 hover:text-slate-900 transition-colors duration-200 text-sm block"
                   >
                     (+62) 878 0805 3810
@@ -183,7 +183,7 @@ export default function HubungiKamiPage() {
                 <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
                   <p className="text-slate-800 mb-3 font-medium">Wenx</p>
                   <a
-                    href="tel:+6285778908899"
+                    href="https://wa.me/6285778908899"
                     className="text-slate-600 hover:text-slate-900 transition-colors duration-200 text-sm block"
                   >
                     (+62) 857 7890 8899
