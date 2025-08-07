@@ -8,6 +8,7 @@ export interface NewsArticle {
   author: string
   publishedDate: string
   readingTime: number
+  featured: boolean
   featuredImage?: {
     id: string
     filename: string
@@ -25,12 +26,15 @@ export async function getNewsData(options?: {
   limit?: number
   status?: 'draft' | 'published' | 'archived'
   saptaBidang?: string
+  featured?: boolean
 }): Promise<NewsArticle[]> {
   try {
     const searchParams = new URLSearchParams()
     if (options?.limit) searchParams.set('limit', options.limit.toString())
     if (options?.status) searchParams.set('where[status][equals]', options.status)
     if (options?.saptaBidang) searchParams.set('where[saptaBidang][equals]', options.saptaBidang)
+    if (options?.featured !== undefined)
+      searchParams.set('where[featured][equals]', options.featured.toString())
 
     // Always fetch published articles by default
     if (!options?.status) {
