@@ -66,6 +66,12 @@ export default function Navbar() {
     setIsMobileSaptaBidangOpen(!isMobileSaptaBidangOpen)
   }
 
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false)
+    setIsMobileTentangKamiOpen(false)
+    setIsMobileSaptaBidangOpen(false)
+  }
+
   return (
     <nav
       className={`
@@ -281,6 +287,7 @@ export default function Navbar() {
         <div className="lg:hidden mt-4 bg-white rounded-lg border border-slate-200 shadow-lg overflow-hidden animate-[mobileMenuSlideDown_0.3s_ease-out]">
           <Link
             href="/artikel"
+            onClick={closeMobileMenu}
             className="block px-4 py-3 text-slate-700 font-medium hover:bg-slate-50 transition-colors duration-200 no-underline border-b border-slate-200"
           >
             Artikel Terkini
@@ -298,30 +305,35 @@ export default function Navbar() {
               <div className="bg-slate-50 animate-[mobileDropdownSlide_0.2s_ease-out]">
                 <Link
                   href="/tentang-kami/sejarah-paroki"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Sejarah Paroki
                 </Link>
                 <Link
                   href="/tentang-kami/visi-misi"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Visi Misi
                 </Link>
                 <Link
                   href="/tentang-kami/profil-santo-pelindung"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Profil Santo Pelindung
                 </Link>
                 <Link
                   href="/tentang-kami/peta-wilayah"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Peta Wilayah
                 </Link>
                 <Link
                   href="/tentang-kami/romo-paroki"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Romo Paroki
@@ -343,42 +355,49 @@ export default function Navbar() {
               <div className="bg-slate-50 animate-[mobileDropdownSlide_0.2s_ease-out]">
                 <Link
                   href="/sapta-bidang/pewartaan"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Pewartaan
                 </Link>
                 <Link
                   href="/sapta-bidang/pelayanan"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Pelayanan
                 </Link>
                 <Link
                   href="/sapta-bidang/persekutuan"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Persekutuan
                 </Link>
                 <Link
                   href="/sapta-bidang/pitk"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   PITK
                 </Link>
                 <Link
                   href="/sapta-bidang/pemerhati-monitoring"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Pemerhati / Monitoring
                 </Link>
                 <Link
                   href="/sapta-bidang/peribadatan"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   Peribadatan
                 </Link>
                 <Link
                   href="/sapta-bidang/okk"
+                  onClick={closeMobileMenu}
                   className="block px-8 py-2 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200 no-underline"
                 >
                   OKK
@@ -390,18 +409,21 @@ export default function Navbar() {
           {/* Regular Menu Items */}
           <Link
             href="/jadwal"
+            onClick={closeMobileMenu}
             className="block px-4 py-3 text-slate-700 font-medium hover:bg-slate-50 transition-colors duration-200 no-underline border-b border-slate-200"
           >
             Jadwal
           </Link>
           <Link
             href="/hubungi-kami"
+            onClick={closeMobileMenu}
             className="block px-4 py-3 text-slate-700 font-medium hover:bg-slate-50 transition-colors duration-200 no-underline border-b border-slate-200"
           >
             Hubungi Kami
           </Link>
           <Link
             href="/porta-sancta"
+            onClick={closeMobileMenu}
             className="block px-4 py-3 text-slate-700 font-medium hover:bg-slate-50 transition-colors duration-200 no-underline"
           >
             Porta Sancta
