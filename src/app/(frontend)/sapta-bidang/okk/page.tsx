@@ -1,4 +1,5 @@
 import ArtikelBidang from '@/components/ArtikelBidang'
+import OKKOrganizationalChart from '@/components/OKKOrganizationalChart'
 
 export default function OkkPage() {
   return (
@@ -86,6 +87,19 @@ export default function OkkPage() {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* Organizational Structure Section */}
+              <div className="max-w-5xl mx-auto">
+                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-slate-100 mb-16">
+                  <h2 className="text-2xl md:text-3xl font-semibold text-slate-800 text-center mb-8">
+                    Struktur Organisasi Bidang OKK
+                  </h2>
+                  <p className="text-center text-slate-600 mb-8 text-lg">Periode 2024-2027</p>
+
+                  {/* Organizational Chart */}
+                  <OKKOrganizationalChart />
                 </div>
               </div>
 
