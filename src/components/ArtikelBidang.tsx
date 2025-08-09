@@ -2,20 +2,21 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
-  type ArtikelArticle,
-  getArtikelData,
+  type BeritaArticle,
+  getBeritaData,
   getSaptaBidangLabel,
   getSaptaBidangColor,
   formatDate,
-} from '@/lib/getArtikelData'
+} from '@/lib/getBeritaData'
 
 interface ArtikelBidangProps {
   bidangName: string
 }
 
 const ArtikelBidang: React.FC<ArtikelBidangProps> = ({ bidangName }) => {
-  const [articles, setArticles] = useState<ArtikelArticle[]>([])
+  const [articles, setArticles] = useState<BeritaArticle[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -38,9 +39,10 @@ const ArtikelBidang: React.FC<ArtikelBidangProps> = ({ bidangName }) => {
           return
         }
 
-        const data = await getArtikelData({
+        const data = await getBeritaData({
           status: 'published',
           saptaBidang,
+          limit: 6,
         })
         setArticles(data)
       } catch (error) {
@@ -75,11 +77,13 @@ const ArtikelBidang: React.FC<ArtikelBidangProps> = ({ bidangName }) => {
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
               {/* Article Image */}
               {article.featuredImage ? (
-                <div className="w-full h-48 overflow-hidden">
-                  <img
+                <div className="w-full h-48 overflow-hidden relative">
+                  <Image
                     src={article.featuredImage.url}
                     alt={article.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
               ) : (
