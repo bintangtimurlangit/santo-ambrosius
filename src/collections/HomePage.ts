@@ -5,6 +5,7 @@ export const HomePage: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     description: 'Manage homepage content including hero section',
+    group: 'Pages',
   },
   access: {
     read: () => true,

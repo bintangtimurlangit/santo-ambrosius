@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { createSlugField } from '@/lib/slugify'
 
 export const WAB: CollectionConfig = {
   slug: 'wab',
@@ -6,6 +7,7 @@ export const WAB: CollectionConfig = {
     useAsTitle: 'title',
     description: 'Manage Warta Ambrosius Bulanan (Monthly Newsletter) PDF files',
     defaultColumns: ['title', 'publishedDate', 'updatedAt'],
+    group: 'Articles',
   },
   access: {
     read: () => true,
@@ -19,31 +21,7 @@ export const WAB: CollectionConfig = {
         description: 'The title of the WAB newsletter (e.g., "WAB Edisi Januari 2024")',
       },
     },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: {
-        description: 'URL-friendly slug for the article (e.g., "kegiatan-wab-desember-2024")',
-      },
-      hooks: {
-        beforeValidate: [
-          ({ value, data }) => {
-            if (!value && data?.title) {
-              // Auto-generate slug from title
-              return data.title
-                .toLowerCase()
-                .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-                .replace(/\s+/g, '-') // Replace spaces with hyphens
-                .replace(/-+/g, '-') // Replace multiple hyphens with single
-                .trim('-') // Remove leading/trailing hyphens
-            }
-            return value
-          },
-        ],
-      },
-    },
+    createSlugField('title'),
     {
       name: 'description',
       type: 'textarea',

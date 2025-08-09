@@ -327,7 +327,7 @@ export interface Berita {
    */
   title: string;
   /**
-   * URL-friendly slug for the article (e.g., "perayaan-misa-natal-2024")
+   * URL-friendly slug (auto-generated from title)
    */
   slug: string;
   /**
@@ -392,7 +392,7 @@ export interface Renungan {
    */
   title: string;
   /**
-   * URL-friendly slug for the article (e.g., "renungan-natal-2024")
+   * URL-friendly slug (auto-generated from title)
    */
   slug: string;
   /**
@@ -453,7 +453,7 @@ export interface Wam {
    */
   title: string;
   /**
-   * URL-friendly slug for the article (e.g., "kegiatan-wam-desember-2024")
+   * URL-friendly slug (auto-generated from title)
    */
   slug: string;
   /**
@@ -504,7 +504,7 @@ export interface Wab {
    */
   title: string;
   /**
-   * URL-friendly slug for the article (e.g., "kegiatan-wab-desember-2024")
+   * URL-friendly slug (auto-generated from title)
    */
   slug: string;
   /**

@@ -5,6 +5,7 @@ export const SejarahParoki: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     description: 'Manage Sejarah Paroki (Parish History) page content',
+    group: 'Pages',
   },
   access: {
     read: () => true,

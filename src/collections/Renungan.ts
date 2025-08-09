@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { createSlugField } from '@/lib/slugify'
 
 export const Renungan: CollectionConfig = {
   slug: 'renungan',
@@ -6,6 +7,7 @@ export const Renungan: CollectionConfig = {
     useAsTitle: 'title',
     description: 'Manage spiritual reflection articles',
     defaultColumns: ['title', 'author', 'publishedDate', 'updatedAt'],
+    group: 'Articles',
   },
   access: {
     read: () => true,
@@ -19,31 +21,7 @@ export const Renungan: CollectionConfig = {
         description: 'The title of the reflection article',
       },
     },
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: {
-        description: 'URL-friendly slug for the article (e.g., "renungan-natal-2024")',
-      },
-      hooks: {
-        beforeValidate: [
-          ({ value, data }) => {
-            if (!value && data?.title) {
-              // Auto-generate slug from title
-              return data.title
-                .toLowerCase()
-                .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-                .replace(/\s+/g, '-') // Replace spaces with hyphens
-                .replace(/-+/g, '-') // Replace multiple hyphens with single
-                .trim('-') // Remove leading/trailing hyphens
-            }
-            return value
-          },
-        ],
-      },
-    },
+    createSlugField('title'),
     {
       name: 'description',
       type: 'textarea',
@@ -97,6 +75,7 @@ export const Renungan: CollectionConfig = {
       admin: {
         description: 'Estimated reading time in minutes (auto-calculated based on content length)',
         readOnly: true,
+        hidden: true,
       },
       hooks: {
         beforeChange: [
