@@ -1,11 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
-export const Article: CollectionConfig = {
-  slug: 'artikel',
+export const Renungan: CollectionConfig = {
+  slug: 'renungan',
   admin: {
     useAsTitle: 'title',
-    description: 'Manage articles for the parish website',
-    defaultColumns: ['title', 'saptaBidang', 'author', 'publishedDate', 'updatedAt'],
+    description: 'Manage spiritual reflection articles',
+    defaultColumns: ['title', 'author', 'publishedDate', 'updatedAt'],
   },
   access: {
     read: () => true,
@@ -16,7 +16,7 @@ export const Article: CollectionConfig = {
       type: 'text',
       required: true,
       admin: {
-        description: 'The title of the article',
+        description: 'The title of the reflection article',
       },
     },
     {
@@ -25,7 +25,7 @@ export const Article: CollectionConfig = {
       required: true,
       unique: true,
       admin: {
-        description: 'URL-friendly slug for the article (e.g., "perayaan-misa-natal-2024")',
+        description: 'URL-friendly slug for the article (e.g., "renungan-natal-2024")',
       },
       hooks: {
         beforeValidate: [
@@ -49,24 +49,7 @@ export const Article: CollectionConfig = {
       type: 'textarea',
       required: true,
       admin: {
-        description: 'Short description/excerpt of the article (used in previews)',
-      },
-    },
-    {
-      name: 'saptaBidang',
-      type: 'select',
-      required: true,
-      options: [
-        { label: 'Pewartaan', value: 'pewartaan' },
-        { label: 'Pelayanan', value: 'pelayanan' },
-        { label: 'Persekutuan', value: 'persekutuan' },
-        { label: 'Peribadatan', value: 'peribadatan' },
-        { label: 'Pemerhati', value: 'pemerhati' },
-        { label: 'PITK', value: 'pitk' },
-        { label: 'OKK', value: 'okk' },
-      ],
-      admin: {
-        description: 'Choose which Sapta Bidang this article belongs to',
+        description: 'Short description/excerpt of the reflection article (used in previews)',
       },
     },
     {
@@ -76,7 +59,7 @@ export const Article: CollectionConfig = {
       required: true,
       admin: {
         description:
-          'Main image for the article (will be shown in previews and at the top of the article)',
+          'Main image for the reflection article (will be shown in previews and at the top of the article)',
       },
     },
     {
@@ -84,7 +67,8 @@ export const Article: CollectionConfig = {
       type: 'richText',
       required: true,
       admin: {
-        description: 'Main content of the article (supports rich text formatting and images)',
+        description:
+          'Main content of the reflection article (supports rich text formatting and images)',
       },
     },
     {
@@ -101,7 +85,7 @@ export const Article: CollectionConfig = {
       required: true,
       defaultValue: () => new Date().toISOString(),
       admin: {
-        description: 'Date when the article was first published',
+        description: 'Date when the reflection article was first published',
         date: {
           pickerAppearance: 'dayAndTime',
         },
@@ -136,14 +120,7 @@ export const Article: CollectionConfig = {
         ],
       },
     },
-    {
-      name: 'featured',
-      type: 'checkbox',
-      defaultValue: false,
-      admin: {
-        description: 'Mark as featured article (will appear prominently on homepage)',
-      },
-    },
+
     {
       name: 'status',
       type: 'select',
@@ -155,7 +132,7 @@ export const Article: CollectionConfig = {
         { label: 'Archived', value: 'archived' },
       ],
       admin: {
-        description: 'Publication status of the article',
+        description: 'Publication status of the reflection article',
       },
     },
   ],

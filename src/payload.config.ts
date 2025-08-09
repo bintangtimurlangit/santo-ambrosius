@@ -11,7 +11,10 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { HomePage } from './collections/HomePage'
 import { SejarahParoki } from './collections/SejarahParoki'
-import { Article } from './collections/Article'
+import { Berita } from './collections/Berita'
+import { Renungan } from './collections/Renungan'
+import { WAM } from './collections/WAM'
+import { WAB } from './collections/WAB'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -23,7 +26,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, HomePage, SejarahParoki, Article],
+  collections: [Users, Media, HomePage, SejarahParoki, Berita, Renungan, WAM, WAB],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

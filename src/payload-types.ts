@@ -71,7 +71,10 @@ export interface Config {
     media: Media;
     homepage: Homepage;
     'sejarah-paroki': SejarahParoki;
-    artikel: Artikel;
+    berita: Berita;
+    renungan: Renungan;
+    wam: Wam;
+    wab: Wab;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -82,7 +85,10 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     'sejarah-paroki': SejarahParokiSelect<false> | SejarahParokiSelect<true>;
-    artikel: ArtikelSelect<false> | ArtikelSelect<true>;
+    berita: BeritaSelect<false> | BeritaSelect<true>;
+    renungan: RenunganSelect<false> | RenunganSelect<true>;
+    wam: WamSelect<false> | WamSelect<true>;
+    wab: WabSelect<false> | WabSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -309,15 +315,15 @@ export interface SejarahParoki {
   createdAt: string;
 }
 /**
- * Manage articles for the parish website
+ * Manage news articles from Sapta Bidang and general parish news
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "artikel".
+ * via the `definition` "berita".
  */
-export interface Artikel {
+export interface Berita {
   id: string;
   /**
-   * The title of the article
+   * The title of the news article
    */
   title: string;
   /**
@@ -325,19 +331,19 @@ export interface Artikel {
    */
   slug: string;
   /**
-   * Short description/excerpt of the article (used in previews)
+   * Short description/excerpt of the news article (used in previews)
    */
   description: string;
   /**
-   * Choose which Sapta Bidang this article belongs to
+   * Choose which Sapta Bidang this news article belongs to
    */
-  saptaBidang: 'pewartaan' | 'pelayanan' | 'persekutuan' | 'peribadatan' | 'pemerhati' | 'pitk' | 'okk';
+  saptaBidang: 'pewartaan' | 'pelayanan' | 'persekutuan' | 'peribadatan' | 'pemerhati' | 'pitk' | 'okk' | 'serba-serbi';
   /**
-   * Main image for the article (will be shown in previews and at the top of the article)
+   * Main image for the news article (will be shown in previews and at the top of the article)
    */
   featuredImage: string | Media;
   /**
-   * Main content of the article (supports rich text formatting and images)
+   * Main content of the news article (supports rich text formatting and images)
    */
   content: {
     root: {
@@ -359,7 +365,7 @@ export interface Artikel {
    */
   author: string;
   /**
-   * Date when the article was first published
+   * Date when the news article was first published
    */
   publishedDate: string;
   /**
@@ -367,11 +373,170 @@ export interface Artikel {
    */
   readingTime?: number | null;
   /**
-   * Mark as featured article (will appear prominently on homepage)
+   * Publication status of the news article
    */
-  featured?: boolean | null;
+  status: 'draft' | 'published' | 'archived';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage spiritual reflection articles
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "renungan".
+ */
+export interface Renungan {
+  id: string;
   /**
-   * Publication status of the article
+   * The title of the reflection article
+   */
+  title: string;
+  /**
+   * URL-friendly slug for the article (e.g., "renungan-natal-2024")
+   */
+  slug: string;
+  /**
+   * Short description/excerpt of the reflection article (used in previews)
+   */
+  description: string;
+  /**
+   * Main image for the reflection article (will be shown in previews and at the top of the article)
+   */
+  featuredImage: string | Media;
+  /**
+   * Main content of the reflection article (supports rich text formatting and images)
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Name of the article author
+   */
+  author: string;
+  /**
+   * Date when the reflection article was first published
+   */
+  publishedDate: string;
+  /**
+   * Estimated reading time in minutes (auto-calculated based on content length)
+   */
+  readingTime?: number | null;
+  /**
+   * Publication status of the reflection article
+   */
+  status: 'draft' | 'published' | 'archived';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage Warta Ambrosius Mingguan (Weekly Newsletter) PDF files
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wam".
+ */
+export interface Wam {
+  id: string;
+  /**
+   * The title of the WAM newsletter (e.g., "WAM Edisi 15 Januari 2024")
+   */
+  title: string;
+  /**
+   * URL-friendly slug for the article (e.g., "kegiatan-wam-desember-2024")
+   */
+  slug: string;
+  /**
+   * Short description of the WAM newsletter content
+   */
+  description: string;
+  /**
+   * Cover image for the WAM newsletter (shown in card previews)
+   */
+  coverImage: string | Media;
+  /**
+   * PDF file of the WAM newsletter
+   */
+  pdfFile: string | Media;
+  /**
+   * Issue number of the WAM newsletter
+   */
+  issueNumber: number;
+  /**
+   * Edition/period of the newsletter (e.g., "Januari 2024")
+   */
+  edition: string;
+  /**
+   * Date when the WAM article was first published
+   */
+  publishedDate: string;
+  /**
+   * File size in KB (auto-calculated)
+   */
+  fileSize?: number | null;
+  /**
+   * Publication status of the WAM article
+   */
+  status: 'draft' | 'published' | 'archived';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage Warta Ambrosius Bulanan (Monthly Newsletter) PDF files
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wab".
+ */
+export interface Wab {
+  id: string;
+  /**
+   * The title of the WAB newsletter (e.g., "WAB Edisi Januari 2024")
+   */
+  title: string;
+  /**
+   * URL-friendly slug for the article (e.g., "kegiatan-wab-desember-2024")
+   */
+  slug: string;
+  /**
+   * Short description of the WAB newsletter content
+   */
+  description: string;
+  /**
+   * Cover image for the WAB newsletter (shown in card previews)
+   */
+  coverImage: string | Media;
+  /**
+   * PDF file of the WAB newsletter
+   */
+  pdfFile: string | Media;
+  /**
+   * Issue number of the WAB newsletter
+   */
+  issueNumber: number;
+  /**
+   * Edition/period of the newsletter (e.g., "Januari 2024")
+   */
+  edition: string;
+  /**
+   * Date when the WAB article was first published
+   */
+  publishedDate: string;
+  /**
+   * File size in KB (auto-calculated)
+   */
+  fileSize?: number | null;
+  /**
+   * Publication status of the WAB article
    */
   status: 'draft' | 'published' | 'archived';
   updatedAt: string;
@@ -401,8 +566,20 @@ export interface PayloadLockedDocument {
         value: string | SejarahParoki;
       } | null)
     | ({
-        relationTo: 'artikel';
-        value: string | Artikel;
+        relationTo: 'berita';
+        value: string | Berita;
+      } | null)
+    | ({
+        relationTo: 'renungan';
+        value: string | Renungan;
+      } | null)
+    | ({
+        relationTo: 'wam';
+        value: string | Wam;
+      } | null)
+    | ({
+        relationTo: 'wab';
+        value: string | Wab;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -562,9 +739,9 @@ export interface SejarahParokiSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "artikel_select".
+ * via the `definition` "berita_select".
  */
-export interface ArtikelSelect<T extends boolean = true> {
+export interface BeritaSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   description?: T;
@@ -574,7 +751,59 @@ export interface ArtikelSelect<T extends boolean = true> {
   author?: T;
   publishedDate?: T;
   readingTime?: T;
-  featured?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "renungan_select".
+ */
+export interface RenunganSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  featuredImage?: T;
+  content?: T;
+  author?: T;
+  publishedDate?: T;
+  readingTime?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wam_select".
+ */
+export interface WamSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  coverImage?: T;
+  pdfFile?: T;
+  issueNumber?: T;
+  edition?: T;
+  publishedDate?: T;
+  fileSize?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wab_select".
+ */
+export interface WabSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  coverImage?: T;
+  pdfFile?: T;
+  issueNumber?: T;
+  edition?: T;
+  publishedDate?: T;
+  fileSize?: T;
   status?: T;
   updatedAt?: T;
   createdAt?: T;

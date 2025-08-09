@@ -1,6 +1,7 @@
 import React from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   FaFacebook,
   FaWhatsapp,
@@ -10,12 +11,21 @@ import {
   FaUser,
 } from 'react-icons/fa'
 import {
-  getArtikelBySlug,
+  type BeritaArticle,
+  getBeritaBySlug,
   formatDate,
   getSaptaBidangColor,
   getSaptaBidangLabel,
-} from '@/lib/getArtikelData'
+} from '@/lib/getBeritaData'
+import {
+  type RenunganArticle,
+  getRenunganBySlug,
+  formatDate as formatDateRenungan,
+} from '@/lib/getRenunganData'
 import RichTextRenderer from '@/components/RichTextRenderer'
+
+// Union type for articles that can be displayed on this page
+type Article = BeritaArticle | RenunganArticle
 
 interface PageProps {
   params: Promise<{
@@ -29,17 +39,41 @@ export default async function ArtikelDetailPage({ params }: PageProps) {
 
   console.log('Looking for article with slug:', slug)
 
-  // Fetch the article by slug
-  const article = await getArtikelBySlug(slug)
+  // Try to fetch from both Berita and Renungan collections
+  let article: Article | null = null
+  let articleType: 'berita' | 'renungan' | null = null
 
-  console.log('Found article:', article)
+  // First try Berita collection
+  try {
+    article = await getBeritaBySlug(slug)
+    if (article) {
+      articleType = 'berita'
+      console.log('Found berita article:', article)
+    }
+  } catch (error) {
+    console.log('Error fetching from berita collection:', error)
+  }
+
+  // If not found in Berita, try Renungan collection
+  if (!article) {
+    try {
+      article = await getRenunganBySlug(slug)
+      if (article) {
+        articleType = 'renungan'
+        console.log('Found renungan article:', article)
+      }
+    } catch (error) {
+      console.log('Error fetching from renungan collection:', error)
+    }
+  }
 
   if (!article) {
-    console.log('Article not found, showing 404')
+    console.log('Article not found in any collection, showing 404')
     notFound()
   }
 
   console.log('Article content:', article.content)
+  console.log('Article type:', articleType)
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -76,9 +110,20 @@ export default async function ArtikelDetailPage({ params }: PageProps) {
             {/* Article Header */}
             <header className="mb-12">
               <div className="flex flex-wrap gap-3 mb-4">
-                <span className="inline-block px-3 py-1 text-xs font-medium text-white bg-slate-600 rounded-full">
-                  {getSaptaBidangLabel(article.saptaBidang)}
-                </span>
+                {/* Show Sapta Bidang badge only for Berita articles */}
+                {articleType === 'berita' && 'saptaBidang' in article && (
+                  <span
+                    className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${getSaptaBidangColor(article.saptaBidang)}`}
+                  >
+                    {getSaptaBidangLabel(article.saptaBidang)}
+                  </span>
+                )}
+                {/* Show category badge for Renungan articles */}
+                {articleType === 'renungan' && (
+                  <span className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-slate-200 text-slate-700">
+                    Renungan
+                  </span>
+                )}
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-800 leading-tight mb-6">
@@ -88,22 +133,29 @@ export default async function ArtikelDetailPage({ params }: PageProps) {
               <div className="flex items-center gap-4 text-sm text-slate-600 mb-8">
                 <time dateTime={article.publishedDate} className="flex items-center gap-2">
                   <FaCalendarAlt className="w-4 h-4" />
-                  {formatDate(article.publishedDate)}
+                  {articleType === 'berita'
+                    ? formatDate(article.publishedDate)
+                    : formatDateRenungan(article.publishedDate)}
                 </time>
                 <span className="text-slate-400">•</span>
                 <span className="flex items-center gap-2">
                   <FaUser className="w-4 h-4" />
-                  Tim Bidang {getSaptaBidangLabel(article.saptaBidang)}
+                  {articleType === 'berita' && 'saptaBidang' in article
+                    ? `Tim Bidang ${getSaptaBidangLabel(article.saptaBidang)}`
+                    : article.author || 'Tim Redaksi'}
                 </span>
               </div>
 
               {/* Featured Image */}
               {article.featuredImage ? (
-                <div className="w-full rounded-2xl overflow-hidden mb-8">
-                  <img
+                <div className="w-full rounded-2xl overflow-hidden mb-8 relative">
+                  <Image
                     src={article.featuredImage.url}
                     alt={article.title}
+                    width={article.featuredImage.width}
+                    height={article.featuredImage.height}
                     className="w-full h-auto object-contain"
+                    priority
                   />
                 </div>
               ) : (
@@ -118,7 +170,9 @@ export default async function ArtikelDetailPage({ params }: PageProps) {
                         />
                       </svg>
                     </div>
-                    <p className="text-sm">Gambar Utama Berita</p>
+                    <p className="text-sm">
+                      {articleType === 'berita' ? 'Gambar Utama Berita' : 'Gambar Utama Artikel'}
+                    </p>
                   </div>
                 </div>
               )}
@@ -131,7 +185,9 @@ export default async function ArtikelDetailPage({ params }: PageProps) {
 
             {/* Share Section */}
             <div className="border-t border-slate-200 pt-8 mb-16">
-              <h3 className="text-lg font-semibold text-slate-800 mb-4">Bagikan Berita</h3>
+              <h3 className="text-lg font-semibold text-slate-800 mb-4">
+                {articleType === 'berita' ? 'Bagikan Berita' : 'Bagikan Artikel'}
+              </h3>
               <div className="flex gap-3">
                 <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
                   <FaFacebook className="w-4 h-4" />

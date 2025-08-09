@@ -1,4 +1,4 @@
-export interface ArtikelArticle {
+export interface BeritaArticle {
   id: string
   title: string
   slug: string
@@ -8,7 +8,7 @@ export interface ArtikelArticle {
   author: string
   publishedDate: string
   readingTime: number
-  featured: boolean
+
   featuredImage?: {
     id: string
     filename: string
@@ -20,21 +20,18 @@ export interface ArtikelArticle {
 }
 
 /**
- * Fetch artikel articles from Payload CMS
+ * Fetch berita articles from Payload CMS
  */
-export async function getArtikelData(options?: {
+export async function getBeritaData(options?: {
   limit?: number
   status?: 'draft' | 'published' | 'archived'
   saptaBidang?: string
-  featured?: boolean
-}): Promise<ArtikelArticle[]> {
+}): Promise<BeritaArticle[]> {
   try {
     const searchParams = new URLSearchParams()
     if (options?.limit) searchParams.set('limit', options.limit.toString())
     if (options?.status) searchParams.set('where[status][equals]', options.status)
     if (options?.saptaBidang) searchParams.set('where[saptaBidang][equals]', options.saptaBidang)
-    if (options?.featured !== undefined)
-      searchParams.set('where[featured][equals]', options.featured.toString())
 
     // Always fetch published articles by default
     if (!options?.status) {
@@ -43,24 +40,24 @@ export async function getArtikelData(options?: {
 
     // Use absolute URL for server-side fetch
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const response = await fetch(`${baseUrl}/api/artikel?${searchParams.toString()}`)
+    const response = await fetch(`${baseUrl}/api/berita?${searchParams.toString()}`)
     if (!response.ok) {
-      console.error('Failed to fetch artikel:', response.statusText)
+      console.error('Failed to fetch berita:', response.statusText)
       return []
     }
 
     const data = await response.json()
     return data.docs || []
   } catch (error) {
-    console.error('Error fetching artikel:', error)
+    console.error('Error fetching berita:', error)
     return []
   }
 }
 
 /**
- * Fetch a single artikel article by slug
+ * Fetch a single berita article by slug
  */
-export async function getArtikelBySlug(slug: string): Promise<ArtikelArticle | null> {
+export async function getBeritaBySlug(slug: string): Promise<BeritaArticle | null> {
   try {
     const searchParams = new URLSearchParams()
     searchParams.set('where[slug][equals]', slug)
@@ -69,12 +66,12 @@ export async function getArtikelBySlug(slug: string): Promise<ArtikelArticle | n
 
     // Use absolute URL for server-side fetch
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const url = `${baseUrl}/api/artikel?${searchParams.toString()}`
-    console.log('Fetching article with URL:', url)
+    const url = `${baseUrl}/api/berita?${searchParams.toString()}`
+    console.log('Fetching berita with URL:', url)
 
     const response = await fetch(url)
     if (!response.ok) {
-      console.error('Failed to fetch artikel by slug:', response.statusText)
+      console.error('Failed to fetch berita by slug:', response.statusText)
       return null
     }
 
@@ -82,13 +79,13 @@ export async function getArtikelBySlug(slug: string): Promise<ArtikelArticle | n
     console.log('API response:', data)
     return data.docs?.[0] || null
   } catch (error) {
-    console.error('Error fetching artikel by slug:', error)
+    console.error('Error fetching berita by slug:', error)
     return null
   }
 }
 
 /**
- * Get Sapta Bidang label from value
+ * Get Sapta Bidang label from value (updated with Serba-Serbi)
  */
 export function getSaptaBidangLabel(value: string): string {
   const labels: Record<string, string> = {
@@ -99,12 +96,13 @@ export function getSaptaBidangLabel(value: string): string {
     pemerhati: 'Pemerhati',
     pitk: 'PITK',
     okk: 'OKK',
+    'serba-serbi': 'Serba-Serbi',
   }
   return labels[value] || value
 }
 
 /**
- * Get Sapta Bidang color classes
+ * Get Sapta Bidang color classes (updated with Serba-Serbi)
  */
 export function getSaptaBidangColor(value: string): string {
   const colors: Record<string, string> = {
@@ -115,6 +113,7 @@ export function getSaptaBidangColor(value: string): string {
     pemerhati: 'bg-red-200 text-red-700',
     pitk: 'bg-indigo-200 text-indigo-700',
     okk: 'bg-pink-200 text-pink-700',
+    'serba-serbi': 'bg-orange-200 text-orange-700',
   }
   return colors[value] || 'bg-gray-200 text-gray-700'
 }

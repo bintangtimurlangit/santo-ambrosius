@@ -4,20 +4,34 @@ import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
-  type ArtikelArticle,
-  getArtikelData,
+  type BeritaArticle,
+  getBeritaData,
   getSaptaBidangLabel,
   getSaptaBidangColor,
   formatDate,
-} from '@/lib/getArtikelData'
+} from '@/lib/getBeritaData'
+import { type RenunganArticle, getRenunganData } from '@/lib/getRenunganData'
+import { type WAMArticle, getWAMData } from '@/lib/getWAMData'
+import { type WABArticle, getWABData } from '@/lib/getWABData'
+
+// Union type for all article types
+type Article = BeritaArticle | RenunganArticle | WAMArticle | WABArticle
 
 export default function ArtikelTerkiniPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('Semua')
+  const [activeTab, setActiveTab] = useState('Berita')
   const [currentPage, setCurrentPage] = useState(1)
   const [articlesPerPage, setArticlesPerPage] = useState(9) // Default for lg screens
-  const [allArticles, setAllArticles] = useState<ArtikelArticle[]>([])
+  const [allArticles, setAllArticles] = useState<Article[]>([])
   const [loading, setLoading] = useState(true)
+
+  const tabs = [
+    { id: 'Berita', label: 'Berita' },
+    { id: 'Renungan', label: 'Renungan' },
+    { id: 'WAM', label: 'WAM' },
+    { id: 'WAB', label: 'WAB' },
+  ]
 
   // Update articles per page based on screen size
   React.useEffect(() => {
@@ -44,8 +58,12 @@ export default function ArtikelTerkiniPage() {
     return () => window.removeEventListener('resize', updateArticlesPerPage)
   }, [])
 
-  // Get all available Sapta Bidang categories
+  // Get all available Sapta Bidang categories (only for Berita)
   const categories = useMemo(() => {
+    if (activeTab !== 'Berita') {
+      return ['Semua'] // Only "Semua" for non-Berita tabs
+    }
+
     const allSaptaBidang = [
       'pewartaan',
       'pelayanan',
@@ -54,10 +72,11 @@ export default function ArtikelTerkiniPage() {
       'pemerhati',
       'pitk',
       'okk',
+      'serba-serbi',
     ]
 
     return ['Semua', ...allSaptaBidang.map((cat) => getSaptaBidangLabel(cat))]
-  }, [])
+  }, [activeTab])
 
   // Filter articles based on search and category
   const filteredArticles = useMemo(() => {
@@ -65,34 +84,68 @@ export default function ArtikelTerkiniPage() {
       const matchesSearch =
         article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         article.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        getSaptaBidangLabel(article.saptaBidang).toLowerCase().includes(searchTerm.toLowerCase())
+        (activeTab === 'Berita' && 'saptaBidang' in article
+          ? getSaptaBidangLabel(article.saptaBidang)
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
+          : false)
+
       const matchesCategory =
         selectedCategory === 'Semua' ||
-        getSaptaBidangLabel(article.saptaBidang) === selectedCategory
+        (activeTab === 'Berita' && 'saptaBidang' in article
+          ? getSaptaBidangLabel(article.saptaBidang) === selectedCategory
+          : false)
+
       return matchesSearch && matchesCategory
     })
-  }, [allArticles, searchTerm, selectedCategory])
+  }, [allArticles, searchTerm, selectedCategory, activeTab])
 
   // Pagination logic
   const totalPages = Math.ceil(filteredArticles.length / articlesPerPage)
   const startIndex = (currentPage - 1) * articlesPerPage
   const currentArticles = filteredArticles.slice(startIndex, startIndex + articlesPerPage)
 
-  // Fetch articles on component mount
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const data = await getArtikelData({ status: 'published' })
-        setAllArticles(data)
-      } catch (error) {
-        console.error('Error fetching articles:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
+  // Fetch articles based on active tab
+  const fetchArticlesByTab = async (tabId: string) => {
+    try {
+      setLoading(true)
+      let data: Article[] = []
 
-    fetchArticles()
-  }, [])
+      switch (tabId) {
+        case 'Berita':
+          data = await getBeritaData({ status: 'published' })
+          break
+        case 'Renungan':
+          data = await getRenunganData({ status: 'published' })
+          break
+        case 'WAM':
+          data = await getWAMData({ status: 'published' })
+          break
+        case 'WAB':
+          data = await getWABData({ status: 'published' })
+          break
+        default:
+          data = []
+      }
+
+      setAllArticles(data)
+    } catch (error) {
+      console.error(`Error fetching ${tabId} articles:`, error)
+      setAllArticles([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchArticlesByTab(activeTab)
+  }, [activeTab])
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId)
+    setSelectedCategory('Semua') // Reset category filter when changing tabs
+    setCurrentPage(1) // Reset to first page
+  }
 
   // Reset to page 1 when search, filter, or articles per page changes
   React.useEffect(() => {
@@ -122,6 +175,25 @@ export default function ArtikelTerkiniPage() {
                   Ikuti perkembangan terbaru dan kegiatan-kegiatan dari seluruh bidang di Gereja
                   Santo Ambrosius
                 </p>
+              </div>
+
+              {/* Tab Navigation */}
+              <div className="flex justify-center mb-12">
+                <div className="bg-slate-100 rounded-2xl p-2 flex gap-2">
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => handleTabChange(tab.id)}
+                      className={`px-6 py-3 rounded-xl font-medium text-sm transition-all duration-200 ${
+                        activeTab === tab.id
+                          ? 'bg-white text-slate-800 shadow-sm'
+                          : 'text-slate-600 hover:text-slate-800 hover:bg-slate-50'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Search and Filter Section */}
@@ -167,7 +239,7 @@ export default function ArtikelTerkiniPage() {
                         htmlFor="category"
                         className="block text-sm font-medium text-slate-700 mb-2"
                       >
-                        Sapta Bidang
+                        {activeTab === 'Berita' ? 'Sapta Bidang' : 'Kategori'}
                       </label>
                       <select
                         id="category"
@@ -300,86 +372,143 @@ export default function ArtikelTerkiniPage() {
 
                   {/* Articles Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {currentArticles.map((article) => (
-                      <Link
-                        key={article.id}
-                        href={`/artikel/${article.slug}`}
-                        className="group h-full"
-                      >
-                        <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
-                          {/* Article Image */}
-                          {article.featuredImage ? (
-                            <div className="w-full h-48 overflow-hidden flex-shrink-0">
-                              <Image
-                                src={article.featuredImage.url}
-                                alt={article.title}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              />
-                            </div>
-                          ) : (
-                            <div className="w-full h-48 bg-gradient-to-br from-sky-100 to-slate-200 flex items-center justify-center flex-shrink-0">
-                              <div className="text-center text-gray-400">
-                                <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
-                                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    {currentArticles.map((article) => {
+                      // Determine the correct URL path based on article type
+                      const getArticleUrl = () => {
+                        // All articles use the same route structure: /artikel/{slug}
+                        return `/artikel/${article.slug}`
+                      }
+
+                      return (
+                        <Link key={article.id} href={getArticleUrl()} className="group h-full">
+                          <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
+                            {/* Article Image */}
+                            {(() => {
+                              // Check if it has cover image (WAM/WAB newsletters)
+                              if ('coverImage' in article && article.coverImage) {
+                                return (
+                                  <div className="w-full h-48 overflow-hidden relative flex-shrink-0">
+                                    <Image
+                                      src={article.coverImage.url}
+                                      alt={article.title}
+                                      fill
+                                      className="object-cover"
+                                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    />
+                                    {/* PDF indicator overlay */}
+                                    <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-medium">
+                                      PDF
+                                    </div>
+                                  </div>
+                                )
+                              }
+
+                              // Check if it has featured image (Berita/Renungan)
+                              if ('featuredImage' in article && article.featuredImage) {
+                                return (
+                                  <div className="w-full h-48 overflow-hidden relative flex-shrink-0">
+                                    <Image
+                                      src={article.featuredImage.url}
+                                      alt={article.title}
+                                      fill
+                                      className="object-cover"
+                                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    />
+                                  </div>
+                                )
+                              }
+
+                              // Default fallback
+                              return (
+                                <div className="w-full h-48 bg-gradient-to-br from-sky-100 to-slate-200 flex items-center justify-center flex-shrink-0">
+                                  <div className="text-center text-gray-400">
+                                    <div className="w-16 h-16 mx-auto mb-2 bg-gray-300 rounded-lg flex items-center justify-center">
+                                      <svg
+                                        className="w-8 h-8"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                          clipRule="evenodd"
+                                        />
+                                      </svg>
+                                    </div>
+                                    <p className="text-xs">Gambar Artikel</p>
+                                  </div>
+                                </div>
+                              )
+                            })()}
+
+                            {/* Content */}
+                            <div className="p-6 flex flex-col flex-1">
+                              {/* Category Badge - only show for Berita */}
+                              {activeTab === 'Berita' && 'saptaBidang' in article && (
+                                <div className="mb-3">
+                                  <span
+                                    className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${getSaptaBidangColor(article.saptaBidang)}`}
+                                  >
+                                    {getSaptaBidangLabel(article.saptaBidang)}
+                                  </span>
+                                </div>
+                              )}
+
+                              {/* Category Badge for other types */}
+                              {activeTab !== 'Berita' && (
+                                <div className="mb-3">
+                                  <span className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-slate-200 text-slate-700">
+                                    {activeTab}
+                                  </span>
+                                </div>
+                              )}
+
+                              <h3 className="text-lg font-semibold text-slate-800 mb-3 line-clamp-2 group-hover:text-slate-600 transition-colors">
+                                {article.title}
+                              </h3>
+
+                              <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3 flex-1">
+                                {article.description}
+                              </p>
+
+                              <div className="mt-auto">
+                                <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                                  <span>{formatDate(article.publishedDate)}</span>
+                                  <span>
+                                    {'readingTime' in article
+                                      ? `${article.readingTime} menit baca`
+                                      : 'fileSize' in article
+                                        ? `${Math.round(article.fileSize / 1024)} MB`
+                                        : 'PDF'}
+                                  </span>
+                                </div>
+
+                                <div className="text-sm font-medium text-slate-700 group-hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
+                                  {'coverImage' in article ? 'Download PDF' : 'Baca selengkapnya'}
+                                  <svg
+                                    className="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
                                     <path
-                                      fillRule="evenodd"
-                                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                      clipRule="evenodd"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d={
+                                        'coverImage' in article
+                                          ? 'M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+                                          : 'M9 5l7 7-7 7'
+                                      }
                                     />
                                   </svg>
                                 </div>
-                                <p className="text-xs">Gambar Artikel</p>
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Content */}
-                          <div className="p-6 flex flex-col flex-1">
-                            <div className="mb-3">
-                              <span
-                                className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${getSaptaBidangColor(article.saptaBidang)}`}
-                              >
-                                {getSaptaBidangLabel(article.saptaBidang)}
-                              </span>
-                            </div>
-
-                            <h3 className="text-lg font-semibold text-slate-800 mb-3 line-clamp-2 group-hover:text-slate-600 transition-colors">
-                              {article.title}
-                            </h3>
-
-                            <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-3 flex-1">
-                              {article.description}
-                            </p>
-
-                            <div className="mt-auto">
-                              <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                                <span>{formatDate(article.publishedDate)}</span>
-                                <span>{article.readingTime} menit baca</span>
-                              </div>
-
-                              <div className="text-sm font-medium text-slate-700 group-hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
-                                Baca selengkapnya
-                                <svg
-                                  className="w-4 h-4"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 5l7 7-7 7"
-                                  />
-                                </svg>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </Link>
-                    ))}
+                        </Link>
+                      )
+                    })}
                   </div>
 
                   {/* Pagination */}
