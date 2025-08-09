@@ -1,5 +1,5 @@
 import ArtikelBidang from '@/components/ArtikelBidang'
-import OKKOrganizationalChart from '@/components/OKKOrganizationalChart'
+import OKKOrganizationalChart from '@/components/organizational-chart/okk'
 
 export default function OkkPage() {
   return (
