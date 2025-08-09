@@ -7,7 +7,11 @@ export const Berita: CollectionConfig = {
     useAsTitle: 'title',
     description: 'Manage news articles from Sapta Bidang and general parish news',
     defaultColumns: ['title', 'saptaBidang', 'author', 'publishedDate', 'updatedAt'],
-    group: 'Articles',
+    group: 'Article',
+  },
+  labels: {
+    singular: 'Berita',
+    plural: 'Berita',
   },
   access: {
     read: () => true,

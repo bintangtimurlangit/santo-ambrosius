@@ -7,6 +7,10 @@ export const SejarahParoki: CollectionConfig = {
     description: 'Manage Sejarah Paroki (Parish History) page content',
     group: 'Pages',
   },
+  labels: {
+    singular: 'Sejarah Paroki',
+    plural: 'Sejarah Paroki',
+  },
   access: {
     read: () => true,
   },

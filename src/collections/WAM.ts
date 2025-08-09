@@ -7,7 +7,11 @@ export const WAM: CollectionConfig = {
     useAsTitle: 'title',
     description: 'Manage Warta Ambrosius Mingguan (Weekly Newsletter) PDF files',
     defaultColumns: ['title', 'publishedDate', 'updatedAt'],
-    group: 'Articles',
+    group: 'Article',
+  },
+  labels: {
+    singular: 'WAM',
+    plural: 'WAM',
   },
   access: {
     read: () => true,

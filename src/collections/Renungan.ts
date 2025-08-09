@@ -7,7 +7,11 @@ export const Renungan: CollectionConfig = {
     useAsTitle: 'title',
     description: 'Manage spiritual reflection articles',
     defaultColumns: ['title', 'author', 'publishedDate', 'updatedAt'],
-    group: 'Articles',
+    group: 'Article',
+  },
+  labels: {
+    singular: 'Renungan',
+    plural: 'Renungan',
   },
   access: {
     read: () => true,

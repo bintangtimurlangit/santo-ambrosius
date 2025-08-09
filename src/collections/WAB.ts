@@ -7,7 +7,11 @@ export const WAB: CollectionConfig = {
     useAsTitle: 'title',
     description: 'Manage Warta Ambrosius Bulanan (Monthly Newsletter) PDF files',
     defaultColumns: ['title', 'publishedDate', 'updatedAt'],
-    group: 'Articles',
+    group: 'Article',
+  },
+  labels: {
+    singular: 'WAB',
+    plural: 'WAB',
   },
   access: {
     read: () => true,

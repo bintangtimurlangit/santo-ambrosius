@@ -7,6 +7,10 @@ export const HomePage: CollectionConfig = {
     description: 'Manage homepage content including hero section',
     group: 'Pages',
   },
+  labels: {
+    singular: 'Homepage',
+    plural: 'Homepage',
+  },
   access: {
     read: () => true,
   },
