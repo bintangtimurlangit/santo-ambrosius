@@ -3,6 +3,16 @@
 import React from 'react'
 import Image from 'next/image'
 
+interface MediaValue {
+  id: string
+  filename: string
+  url: string
+  width: number
+  height: number
+  alt?: string
+  caption?: string
+}
+
 interface LexicalNode {
   type: string
   children?: LexicalNode[]
@@ -14,7 +24,7 @@ interface LexicalNode {
   indent?: number
   listType?: string
   start?: number
-  value?: number
+  listValue?: number
   checked?: boolean
   url?: string
   altText?: string
@@ -25,18 +35,17 @@ interface LexicalNode {
   caption?: LexicalNode[]
   // Additional properties for Payload CMS uploads
   relationTo?: string
-  value?: {
-    id: string
-    filename: string
-    url: string
-    width: number
-    height: number
-    alt?: string
+  value?: MediaValue
+}
+
+interface LexicalContent {
+  root: {
+    children: LexicalNode[]
   }
 }
 
 interface RichTextRendererProps {
-  content: any
+  content: LexicalContent | null | undefined
   className?: string
 }
 
@@ -56,31 +65,39 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 
     if (node.type === 'heading') {
       const tag = node.tag || 'h2'
-      const Tag = tag as keyof JSX.IntrinsicElements
-      return (
-        <Tag key={index} className="font-bold text-slate-800 mb-4 mt-6">
-          {node.children?.map((child, childIndex) => renderNode(child, childIndex))}
-        </Tag>
+      const validTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
+      const Tag = validTags.includes(tag) ? tag : 'h2'
+
+      const headingClasses = {
+        h1: 'text-3xl font-bold text-slate-800 mb-6 mt-8',
+        h2: 'text-2xl font-bold text-slate-800 mb-4 mt-6',
+        h3: 'text-xl font-bold text-slate-800 mb-4 mt-6',
+        h4: 'text-lg font-bold text-slate-800 mb-3 mt-5',
+        h5: 'text-base font-bold text-slate-800 mb-3 mt-4',
+        h6: 'text-sm font-bold text-slate-800 mb-2 mt-3',
+      }
+
+      const className = headingClasses[Tag as keyof typeof headingClasses] || headingClasses.h2
+
+      return React.createElement(
+        Tag,
+        { key: index, className },
+        node.children?.map((child, childIndex) => renderNode(child, childIndex)),
       )
     }
 
     if (node.type === 'text') {
-      let text = node.text || ''
+      let text: React.ReactNode = node.text || ''
 
       // Apply formatting based on format flags
       if (node.format) {
-        if (node.format & 1) text = <strong key={index}>{text}</strong> // Bold
-        if (node.format & 2) text = <em key={index}>{text}</em> // Italic
-        if (node.format & 4) text = <u key={index}>{text}</u> // Underline
-        if (node.format & 8)
-          text = (
-            <code key={index} className="bg-gray-100 px-1 rounded">
-              {text}
-            </code>
-          ) // Code
+        if (node.format & 1) text = <strong>{text}</strong> // Bold
+        if (node.format & 2) text = <em>{text}</em> // Italic
+        if (node.format & 4) text = <u>{text}</u> // Underline
+        if (node.format & 8) text = <code className="bg-gray-100 px-1 rounded">{text}</code> // Code
       }
 
-      return text
+      return <React.Fragment key={index}>{text}</React.Fragment>
     }
 
     if (node.type === 'list') {
