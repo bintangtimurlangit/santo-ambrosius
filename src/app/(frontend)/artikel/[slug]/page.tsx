@@ -1,5 +1,6 @@
 import React from 'react'
 import { notFound } from 'next/navigation'
+import { draftMode } from 'next/headers'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
@@ -37,7 +38,10 @@ export default async function ArtikelDetailPage({ params }: PageProps) {
   const resolvedParams = await params
   const slug = resolvedParams.slug
 
-  console.log('Looking for article with slug:', slug)
+  // Check if we're in draft mode for live preview
+  const { isEnabled: isDraftMode } = await draftMode()
+
+  console.log('Looking for article with slug:', slug, 'Draft mode:', isDraftMode)
 
   // Try to fetch from both Berita and Renungan collections
   let article: Article | null = null
@@ -45,7 +49,7 @@ export default async function ArtikelDetailPage({ params }: PageProps) {
 
   // First try Berita collection
   try {
-    article = await getBeritaBySlug(slug)
+    article = await getBeritaBySlug(slug, isDraftMode)
     if (article) {
       articleType = 'berita'
       console.log('Found berita article:', article)
@@ -57,7 +61,7 @@ export default async function ArtikelDetailPage({ params }: PageProps) {
   // If not found in Berita, try Renungan collection
   if (!article) {
     try {
-      article = await getRenunganBySlug(slug)
+      article = await getRenunganBySlug(slug, isDraftMode)
       if (article) {
         articleType = 'renungan'
         console.log('Found renungan article:', article)
@@ -77,6 +81,12 @@ export default async function ArtikelDetailPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Draft Mode Indicator */}
+      {isDraftMode && (
+        <div className="bg-yellow-400 text-yellow-900 text-center py-2 px-4 font-medium">
+          🚧 DRAFT MODE - This is a preview of unpublished content
+        </div>
+      )}
       {/* Hero Section */}
       <div
         className="mx-2 rounded-b-2xl shadow-sm"

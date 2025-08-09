@@ -8,6 +8,20 @@ export const Renungan: CollectionConfig = {
     description: 'Manage spiritual reflection articles',
     defaultColumns: ['title', 'author', 'publishedDate', 'updatedAt'],
     group: 'Article',
+    livePreview: {
+      url: ({ data }: { data: Record<string, unknown> }) => {
+        if (data?.slug && typeof data.slug === 'string') {
+          return `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/artikel/${data.slug}`
+        }
+        return `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/artikel/preview`
+      },
+    },
+    preview: (doc: Record<string, unknown>) => {
+      if (doc?.slug && typeof doc.slug === 'string') {
+        return `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/artikel/${doc.slug}`
+      }
+      return `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/artikel/preview`
+    },
   },
   labels: {
     singular: 'Renungan',

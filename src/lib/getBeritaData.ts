@@ -57,12 +57,19 @@ export async function getBeritaData(options?: {
 /**
  * Fetch a single berita article by slug
  */
-export async function getBeritaBySlug(slug: string): Promise<BeritaArticle | null> {
+export async function getBeritaBySlug(
+  slug: string,
+  isDraft: boolean = false,
+): Promise<BeritaArticle | null> {
   try {
     const searchParams = new URLSearchParams()
     searchParams.set('where[slug][equals]', slug)
-    searchParams.set('where[status][equals]', 'published')
     searchParams.set('limit', '1')
+
+    // If not in draft mode, only get published articles
+    if (!isDraft) {
+      searchParams.set('where[status][equals]', 'published')
+    }
 
     // Use absolute URL for server-side fetch
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'

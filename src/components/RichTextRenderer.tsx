@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 
 interface LexicalNode {
   type: string
@@ -22,6 +23,16 @@ interface LexicalNode {
   src?: string
   titleText?: string
   caption?: LexicalNode[]
+  // Additional properties for Payload CMS uploads
+  relationTo?: string
+  value?: {
+    id: string
+    filename: string
+    url: string
+    width: number
+    height: number
+    alt?: string
+  }
 }
 
 interface RichTextRendererProps {

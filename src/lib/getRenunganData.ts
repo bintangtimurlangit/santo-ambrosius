@@ -54,12 +54,19 @@ export async function getRenunganData(options?: {
 /**
  * Fetch a single renungan article by slug
  */
-export async function getRenunganBySlug(slug: string): Promise<RenunganArticle | null> {
+export async function getRenunganBySlug(
+  slug: string,
+  isDraft: boolean = false,
+): Promise<RenunganArticle | null> {
   try {
     const searchParams = new URLSearchParams()
     searchParams.set('where[slug][equals]', slug)
-    searchParams.set('where[status][equals]', 'published')
     searchParams.set('limit', '1')
+
+    // If not in draft mode, only get published articles
+    if (!isDraft) {
+      searchParams.set('where[status][equals]', 'published')
+    }
 
     // Use absolute URL for server-side fetch
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
