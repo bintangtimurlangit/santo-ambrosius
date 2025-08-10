@@ -167,8 +167,8 @@ export default function ArtikelTerkiniPage() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="space-y-16">
               {/* Page Introduction */}
-              <div className="text-center mb-20 pt-16 px-12">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-slate-700 leading-tight m-0 tracking-tight mb-8">
+              <div className="text-center mb-16 sm:mb-20 pt-16 px-4 sm:px-12">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-slate-700 leading-tight m-0 tracking-tight mb-4 sm:mb-8">
                   Artikel Terkini
                 </h1>
                 <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
@@ -178,13 +178,13 @@ export default function ArtikelTerkiniPage() {
               </div>
 
               {/* Tab Navigation */}
-              <div className="flex justify-center mb-12">
-                <div className="bg-slate-100 rounded-2xl p-2 flex gap-2">
+              <div className="flex justify-center mb-8 sm:mb-12">
+                <div className="bg-slate-100 rounded-2xl p-1.5 sm:p-2 flex gap-1.5 sm:gap-2">
                   {tabs.map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => handleTabChange(tab.id)}
-                      className={`px-6 py-3 rounded-xl font-medium text-sm transition-all duration-200 ${
+                      className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-medium text-sm transition-all duration-200 ${
                         activeTab === tab.id
                           ? 'bg-white text-slate-800 shadow-sm'
                           : 'text-slate-600 hover:text-slate-800 hover:bg-slate-50'
@@ -198,10 +198,14 @@ export default function ArtikelTerkiniPage() {
 
               {/* Search and Filter Section */}
               <div className="max-w-5xl mx-auto">
-                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-slate-100 mb-12">
-                  <div className="flex flex-col lg:flex-row gap-6">
+                <div className="bg-white rounded-2xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 mb-10 sm:mb-12">
+                  <div
+                    className={`grid grid-cols-1 ${activeTab === 'Berita' ? 'lg:grid-cols-3' : ''} gap-6 items-end`}
+                  >
                     {/* Search Bar */}
-                    <div className="flex-1">
+                    <div
+                      className={`${activeTab === 'Berita' ? 'lg:col-span-2' : 'lg:col-span-3'}`}
+                    >
                       <label
                         htmlFor="search"
                         className="block text-sm font-medium text-slate-700 mb-2"
@@ -212,13 +216,17 @@ export default function ArtikelTerkiniPage() {
                         <input
                           type="text"
                           id="search"
-                          placeholder="Cari berdasarkan judul, deskripsi, atau bidang..."
+                          placeholder={
+                            activeTab === 'Berita'
+                              ? 'Cari berdasarkan judul, deskripsi, atau bidang...'
+                              : 'Cari berdasarkan judul atau deskripsi...'
+                          }
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
                           className="w-full px-4 py-3 pl-12 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors"
                         />
                         <svg
-                          className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400"
+                          className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -233,27 +241,45 @@ export default function ArtikelTerkiniPage() {
                       </div>
                     </div>
 
-                    {/* Category Filter */}
-                    <div className="lg:w-64">
-                      <label
-                        htmlFor="category"
-                        className="block text-sm font-medium text-slate-700 mb-2"
-                      >
-                        {activeTab === 'Berita' ? 'Sapta Bidang' : 'Kategori'}
-                      </label>
-                      <select
-                        id="category"
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors"
-                      >
-                        {categories.map((category) => (
-                          <option key={category} value={category}>
-                            {category}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                    {/* Category Filter - show only for Berita */}
+                    {activeTab === 'Berita' && (
+                      <div className="lg:col-span-1">
+                        <label
+                          htmlFor="category"
+                          className="block text-sm font-medium text-slate-700 mb-2"
+                        >
+                          Sapta Bidang
+                        </label>
+                        <div className="relative">
+                          <select
+                            id="category"
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            className="w-full appearance-none px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-colors pr-10 bg-white"
+                          >
+                            {categories.map((category) => (
+                              <option key={category} value={category}>
+                                {category}
+                              </option>
+                            ))}
+                          </select>
+                          {/* Chevron */}
+                          <svg
+                            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

@@ -81,25 +81,25 @@ const BlogArtikel = () => {
   }
 
   return (
-    <section className="bg-white py-20 px-12">
+    <section className="bg-white py-16 sm:py-20 px-2 sm:px-4 md:px-8 lg:px-12">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-4xl font-semibold tracking-tight text-slate-700 mb-6">
+          <h2 className="text-4xl sm:text-5xl md:text-4xl font-semibold tracking-tight text-slate-700 mb-3 sm:mb-6">
             Blog Artikel
           </h2>
-          <p className="text-sm text-gray-500 leading-relaxed max-w-4xl mx-auto">
+          <p className="text-base sm:text-sm text-gray-500 leading-relaxed max-w-4xl mx-auto">
             Baca artikel terbaru disini!
           </p>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex justify-center mb-12">
-          <div className="bg-slate-100 rounded-2xl p-2 flex gap-2">
+        <div className="flex justify-center mb-8 sm:mb-12">
+          <div className="bg-slate-100 rounded-2xl p-1.5 sm:p-2 flex gap-1.5 sm:gap-2">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => handleTabChange(tab.id)}
-                className={`px-6 py-3 rounded-xl font-medium text-sm transition-all duration-200 ${
+                className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-medium text-sm transition-all duration-200 ${
                   activeTab === tab.id
                     ? 'bg-white text-slate-800 shadow-sm'
                     : 'text-slate-600 hover:text-slate-800 hover:bg-slate-50'
@@ -164,7 +164,7 @@ const BlogArtikel = () => {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {articles.map((article) => {
               // Determine the correct URL path based on article type
               const getArticleUrl = () => {
