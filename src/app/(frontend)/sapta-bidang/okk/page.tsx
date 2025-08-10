@@ -31,7 +31,7 @@ export default function OkkPage() {
 
               {/* Main Content Section */}
               <div className="max-w-5xl mx-auto">
-                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-slate-100">
+                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm">
                   <div className="prose prose-lg prose-slate max-w-none">
                     <p className="text-lg leading-relaxed mb-8 text-slate-700">
                       Tim Bidang Organisasi Kesekretariatan dan Keuangan (OKK) Paroki Villa Melati
@@ -92,11 +92,16 @@ export default function OkkPage() {
 
               {/* Organizational Structure Section */}
               <div className="max-w-5xl mx-auto">
-                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-slate-100 mb-16">
-                  <h2 className="text-2xl md:text-3xl font-semibold text-slate-800 text-center mb-8">
-                    Struktur Organisasi Bidang OKK
-                  </h2>
-                  <p className="text-center text-slate-600 mb-8 text-lg">Periode 2024-2027</p>
+                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm mb-16">
+                  <div className="text-center max-w-3xl mx-auto">
+                    <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 tracking-tight">
+                      Struktur Organisasi Bidang OKK
+                    </h2>
+                    <p className="text-slate-600 mt-2 text-lg">Periode 2024-2027</p>
+                    <div className="mt-4 mb-8 flex justify-center">
+                      <span className="h-1 w-20 md:w-24 bg-sky-100 rounded-full"></span>
+                    </div>
+                  </div>
 
                   {/* Organizational Chart */}
                   <OKKOrganizationalChart />

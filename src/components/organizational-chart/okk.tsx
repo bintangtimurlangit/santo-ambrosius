@@ -31,7 +31,6 @@ const DepartmentNode = ({ data }: { data: NodeData }) => (
         background: '#1e40af',
         width: 10,
         height: 10,
-        border: '2px solid #ffffff',
       }}
     />
   </div>
@@ -58,7 +57,6 @@ const TeamNode = ({ data }: { data: NodeData }) => (
         background: '#1e40af',
         width: 8,
         height: 8,
-        border: '2px solid #ffffff',
       }}
     />
   </div>
@@ -74,7 +72,6 @@ const SubTeamNode = ({ data }: { data: NodeData }) => (
         background: '#1e40af',
         width: 8,
         height: 8,
-        border: '2px solid #ffffff',
       }}
     />
     <span className="leading-tight font-medium">{data.label}</span>
@@ -328,7 +325,7 @@ const OKKOrganizationalChart = () => {
   )
 
   return (
-    <div className="w-full h-[600px] bg-sky-50 rounded-xl border border-sky-200 overflow-hidden">
+    <div className="w-full h-[600px] bg-sky-50 rounded-xl overflow-hidden">
       <ReactFlow
         nodes={layoutedNodes}
         edges={layoutedEdges}

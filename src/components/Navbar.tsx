@@ -21,13 +21,23 @@ export default function Navbar() {
   const [isMobileSaptaBidangOpen, setIsMobileSaptaBidangOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY
-      setIsFloating(scrollTop > 100)
+    // Throttle updates with rAF and avoid state churn if value doesn't change
+    let rafId = 0
+    const threshold = 100
+    const onScroll = () => {
+      if (rafId) return
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0
+        const next = window.scrollY > threshold
+        setIsFloating((prev) => (prev === next ? prev : next))
+      })
     }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (rafId) cancelAnimationFrame(rafId)
+    }
   }, [])
 
   const handleMouseEnter = () => {
@@ -75,9 +85,10 @@ export default function Navbar() {
   return (
     <nav
       className={`
-        bg-sky-200 p-4 pr-4 md:pr-12 pl-4 
-        ${isFloating ? 'rounded-2xl m-2 top-2 shadow-lg' : 'rounded-t-2xl mt-2 mx-2 border-b border-sky-300'} 
-        sticky top-0 z-50 transition-all duration-300 ease-in-out
+        bg-sky-200 p-4 pr-4 md:pr-12 pl-4 mx-2 mt-2 sticky top-2 z-50
+        ${isFloating ? 'rounded-2xl -translate-y-0 shadow-lg top-2 m-2' : 'rounded-t-2xl translate-y-0 border-b border-sky-300'}
+        transition-[border-radius,transform,box-shadow] duration-200 ease-out motion-reduce:transition-none
+        will-change-[transform,border-radius]
       `}
     >
       <div className="flex justify-between items-center w-full">

@@ -1,4 +1,5 @@
 import ArtikelBidang from '@/components/ArtikelBidang'
+import PITKOrganizationalChart from '@/components/organizational-chart/pitk'
 
 export default function PitkPage() {
   return (
@@ -31,7 +32,7 @@ export default function PitkPage() {
 
               {/* Main Content Section */}
               <div className="max-w-5xl mx-auto">
-                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-slate-100">
+                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm">
                   <div className="prose prose-lg prose-slate max-w-none">
                     <p className="text-lg leading-relaxed mb-8 text-slate-700">
                       Tim PITK berkarya untuk mengejawantahkan visi dan misi Paroki Villa Melati Mas
@@ -173,6 +174,23 @@ export default function PitkPage() {
                       sebagai bagian dari kehidupan menggereja.
                     </p>
                   </div>
+                </div>
+              </div>
+
+              {/* Organizational Structure Section */}
+              <div className="max-w-5xl mx-auto">
+                <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm mb-16">
+                  <div className="text-center max-w-3xl mx-auto">
+                    <h2 className="text-3xl md:text-4xl font-semibold text-slate-800 tracking-tight">
+                      Struktur Organisasi Bidang PITK
+                    </h2>
+                    <p className="text-slate-600 mt-2 text-lg">Periode 2024-2027</p>
+                    <div className="mt-4 mb-8 flex justify-center">
+                      <span className="h-1 w-20 md:w-24 bg-sky-100 rounded-full"></span>
+                    </div>
+                  </div>
+
+                  <PITKOrganizationalChart />
                 </div>
               </div>
 
