@@ -413,16 +413,19 @@ export default function ArtikelTerkiniPage() {
                               // Check if it has cover image (WAM/WAB newsletters)
                               if ('coverImage' in article && article.coverImage) {
                                 return (
-                                  <div className="w-full h-48 overflow-hidden relative flex-shrink-0">
+                                  <div
+                                    className="w-full overflow-hidden relative flex-shrink-0 bg-gray-50"
+                                    style={{ aspectRatio: '210 / 297' }}
+                                  >
                                     <Image
                                       src={article.coverImage.url}
                                       alt={article.title}
                                       fill
-                                      className="object-cover"
+                                      className="object-contain"
                                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                     />
                                     {/* PDF indicator overlay */}
-                                    <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-xs font-medium">
+                                    <div className="absolute top-2 right-2 bg-red-600/90 text-white px-2 py-1 rounded text-[10px] sm:text-xs font-medium shadow">
                                       PDF
                                     </div>
                                   </div>
@@ -510,7 +513,7 @@ export default function ArtikelTerkiniPage() {
                                 </div>
 
                                 <div className="text-sm font-medium text-slate-700 group-hover:text-slate-800 transition-colors duration-200 flex items-center gap-1">
-                                  {'coverImage' in article ? 'Download PDF' : 'Baca selengkapnya'}
+                                  {'coverImage' in article ? 'Lihat PDF' : 'Baca selengkapnya'}
                                   <svg
                                     className="w-4 h-4"
                                     fill="none"
@@ -521,11 +524,7 @@ export default function ArtikelTerkiniPage() {
                                       strokeLinecap="round"
                                       strokeLinejoin="round"
                                       strokeWidth={2}
-                                      d={
-                                        'coverImage' in article
-                                          ? 'M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-                                          : 'M9 5l7 7-7 7'
-                                      }
+                                      d={'M9 5l7 7-7 7'}
                                     />
                                   </svg>
                                 </div>

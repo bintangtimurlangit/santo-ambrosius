@@ -58,6 +58,14 @@ export default function Footer() {
                     Porta Sancta
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/kesulitan-akses"
+                    className="text-gray-300 hover:text-sky-400 transition-colors duration-200 text-sm no-underline block py-1"
+                  >
+                    Kesulitan Akses?
+                  </Link>
+                </li>
               </ul>
             </div>
 
