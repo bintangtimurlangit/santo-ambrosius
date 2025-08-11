@@ -1,67 +1,229 @@
-# Payload Blank Template
+# Gereja Santo Ambrosius - Official Website
 
-This template comes configured with the bare minimum to get started on anything you need.
+![Santo Ambrosius Logo](./public/logo.png)
 
-## Quick start
+A modern church website built with Next.js 15, Payload CMS 3.0, and MongoDB, featuring content management for news articles, spiritual reflections, and parish information.
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+## 🏛️ About
 
-## Quick Start - local setup
+The official website for Gereja Santo Ambrosius (Saint Ambrose Church) - "Paguyuban umat beriman yang peduli, berbagi dan merakyat" (A congregation of faithful believers who care, share, and serve the people).
 
-To spin up this template locally, follow these steps:
+### Features
 
-### Clone
+- **📰 News & Articles**: Manage parish news categorized by Sapta Bidang (Seven Ministries)
+- **🙏 Spiritual Reflections**: Daily reflections and spiritual content
+- **📅 Event Scheduling**: Parish event calendar and announcements
+- **👥 Ministry Information**: Organizational structure and ministry details
+- **📱 Responsive Design**: Mobile-first, accessible design
+- **🎬 Rich Media**: Support for images, videos, and rich text content
+- **🔍 SEO Optimized**: Built-in SEO tools and meta management
+- **⚡ Performance**: Optimized for speed and Core Web Vitals
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+## 🛠️ Tech Stack
 
-### Development
+- **Frontend**: Next.js 15 with React 19
+- **CMS**: Payload CMS 3.0 with Lexical Rich Text Editor
+- **Database**: MongoDB with Mongoose
+- **Styling**: Tailwind CSS 4.0
+- **Media Storage**: Payload Cloud (with support for self-hosted alternatives)
+- **Monitoring**: Sentry integration
+- **Testing**: Playwright (E2E) + Vitest (Integration)
+- **Package Manager**: pnpm
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URI` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+## 🚀 Quick Start
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+### Prerequisites
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+- Node.js 18.20.2+ or Node.js 20.9.0+
+- pnpm 9+ or 10+
+- MongoDB instance (local or cloud)
 
-#### Docker (Optional)
+### Environment Setup
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd santo-ambrosius
+   ```
 
-To do so, follow these steps:
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
 
-- Modify the `MONGODB_URI` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URI` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+3. **Environment Configuration**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Update `.env` with your configuration:
+   ```env
+   # Required
+   DATABASE_URI=mongodb://localhost:27017/santo-ambrosius
+   PAYLOAD_SECRET=your-secure-secret-key
+   
+   # Optional but recommended
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   SENTRY_DSN=your-sentry-dsn
+   ```
 
-## How it works
+4. **Start development server**
+   ```bash
+   pnpm dev
+   ```
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+5. **Access the application**
+   - Frontend: http://localhost:3000
+   - Admin Panel: http://localhost:3000/admin
 
-### Collections
+6. **Create your first admin user**
+   Navigate to the admin panel and follow the setup wizard.
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+## 📋 Content Management
 
-- #### Users (Authentication)
+### Content Types
 
-  Users are auth-enabled collections that have access to the admin panel.
+- **Berita (News)**: Parish news categorized by Sapta Bidang ministries
+- **Renungan (Reflections)**: Spiritual reflections and devotional content
+- **Homepage**: Hero section and announcement carousel content
+- **Sejarah Paroki**: Parish history and milestone content
+- **WAM/WAB**: Special ministry content for women and men's groups
+- **Media**: Image and video asset management
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+### Sapta Bidang (Seven Ministries)
 
-- #### Media
+1. **Pewartaan** - Evangelization
+2. **Pelayanan** - Service
+3. **Persekutuan** - Fellowship
+4. **Peribadatan** - Worship
+5. **Pemerhati** - Social Care
+6. **PITK** - Youth Ministry
+7. **OKK** - Children's Ministry
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+## 🐳 Docker Development
 
-### Docker
+For containerized development with MongoDB:
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+```bash
+# Start with Docker Compose
+docker-compose up -d
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+# Or build and run manually
+docker build -t santo-ambrosius .
+docker run -p 3000:3000 santo-ambrosius
+```
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+## 🧪 Testing
 
-## Questions
+```bash
+# Run all tests
+pnpm test
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+# Integration tests only
+pnpm test:int
+
+# E2E tests only
+pnpm test:e2e
+```
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the `/docs` folder:
+
+- **[Administrator Guide](./docs/admin-guide.md)** - Content management and admin panel usage
+- **[Deployment Guide](./docs/deployment.md)** - Production deployment with Docker, MongoDB, and Nginx
+- **[Storage Guide](./docs/storage.md)** - Media storage options and migration strategies
+- **[API Documentation](./docs/api.md)** - REST and GraphQL API reference
+- **[Development Guide](./docs/development.md)** - Local development and contribution guidelines
+- **[Troubleshooting](./docs/troubleshooting.md)** - Common issues and solutions
+
+## 🔧 Scripts
+
+```bash
+# Development
+pnpm dev              # Start development server
+pnpm devsafe          # Clean start (removes .next folder)
+
+# Building
+pnpm build            # Build for production
+pnpm start            # Start production server
+
+# Code Quality
+pnpm lint             # Run ESLint
+pnpm generate:types   # Generate TypeScript types from Payload
+
+# Payload CMS
+pnpm payload          # Access Payload CLI commands
+```
+
+## 🚀 Deployment
+
+### Production Checklist
+
+- [ ] Configure production environment variables
+- [ ] Set up MongoDB production instance
+- [ ] Configure media storage (Payload Cloud or alternatives)
+- [ ] Set up SSL certificates
+- [ ] Configure domain and DNS
+- [ ] Set up monitoring and error tracking
+- [ ] Configure backup strategies
+
+See the [Deployment Guide](./docs/deployment.md) for detailed instructions.
+
+## 🏗️ Project Structure
+
+```
+santo-ambrosius/
+├── src/
+│   ├── app/                    # Next.js app router
+│   │   ├── (frontend)/         # Public-facing pages
+│   │   └── (payload)/          # CMS admin and API routes
+│   ├── collections/            # Payload CMS collections
+│   ├── components/             # React components
+│   ├── lib/                    # Utility functions
+│   └── styles/                 # Global styles
+├── public/                     # Static assets
+├── docs/                       # Documentation
+├── tests/                      # Test suites
+├── docker-compose.yml          # Development Docker setup
+├── Dockerfile                  # Production Docker image
+└── payload.config.ts           # Payload CMS configuration
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Make your changes and test thoroughly
+4. Commit your changes: `git commit -m 'Add new feature'`
+5. Push to the branch: `git push origin feature/new-feature`
+6. Submit a pull request
+
+### Development Guidelines
+
+- Follow the existing code style and patterns
+- Write tests for new features
+- Update documentation for any changes
+- Ensure all tests pass before submitting PR
+- Use conventional commit messages
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Documentation**: Check the `/docs` folder for detailed guides
+- **Issues**: Report bugs or request features via GitHub Issues
+- **Community**: Join our parish community discussions
+
+## 🙏 Acknowledgments
+
+- Built with [Payload CMS](https://payloadcms.com/) - The best TypeScript CMS
+- [Next.js](https://nextjs.org/) - The React Framework for Production
+- [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework
+- Parish community of Gereja Santo Ambrosius for their support and feedback
+
+---
+
+**Gereja Santo Ambrosius** - Paguyuban umat beriman yang peduli, berbagi dan merakyat.
