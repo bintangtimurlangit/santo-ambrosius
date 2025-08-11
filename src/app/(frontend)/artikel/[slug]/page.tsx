@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Metadata } from 'next'
 import {
   FaFacebook,
   FaWhatsapp,
@@ -32,6 +33,102 @@ interface PageProps {
   params: Promise<{
     slug: string
   }>
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params
+  const slug = resolvedParams.slug
+
+  // Check if we're in draft mode for live preview
+  const { isEnabled: isDraftMode } = await draftMode()
+
+  // Try to fetch from both Berita and Renungan collections
+  let article: Article | null = null
+  let articleType: 'berita' | 'renungan' | null = null
+
+  // First try Berita collection
+  try {
+    article = await getBeritaBySlug(slug, isDraftMode)
+    if (article) {
+      articleType = 'berita'
+    }
+  } catch (error) {
+    // Continue to try Renungan
+  }
+
+  // If not found in Berita, try Renungan collection
+  if (!article) {
+    try {
+      article = await getRenunganBySlug(slug, isDraftMode)
+      if (article) {
+        articleType = 'renungan'
+      }
+    } catch (error) {
+      // Article not found
+    }
+  }
+
+  if (!article) {
+    return {
+      title: 'Artikel Tidak Ditemukan',
+      description: 'Artikel yang Anda cari tidak ditemukan.',
+      robots: {
+        index: false,
+        follow: false,
+      },
+    }
+  }
+
+  const title = article.title
+  const description = article.description
+  const publishedDate = new Date(article.publishedDate).toISOString()
+  const featuredImage = article.featuredImage?.url
+  const authorName =
+    articleType === 'berita' && 'saptaBidang' in article
+      ? `Tim Bidang ${getSaptaBidangLabel(article.saptaBidang)}`
+      : article.author || 'Tim Redaksi'
+
+  return {
+    title,
+    description,
+    keywords:
+      articleType === 'berita' && 'saptaBidang' in article
+        ? [
+            getSaptaBidangLabel(article.saptaBidang).toLowerCase(),
+            'berita gereja',
+            'santo ambrosius',
+          ]
+        : ['renungan', 'artikel rohani', 'santo ambrosius'],
+    authors: [{ name: authorName }],
+    publishedTime: publishedDate,
+    openGraph: {
+      title,
+      description,
+      url: `/artikel/${slug}`,
+      type: 'article',
+      publishedTime: publishedDate,
+      authors: [authorName],
+      images: featuredImage
+        ? [
+            {
+              url: featuredImage,
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: featuredImage ? [featuredImage] : undefined,
+    },
+    alternates: {
+      canonical: `/artikel/${slug}`,
+    },
+  }
 }
 
 export default async function ArtikelDetailPage({ params }: PageProps) {

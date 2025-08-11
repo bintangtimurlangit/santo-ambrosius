@@ -1,6 +1,45 @@
 import React from 'react'
 import Link from 'next/link'
 import { FaWhatsapp } from 'react-icons/fa'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Porta Sancta - Pintu Suci Yubileum 2025',
+  description:
+    'Porta Sancta (Pintu Suci) di Gereja Santo Ambrosius untuk Tahun Yubileum 2025. Pelajari makna, tradisi, dan cara mendaftar untuk berziarah.',
+  keywords: [
+    'porta sancta',
+    'pintu suci',
+    'yubileum 2025',
+    'jubilee',
+    'indulgensi',
+    'ziarah',
+    'gereja katolik',
+  ],
+  openGraph: {
+    title: 'Porta Sancta - Pintu Suci Yubileum 2025',
+    description:
+      'Porta Sancta (Pintu Suci) di Gereja Santo Ambrosius untuk Tahun Yubileum 2025. Pelajari makna, tradisi, dan cara mendaftar untuk berziarah.',
+    url: '/porta-sancta',
+    images: [
+      {
+        url: '/porta-sancta.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Porta Sancta - Pintu Suci Gereja Santo Ambrosius',
+      },
+    ],
+  },
+  twitter: {
+    title: 'Porta Sancta - Pintu Suci Yubileum 2025',
+    description:
+      'Porta Sancta (Pintu Suci) di Gereja Santo Ambrosius untuk Tahun Yubileum 2025. Pelajari makna, tradisi, dan cara mendaftar untuk berziarah.',
+    images: ['/porta-sancta.jpg'],
+  },
+  alternates: {
+    canonical: '/porta-sancta',
+  },
+}
 
 export default function PortaSanctaPage() {
   return (

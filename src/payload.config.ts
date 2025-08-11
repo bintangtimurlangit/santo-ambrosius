@@ -1,6 +1,7 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -60,6 +61,16 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
+    seoPlugin({
+      collections: ['berita', 'renungan', 'homepage', 'sejarah-paroki'],
+      uploadsCollection: 'media',
+      generateTitle: ({ doc }) =>
+        `${doc?.title?.value || doc?.title || ''} | Gereja Santo Ambrosius`,
+      generateDescription: ({ doc }) =>
+        doc?.description?.value ||
+        doc?.description ||
+        'Gereja Santo Ambrosius - Paguyuban umat beriman yang peduli, berbagi dan merakyat.',
+    }),
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],

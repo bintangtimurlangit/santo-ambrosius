@@ -1,5 +1,34 @@
 import React from 'react'
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Hubungi Kami',
+  description:
+    'Hubungi Gereja Santo Ambrosius Villa Melati Mas. Alamat, nomor telepon, email, dan kontak tim pelayanan kedukaan (TPKA).',
+  keywords: [
+    'kontak gereja',
+    'alamat gereja santo ambrosius',
+    'telepon paroki',
+    'email gereja',
+    'villa melati mas',
+    'serpong',
+  ],
+  openGraph: {
+    title: 'Hubungi Kami - Gereja Santo Ambrosius',
+    description:
+      'Hubungi Gereja Santo Ambrosius Villa Melati Mas. Alamat, nomor telepon, email, dan kontak tim pelayanan kedukaan (TPKA).',
+    url: '/hubungi-kami',
+  },
+  twitter: {
+    title: 'Hubungi Kami - Gereja Santo Ambrosius',
+    description:
+      'Hubungi Gereja Santo Ambrosius Villa Melati Mas. Alamat, nomor telepon, email, dan kontak tim pelayanan kedukaan (TPKA).',
+  },
+  alternates: {
+    canonical: '/hubungi-kami',
+  },
+}
 
 export default function HubungiKamiPage() {
   return (
