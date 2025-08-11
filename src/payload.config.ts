@@ -2,11 +2,13 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { seoPlugin } from '@payloadcms/plugin-seo'
+import { sentryPlugin } from '@payloadcms/plugin-sentry'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import * as Sentry from '@sentry/nextjs'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -70,6 +72,21 @@ export default buildConfig({
         doc?.description?.value ||
         doc?.description ||
         'Gereja Santo Ambrosius - Paguyuban umat beriman yang peduli, berbagi dan merakyat.',
+    }),
+    sentryPlugin({
+      Sentry,
+      options: {
+        captureErrors: [400, 403, 404, 500],
+        context: ({ defaultContext, req }) => {
+          return {
+            ...defaultContext,
+            tags: {
+              ...defaultContext.tags,
+              route: req.url,
+            },
+          }
+        },
+      },
     }),
     payloadCloudPlugin(),
     // storage-adapter-placeholder
