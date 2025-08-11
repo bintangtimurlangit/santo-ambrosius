@@ -75,6 +75,7 @@ export interface Config {
     renungan: Renungan;
     wam: Wam;
     wab: Wab;
+    'kesulitan-akses': KesulitanAkse;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -89,6 +90,7 @@ export interface Config {
     renungan: RenunganSelect<false> | RenunganSelect<true>;
     wam: WamSelect<false> | WamSelect<true>;
     wab: WabSelect<false> | WabSelect<true>;
+    'kesulitan-akses': KesulitanAksesSelect<false> | KesulitanAksesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -543,6 +545,61 @@ export interface Wab {
   createdAt: string;
 }
 /**
+ * Form laporan kendala akses situs. Data ini hanya untuk diagnosa dan perbaikan akses.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kesulitan-akses".
+ */
+export interface KesulitanAkse {
+  id: string;
+  /**
+   * Nama lengkap pelapor
+   */
+  namaLengkap: string;
+  email: string;
+  /**
+   * Nomor WhatsApp (opsional), mis: 62812xxxxxxx
+   */
+  whatsapp?: string | null;
+  jenisPerangkat: 'desktop' | 'ponsel' | 'tablet';
+  /**
+   * Contoh: Windows 11, macOS 14, Android 14, iOS 17
+   */
+  sistemOperasi?: string | null;
+  /**
+   * Contoh: Chrome 126, Safari 17, Firefox 127, Edge 126
+   */
+  browser?: string | null;
+  /**
+   * Contoh: Wi‑Fi Indihome, Telkomsel 4G
+   */
+  koneksi?: string | null;
+  /**
+   * Waktu mulai terjadinya masalah
+   */
+  mulaiTerjadi?: string | null;
+  /**
+   * URL halaman yang bermasalah (opsional)
+   */
+  halaman?: string | null;
+  /**
+   * Jelaskan masalah secara detail
+   */
+  deskripsi: string;
+  /**
+   * Unggah tangkapan layar (opsional)
+   */
+  screenshot?: (string | null) | Media;
+  /**
+   * Centang langkah-langkah yang sudah dicoba
+   */
+  langkahDicoba?:
+    | ('reload' | 'clear-cache' | 'other-browser' | 'incognito' | 'other-device' | 'disable-extensions')[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -580,6 +637,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'wab';
         value: string | Wab;
+      } | null)
+    | ({
+        relationTo: 'kesulitan-akses';
+        value: string | KesulitanAkse;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -805,6 +866,26 @@ export interface WabSelect<T extends boolean = true> {
   publishedDate?: T;
   fileSize?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kesulitan-akses_select".
+ */
+export interface KesulitanAksesSelect<T extends boolean = true> {
+  namaLengkap?: T;
+  email?: T;
+  whatsapp?: T;
+  jenisPerangkat?: T;
+  sistemOperasi?: T;
+  browser?: T;
+  koneksi?: T;
+  mulaiTerjadi?: T;
+  halaman?: T;
+  deskripsi?: T;
+  screenshot?: T;
+  langkahDicoba?: T;
   updatedAt?: T;
   createdAt?: T;
 }

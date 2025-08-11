@@ -15,6 +15,7 @@ import { Berita } from './collections/Berita'
 import { Renungan } from './collections/Renungan'
 import { WAM } from './collections/WAM'
 import { WAB } from './collections/WAB'
+import { KesulitanAkses } from './collections/KesulitanAkses'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -48,7 +49,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Users, Media, HomePage, SejarahParoki, Berita, Renungan, WAM, WAB],
+  collections: [Users, Media, HomePage, SejarahParoki, Berita, Renungan, WAM, WAB, KesulitanAkses],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

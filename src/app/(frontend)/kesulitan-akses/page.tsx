@@ -1,6 +1,82 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 
 export default function KesulitanAksesPage() {
+  const [submitting, setSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setSubmitted(false)
+    setError(null)
+
+    try {
+      const form = e.currentTarget
+      const formData = new FormData()
+
+      const getValue = (name: string) =>
+        (
+          form.elements.namedItem(name) as
+            | HTMLInputElement
+            | HTMLSelectElement
+            | HTMLTextAreaElement
+        )?.value || ''
+
+      const namaLengkap = getValue('namaLengkap')
+      const email = getValue('email')
+      const whatsapp = getValue('whatsapp')
+      const jenisPerangkat = getValue('jenisPerangkat')
+      const sistemOperasi = getValue('sistemOperasi')
+      const browser = getValue('browser')
+      const koneksi = getValue('koneksi')
+      const mulaiTerjadiRaw = getValue('mulaiTerjadi')
+      const halaman = getValue('halaman')
+      const deskripsi = getValue('deskripsi')
+
+      const langkahChecked = Array.from(
+        form.querySelectorAll('input[name="langkahDicoba"]:checked'),
+      ) as HTMLInputElement[]
+      const langkahValues = langkahChecked.map((el) => el.value)
+
+      formData.append('namaLengkap', namaLengkap)
+      formData.append('email', email)
+      if (whatsapp) formData.append('whatsapp', whatsapp)
+      formData.append('jenisPerangkat', jenisPerangkat)
+      if (sistemOperasi) formData.append('sistemOperasi', sistemOperasi)
+      if (browser) formData.append('browser', browser)
+      if (koneksi) formData.append('koneksi', koneksi)
+      if (mulaiTerjadiRaw) formData.append('mulaiTerjadi', new Date(mulaiTerjadiRaw).toISOString())
+      if (halaman) formData.append('halaman', halaman)
+      formData.append('deskripsi', deskripsi)
+      langkahValues.forEach((val, idx) => formData.append(`langkahDicoba[${idx}]`, val))
+
+      const screenshotInput = form.elements.namedItem('screenshot') as HTMLInputElement | null
+      const file = screenshotInput?.files?.[0]
+      if (file) {
+        formData.append('screenshot', file)
+      }
+
+      const res = await fetch('/api/kesulitan-akses', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!res.ok) {
+        const message = await res.text()
+        throw new Error(message || 'Gagal mengirim laporan')
+      }
+
+      setSubmitted(true)
+      form.reset()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Terjadi kesalahan tak terduga')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
     <div className="min-h-screen">
       {/* Gradient Container */}
@@ -26,7 +102,17 @@ export default function KesulitanAksesPage() {
         <div className="px-4 md:px-8 lg:px-12 pb-16">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
-              <form className="space-y-8" method="post" action="#">
+              {submitted && (
+                <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-200 text-green-700 text-sm">
+                  Terima kasih! Laporan Anda telah terkirim.
+                </div>
+              )}
+              {error && (
+                <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+                  {error}
+                </div>
+              )}
+              <form className="space-y-8" onSubmit={handleSubmit}>
                 {/* Informasi Kontak */}
                 <div>
                   <h2 className="text-lg md:text-xl font-medium text-slate-800 mb-4">
@@ -242,12 +328,12 @@ export default function KesulitanAksesPage() {
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {[
-                      'Muat ulang halaman',
-                      'Hapus cache/cookies',
-                      'Coba browser lain',
-                      'Mode penyamaran/incognito',
-                      'Coba perangkat lain',
-                      'Matikan ekstensi browser',
+                      { label: 'Muat ulang halaman', value: 'reload' },
+                      { label: 'Hapus cache/cookies', value: 'clear-cache' },
+                      { label: 'Coba browser lain', value: 'other-browser' },
+                      { label: 'Mode penyamaran/incognito', value: 'incognito' },
+                      { label: 'Coba perangkat lain', value: 'other-device' },
+                      { label: 'Matikan ekstensi browser', value: 'disable-extensions' },
                     ].map((item, idx) => (
                       <label
                         key={idx}
@@ -255,11 +341,11 @@ export default function KesulitanAksesPage() {
                       >
                         <input
                           type="checkbox"
-                          name="langkah[]"
-                          value={item}
+                          name="langkahDicoba"
+                          value={item.value}
                           className="mt-1 h-4 w-4 rounded border-slate-300 text-slate-700 focus:ring-slate-700"
                         />
-                        <span className="text-sm text-slate-700">{item}</span>
+                        <span className="text-sm text-slate-700">{item.label}</span>
                       </label>
                     ))}
                   </div>
@@ -283,9 +369,14 @@ export default function KesulitanAksesPage() {
                   </button>
                   <button
                     type="submit"
-                    className="px-5 py-2.5 rounded-lg bg-slate-700 text-white font-medium hover:bg-slate-800 transition-colors duration-200"
+                    disabled={submitting}
+                    className={`px-5 py-2.5 rounded-lg text-white font-medium transition-colors duration-200 ${
+                      submitting
+                        ? 'bg-slate-400 cursor-not-allowed'
+                        : 'bg-slate-700 hover:bg-slate-800'
+                    }`}
                   >
-                    Kirim Laporan
+                    {submitting ? 'Mengirim...' : 'Kirim Laporan'}
                   </button>
                 </div>
               </form>
