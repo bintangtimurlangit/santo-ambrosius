@@ -3,6 +3,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   // Your Next.js config here
   allowedDevOrigins: [
     'http://localhost:3000',
