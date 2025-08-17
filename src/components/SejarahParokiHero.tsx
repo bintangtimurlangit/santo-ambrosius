@@ -3,7 +3,7 @@ import type { Media } from '@/payload-types'
 
 interface HeroData {
   title?: string
-  subtitle?: string
+  subtitle?: string | null
   backgroundImage?: Media | string | null
 }
 

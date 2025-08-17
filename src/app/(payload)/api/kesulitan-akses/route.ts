@@ -1,6 +1,7 @@
 import config from '@payload-config'
 import type { NextRequest } from 'next/server'
 import { getPayload } from 'payload'
+import type { KesulitanAkse } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,11 +13,11 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData()
 
     // Build data object for collection create
-    const data: Record<string, unknown> = {
+    const data: Partial<KesulitanAkse> = {
       namaLengkap: formData.get('namaLengkap') as string,
       email: formData.get('email') as string,
       whatsapp: (formData.get('whatsapp') as string) || undefined,
-      jenisPerangkat: formData.get('jenisPerangkat') as string,
+      jenisPerangkat: formData.get('jenisPerangkat') as 'desktop' | 'ponsel' | 'tablet',
       sistemOperasi: (formData.get('sistemOperasi') as string) || undefined,
       browser: (formData.get('browser') as string) || undefined,
       koneksi: (formData.get('koneksi') as string) || undefined,
@@ -26,10 +27,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Map langkahDicoba[] from indexed or multi values
-    const langkahDicoba: string[] = []
+    const langkahDicoba: ('reload' | 'clear-cache' | 'other-browser' | 'incognito' | 'other-device' | 'disable-extensions')[] = []
     for (const [key, value] of formData.entries()) {
       if (key.startsWith('langkahDicoba')) {
-        if (typeof value === 'string') langkahDicoba.push(value)
+        if (typeof value === 'string') {
+          const validValue = value as 'reload' | 'clear-cache' | 'other-browser' | 'incognito' | 'other-device' | 'disable-extensions'
+          langkahDicoba.push(validValue)
+        }
       }
     }
     if (langkahDicoba.length > 0) data.langkahDicoba = langkahDicoba
@@ -53,7 +57,7 @@ export async function POST(req: NextRequest) {
 
     const created = await payload.create({
       collection: 'kesulitan-akses',
-      data,
+      data: data as any, // Type assertion needed for Payload's strict typing
     })
 
     return new Response(JSON.stringify({ id: created.id }), {

@@ -61,7 +61,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
       return <div className={className}>Error parsing content</div>
     }
   } else {
-    parsedContent = content
+    parsedContent = content || null
   }
 
   if (!parsedContent || !parsedContent.root || !parsedContent.root.children) {
