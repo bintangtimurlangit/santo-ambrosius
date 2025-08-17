@@ -45,12 +45,26 @@ interface LexicalContent {
 }
 
 interface RichTextRendererProps {
-  content: LexicalContent | null | undefined
+  content: LexicalContent | string | null | undefined
   className?: string
 }
 
 const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className = '' }) => {
-  if (!content || !content.root || !content.root.children) {
+  // Handle string content (parse JSON)
+  let parsedContent: LexicalContent | null = null
+  
+  if (typeof content === 'string') {
+    try {
+      parsedContent = JSON.parse(content)
+    } catch (error) {
+      console.error('Failed to parse content as JSON:', error)
+      return <div className={className}>Error parsing content</div>
+    }
+  } else {
+    parsedContent = content
+  }
+
+  if (!parsedContent || !parsedContent.root || !parsedContent.root.children) {
     return <div className={className}>No content available</div>
   }
 
@@ -280,7 +294,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
 
   return (
     <div className={className}>
-      {content.root.children.map((node: LexicalNode, index: number) => renderNode(node, index))}
+      {parsedContent.root.children.map((node: LexicalNode, index: number) => renderNode(node, index))}
     </div>
   )
 }
