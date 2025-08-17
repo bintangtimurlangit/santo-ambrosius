@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     if (article) {
       articleType = 'berita'
     }
-  } catch (error) {
+  } catch (_error) {
     // Continue to try Renungan
   }
 
@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       if (article) {
         articleType = 'renungan'
       }
-    } catch (error) {
+    } catch (_error) {
       // Article not found
     }
   }
@@ -100,7 +100,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           ]
         : ['renungan', 'artikel rohani', 'santo ambrosius'],
     authors: [{ name: authorName }],
-    publishedTime: publishedDate,
     openGraph: {
       title,
       description,
