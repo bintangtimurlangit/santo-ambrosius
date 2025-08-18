@@ -401,7 +401,26 @@ export default function ArtikelTerkiniClient() {
                     {currentArticles.map((article) => {
                       // Determine the correct URL path based on article type
                       const getArticleUrl = () => {
-                        // All articles use the same route structure: /artikel/{slug}
+                        // WAM and WAB articles have coverImage, issueNumber, and edition properties
+                        if (
+                          'coverImage' in article &&
+                          article.coverImage &&
+                          'issueNumber' in article &&
+                          'edition' in article
+                        ) {
+                          // Determine if it's WAM or WAB based on the title or other properties
+                          const isWAM =
+                            article.title.toLowerCase().includes('mingguan') || activeTab === 'WAM'
+                          const isWAB =
+                            article.title.toLowerCase().includes('bulanan') || activeTab === 'WAB'
+
+                          if (isWAM) {
+                            return `/artikel/wam/${article.slug}`
+                          } else if (isWAB) {
+                            return `/artikel/wab/${article.slug}`
+                          }
+                        }
+                        // Berita and Renungan articles use the regular route
                         return `/artikel/${article.slug}`
                       }
 

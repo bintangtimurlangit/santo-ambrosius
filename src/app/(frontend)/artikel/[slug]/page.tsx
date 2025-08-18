@@ -24,10 +24,12 @@ import {
   getRenunganBySlug,
   formatDate as formatDateRenungan,
 } from '@/lib/getRenunganData'
+import { type WAMArticle, getWAMBySlug } from '@/lib/getWAMData'
+import { type WABArticle, getWABBySlug } from '@/lib/getWABData'
 import RichTextRenderer from '@/components/RichTextRenderer'
 
 // Union type for articles that can be displayed on this page
-type Article = BeritaArticle | RenunganArticle
+type Article = BeritaArticle | RenunganArticle | WAMArticle | WABArticle
 
 interface PageProps {
   params: Promise<{
