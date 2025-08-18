@@ -12,6 +12,8 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+    volumes:
+      - media_data:/app/media
 
   mongo:
     image: mongo:latest
@@ -29,6 +31,7 @@ services:
 
 volumes:
   mongo_data:
+  media_data:
 
 networks:
   app-network:
