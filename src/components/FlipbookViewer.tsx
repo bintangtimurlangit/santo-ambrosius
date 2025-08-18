@@ -28,9 +28,18 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  // Flip animation states
+  const [flipImage, setFlipImage] = useState<string | null>(null)
+  const [flipDirection, setFlipDirection] = useState<'next' | 'prev' | null>(null)
+  const [flipActive, setFlipActive] = useState(false)
+  const [flipOverlayStyle, setFlipOverlayStyle] = useState<React.CSSProperties | null>(null)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const pageContainerRef = useRef<HTMLDivElement>(null)
+
+  // Shared gap used when rendering two pages
+  const PAGE_GAP_PX = 20
 
   // Load PDF.js
   useEffect(() => {
@@ -92,7 +101,7 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
           const viewport2 = page2.getViewport({ scale })
 
           // Set canvas size for two pages
-          canvas.width = viewport1.width + viewport2.width + 20 // 20px gap
+          canvas.width = viewport1.width + viewport2.width + PAGE_GAP_PX // gap
           canvas.height = Math.max(viewport1.height, viewport2.height)
 
           // Clear canvas with white background
@@ -132,7 +141,7 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
 
           // Draw temp canvases to main canvas
           context.drawImage(tempCanvas1, 0, 0)
-          context.drawImage(tempCanvas2, viewport1.width + 20, 0)
+          context.drawImage(tempCanvas2, viewport1.width + PAGE_GAP_PX, 0)
         } else {
           // Render single page (either mobile view or last odd page in two-page spread)
           const page = await pdfDoc.getPage(currentPage)
@@ -173,11 +182,101 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
   const goToPage = (pageNumber: number) => {
     if (pageNumber < 1 || pageNumber > totalPages || isFlipping) return
 
-    setIsFlipping(true)
-    setCurrentPage(pageNumber)
+    const canvas = canvasRef.current
+    const pageContainer = pageContainerRef.current
 
-    // Add flip animation delay
-    setTimeout(() => setIsFlipping(false), 300)
+    // Prepare flip overlay snapshot & placement
+    if (canvas && pageContainer) {
+      try {
+        let dataUrl: string | null = null
+        let overlayStyle: React.CSSProperties | null = null
+
+        const canvasRect = canvas.getBoundingClientRect()
+        const parentRect = pageContainer.getBoundingClientRect()
+        const displayScale = canvasRect.width / canvas.width
+        const gapDisplay = PAGE_GAP_PX * displayScale
+
+        if (isTwoPage) {
+          const nativePageWidth = Math.max(0, (canvas.width - PAGE_GAP_PX) / 2)
+          const isNext = pageNumber > currentPage
+          const which = isNext ? 'right' : 'left'
+          const sx = which === 'right' ? nativePageWidth + PAGE_GAP_PX : 0
+
+          // Crop only the half being flipped
+          const tempCanvas = document.createElement('canvas')
+          tempCanvas.width = nativePageWidth
+          tempCanvas.height = canvas.height
+          const tctx = tempCanvas.getContext('2d')!
+          tctx.fillStyle = 'white'
+          tctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
+          tctx.drawImage(
+            canvas,
+            sx,
+            0,
+            nativePageWidth,
+            canvas.height,
+            0,
+            0,
+            nativePageWidth,
+            canvas.height,
+          )
+          dataUrl = tempCanvas.toDataURL('image/png')
+
+          // Position overlay exactly over the flipped half
+          const pageDisplayWidth = (canvasRect.width - gapDisplay) / 2
+          const overlayLeft =
+            canvasRect.left -
+            parentRect.left +
+            (which === 'right' ? pageDisplayWidth + gapDisplay : 0)
+          overlayStyle = {
+            position: 'absolute',
+            top: canvasRect.top - parentRect.top,
+            left: overlayLeft,
+            width: pageDisplayWidth,
+            height: canvasRect.height,
+            borderRadius: 8,
+          }
+
+          setFlipDirection(isNext ? 'next' : 'prev')
+        } else {
+          // Single page: capture full canvas
+          dataUrl = canvas.toDataURL('image/png')
+          overlayStyle = {
+            position: 'absolute',
+            top: canvasRect.top - parentRect.top,
+            left: canvasRect.left - parentRect.left,
+            width: canvasRect.width,
+            height: canvasRect.height,
+            borderRadius: 8,
+          }
+          setFlipDirection(pageNumber > currentPage ? 'next' : 'prev')
+        }
+
+        setFlipImage(dataUrl)
+        setFlipOverlayStyle(overlayStyle)
+        setFlipActive(false)
+        // Ensure transition kicks in after overlay is mounted
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => setFlipActive(true))
+        })
+      } catch (e) {
+        setFlipImage(null)
+        setFlipDirection(null)
+        setFlipOverlayStyle(null)
+      }
+    }
+
+    setIsFlipping(true)
+    setCurrentPage(pageNumber) // Render target page(s) beneath the flipping overlay
+
+    // End flip after animation duration
+    setTimeout(() => {
+      setIsFlipping(false)
+      setFlipImage(null)
+      setFlipDirection(null)
+      setFlipOverlayStyle(null)
+      setFlipActive(false)
+    }, 600)
   }
 
   const nextPage = () => {
@@ -322,9 +421,11 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
+        style={{ perspective: '2000px' }}
       >
         {/* Page Display */}
         <div
+          ref={pageContainerRef}
           className={`relative transition-transform duration-300 ${isFlipping ? 'scale-95' : 'scale-100'} p-4`}
         >
           <canvas
@@ -332,6 +433,26 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
             className="shadow-2xl rounded-lg bg-white"
             style={{ maxWidth: '100%', height: 'auto' }}
           />
+          {/* Flip Overlay */}
+          {flipImage && flipOverlayStyle && (
+            <div
+              className="z-20 shadow-2xl"
+              style={{
+                ...flipOverlayStyle,
+                backgroundImage: `url(${flipImage})`,
+                backgroundSize: '100% 100%',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                transformOrigin:
+                  flipDirection === 'next' ? ('left center' as const) : ('right center' as const),
+                transform: flipActive
+                  ? `rotateY(${flipDirection === 'next' ? '180deg' : '-180deg'})`
+                  : 'rotateY(0deg)',
+                transition: 'transform 0.6s ease',
+                backfaceVisibility: 'hidden' as const,
+              }}
+            />
+          )}
         </div>
 
         {/* Action Buttons */}
