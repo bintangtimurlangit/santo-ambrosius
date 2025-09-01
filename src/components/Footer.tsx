@@ -7,11 +7,11 @@ import {
   FaFacebook,
   FaInstagram,
   FaYoutube,
-  FaTwitter,
-  FaMapMarkerAlt,
+  FaLocationDot,
   FaPhone,
   FaEnvelope,
-} from 'react-icons/fa'
+} from 'react-icons/fa6'
+import { FaXTwitter } from 'react-icons/fa6'
 
 export default function Footer() {
   return (
@@ -72,11 +72,11 @@ export default function Footer() {
             {/* Kontak */}
             <div className="mb-8 md:mb-0">
               <h3 className="text-lg font-semibold mb-6 text-white border-b border-slate-600 pb-2 inline-block">
-                Kontak
+                Hubungi Kami
               </h3>
               <div className="space-y-4 mt-4">
                 <div className="text-gray-300 text-sm flex items-center justify-center md:justify-start gap-2">
-                  <FaMapMarkerAlt className="text-white" size={14} />
+                  <FaLocationDot className="text-white" size={14} />
                   <span>Jl. Villa Melati Mas, Serpong</span>
                 </div>
                 <div className="text-gray-300 text-sm flex items-center justify-center md:justify-start gap-2">
@@ -97,7 +97,7 @@ export default function Footer() {
               </h3>
               <div className="flex gap-3 justify-center md:justify-start mt-4">
                 <a
-                  href="https://www.facebook.com/santoambrosius"
+                  href="https://www.facebook.com/GerejaSantoAmbrosius/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-slate-700 hover:bg-blue-600 rounded-lg p-3 text-white no-underline transition-all duration-200 hover:scale-110"
@@ -106,7 +106,7 @@ export default function Footer() {
                   <FaFacebook size={18} />
                 </a>
                 <a
-                  href="https://www.instagram.com/santoambrosius"
+                  href="https://www.instagram.com/gerejasantoambrosius/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-slate-700 hover:bg-pink-600 rounded-lg p-3 text-white no-underline transition-all duration-200 hover:scale-110"
@@ -115,7 +115,7 @@ export default function Footer() {
                   <FaInstagram size={18} />
                 </a>
                 <a
-                  href="https://www.youtube.com/@santoambrosius"
+                  href="https://www.youtube.com/c/KomsosStAmbrosius"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-slate-700 hover:bg-red-600 rounded-lg p-3 text-white no-underline transition-all duration-200 hover:scale-110"
@@ -124,13 +124,13 @@ export default function Footer() {
                   <FaYoutube size={18} />
                 </a>
                 <a
-                  href="https://twitter.com/santoambrosius"
+                  href="https://x.com/GerejaAmbrosius"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-slate-700 hover:bg-blue-400 rounded-lg p-3 text-white no-underline transition-all duration-200 hover:scale-110"
-                  aria-label="Twitter"
+                  className="bg-slate-700 hover:bg-slate-900 rounded-lg p-3 text-white no-underline transition-all duration-200 hover:scale-110"
+                  aria-label="X (formerly Twitter)"
                 >
-                  <FaTwitter size={18} />
+                  <FaXTwitter size={18} />
                 </a>
               </div>
             </div>
