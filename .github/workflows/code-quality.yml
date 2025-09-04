@@ -19,7 +19,7 @@ jobs:
 
     services:
       mongo:
-        image: mongo:7.0
+        image: mongo:latest
         ports:
           - 27017:27017
         options: >-
@@ -32,7 +32,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '22'
         cache: 'npm'
 
     - name: Wait for MongoDB
@@ -47,6 +47,9 @@ jobs:
         
     - name: Install dependencies
       run: npm ci
+
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
       
     - name: Run ESLint
       run: npm run lint
@@ -54,8 +57,13 @@ jobs:
     - name: Type checking
       run: npm run generate:types && npx tsc --noEmit
       
-    - name: Run tests
-      run: npm test
+    - name: Run integration tests
+      run: npm run test:int
+
+    - name: Run e2e tests
+      env:
+        NODE_OPTIONS: --no-deprecation
+      run: npx playwright test --reporter=line
       
     - name: Build verification
       run: npm run build
