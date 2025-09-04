@@ -36,45 +36,54 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
+          set -euo pipefail
           cd ${{ secrets.VPS_APP_DIR }}
           
           # Create production directory if it doesn't exist
-          if [ ! -d "production" ]; then
-            mkdir production
-          fi
-          
+          mkdir -p production
           cd production
+          
+          # If directory exists but is not a git repo, remove it
+          if [ -d "santo-ambrosius" ] && [ ! -d "santo-ambrosius/.git" ]; then
+            echo "Existing directory without git detected. Removing..."
+            rm -rf santo-ambrosius
+          fi
           
           # Clone or update production repository
           if [ ! -d "santo-ambrosius" ]; then
             echo "Cloning production repository..."
             git clone https://github.com/${{ github.repository }}.git santo-ambrosius
-            cd santo-ambrosius
-          else
-            echo "Updating production repository..."
-            cd santo-ambrosius
-            git fetch origin
-            git reset --hard origin/main
           fi
+          
+          cd santo-ambrosius
+          
+          # Ensure it's a git repo and sync to origin/main
+          if [ ! -d ".git" ]; then
+            echo "Directory exists but not a git repo. Recreating..."
+            cd .. && rm -rf santo-ambrosius
+            git clone https://github.com/${{ github.repository }}.git santo-ambrosius
+            cd santo-ambrosius
+          fi
+          git fetch origin
+          git reset --hard origin/main
           
           # Ensure production environment file exists
           if [ ! -f ".env.production" ]; then
-            echo "ERROR: .env.production file not found!"
-            echo "Please create this file with production environment variables"
+            echo "ERROR: .env.production file not found at $(pwd)!"
             exit 1
           fi
           
-          # Deploy with production Docker Compose
-          echo "Deploying to production..."
-          docker-compose -f docker-compose.yml down
-          docker-compose -f docker-compose.yml up -d --build
+          # Deploy with docker compose v2
+          echo "Deploying to production with docker compose..."
+          docker compose -f docker-compose.yml down || true
+          docker compose -f docker-compose.yml up -d --build
           
           # Wait for services to be healthy
           echo "Waiting for services to be healthy..."
           sleep 30
           
           # Check container status
-          docker-compose -f docker-compose.yml ps
+          docker compose -f docker-compose.yml ps
           
           echo "Production deployment completed successfully!"
           
