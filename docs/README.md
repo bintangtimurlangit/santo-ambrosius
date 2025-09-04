@@ -180,3 +180,5 @@ Found an error or want to improve the docs?
 **Welcome to the Gereja Santo Ambrosius project!** 🏛️
 
 *Paguyuban umat beriman yang peduli, berbagi dan merakyat.*
+
+---
