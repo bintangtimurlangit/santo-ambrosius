@@ -1,0 +1,87 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run security checks
+      run: npm audit --audit-level=high
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          cd ${{ secrets.VPS_APP_DIR }}
+          
+          # Create production directory if it doesn't exist
+          if [ ! -d "production" ]; then
+            mkdir production
+          fi
+          
+          cd production
+          
+          # Clone or update production repository
+          if [ ! -d "santo-ambrosius" ]; then
+            echo "Cloning production repository..."
+            git clone https://github.com/${{ github.repository }}.git santo-ambrosius
+            cd santo-ambrosius
+          else
+            echo "Updating production repository..."
+            cd santo-ambrosius
+            git fetch origin
+            git reset --hard origin/main
+          fi
+          
+          # Ensure production environment file exists
+          if [ ! -f ".env.production" ]; then
+            echo "ERROR: .env.production file not found!"
+            echo "Please create this file with production environment variables"
+            exit 1
+          fi
+          
+          # Deploy with production Docker Compose
+          echo "Deploying to production..."
+          docker-compose -f docker-compose.yml down
+          docker-compose -f docker-compose.yml up -d --build
+          
+          # Wait for services to be healthy
+          echo "Waiting for services to be healthy..."
+          sleep 30
+          
+          # Check container status
+          docker-compose -f docker-compose.yml ps
+          
+          echo "Production deployment completed successfully!"
+          
+    - name: Production Status
+      run: |
+        echo "🚀 Production deployment to ${{ secrets.VPS_HOST }} completed!"
+        echo "Repository: ${{ github.repository }}"
+        echo "Branch: ${{ github.ref_name }}"
+        echo "Commit: ${{ github.sha }}"
+        echo "Deployed at: $(date -u)"

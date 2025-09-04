@@ -1,0 +1,75 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Deploy to Staging
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          cd ${{ secrets.VPS_APP_DIR }}
+          
+          # Create staging directory if it doesn't exist
+          if [ ! -d "staging" ]; then
+            mkdir staging
+          fi
+          
+          cd staging
+          
+          # Clone or update staging repository
+          if [ ! -d "santo-ambrosius" ]; then
+            echo "Cloning staging repository..."
+            git clone https://github.com/${{ github.repository }}.git santo-ambrosius
+            cd santo-ambrosius
+          else
+            echo "Updating staging repository..."
+            cd santo-ambrosius
+            git fetch origin
+            git reset --hard origin/develop
+          fi
+          
+          # Copy staging environment file
+          if [ ! -f ".env.staging" ]; then
+            echo "Creating staging environment file..."
+            if [ -f ".env.example" ]; then
+              cp .env.example .env.staging
+            fi
+          fi
+          
+          # Deploy with staging Docker Compose
+          echo "Deploying to staging..."
+          docker-compose -f docker-compose.dev.yml down
+          docker-compose -f docker-compose.dev.yml up -d --build
+          
+          echo "Staging deployment completed!"
+          
+    - name: Staging Status
+      run: |
+        echo "Staging deployment to ${{ secrets.VPS_HOST }} completed!"
+        echo "Branch: develop"
+        echo "Commit: ${{ github.sha }}"
