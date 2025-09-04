@@ -78,3 +78,10 @@ Recommended branch protection rules:
 - Adjust Node.js version in setup steps
 - Customize deployment scripts for your environment
 - Add/remove security scanning tools as needed
+
+## 📦 Package Manager
+
+This project uses **npm** as the package manager. All workflows are configured to:
+- Use `npm ci` for dependency installation
+- Use `npm run` for script execution
+- Use `npm audit` for security scanning
