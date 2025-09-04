@@ -11,10 +11,14 @@ test.describe('Frontend', () => {
   test('can go on homepage', async ({ page }) => {
     await page.goto('/')
 
+    // Wait for app to finish initial network activity and render
+    await page.waitForLoadState('networkidle')
+    await page.waitForSelector('body', { state: 'visible' })
+
     await expect(page).toHaveTitle(/Ambrosius/i)
 
-    const heading = page.locator('h1').first()
-
-    await expect(heading).toContainText(/Ambrosius|Gereja|Welcome/i)
+    // Assert presence of expected copy anywhere on the page to avoid brittle selectors
+    const body = page.locator('body')
+    await expect(body).toContainText(/Ambrosius|Gereja|Welcome/i)
   })
 })

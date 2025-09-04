@@ -67,9 +67,16 @@ jobs:
           git fetch origin
           git reset --hard origin/main
           
+          # Restore .env.production from parent if missing
+          if [ ! -f ".env.production" ] && [ -f "../.env.production" ]; then
+            echo "Copying ../.env.production into repo..."
+            cp ../.env.production .env.production
+          fi
+          
           # Ensure production environment file exists
           if [ ! -f ".env.production" ]; then
             echo "ERROR: .env.production file not found at $(pwd)!"
+            echo "Create it at $(pwd)/.env.production or at $(pwd)/../.env.production for auto-copy on next deploy."
             exit 1
           fi
           
