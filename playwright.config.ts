@@ -34,8 +34,16 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm dev',
+    command: 'npm run dev',
     reuseExistingServer: true,
     url: 'http://localhost:3000',
+    timeout: 120000,
+    env: {
+      NODE_ENV: process.env.NODE_ENV || 'test',
+      PAYLOAD_SECRET: process.env.PAYLOAD_SECRET || 'test-secret',
+      DATABASE_URI: process.env.DATABASE_URI || 'mongodb://127.0.0.1:27017/test',
+      NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+      NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+    },
   },
 })
