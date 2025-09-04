@@ -21,9 +21,18 @@ This document outlines the phases required to deploy the Santo Ambrosius project
 - Environment Configuration
 - Database Settings Configuration
 - Logging Configuration
+- **Single Docker Compose file** (no separate dev/staging files)
+
+## Phase 2.5: GitHub Actions CI/CD Setup
+- Create GitHub Actions Workflow
+- Configure Repository Secrets
+- Set up Deployment Script on VPS
+- Test Automatic Deployment
+- Configure Branch Protection Rules
+- Set up Deployment Environments
 
 ## Phase 3: Nginx Reverse Proxy Setup
-- Nginx Site Configuration
+- Nginx Site Configuration (on VPS, not in Docker)
 - SSL Certificate Setup with Let's Encrypt
 - Reverse Proxy Configuration to Docker Containers
 - Security Headers Configuration

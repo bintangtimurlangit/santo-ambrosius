@@ -61,10 +61,10 @@ jobs:
             fi
           fi
           
-          # Deploy with staging Docker Compose
+          # Deploy with main Docker Compose (staging mode)
           echo "Deploying to staging..."
-          docker-compose -f docker-compose.dev.yml down
-          docker-compose -f docker-compose.dev.yml up -d --build
+          docker-compose -f docker-compose.yml down
+          docker-compose -f docker-compose.yml up -d --build
           
           echo "Staging deployment completed!"
           
