@@ -53,7 +53,7 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-        <div className="lg:flex-1 aspect-video lg:aspect-auto lg:min-h-[600px] rounded-b-2xl lg:rounded-3xl overflow-hidden lg:mr-12 absolute bottom-0 left-0 right-0 md:relative md:bottom-auto md:left-auto md:right-auto md:mb-4 md:mx-12 lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:mb-4 -ml-2 md:ml-0">
+        <div className="lg:flex-1 aspect-video lg:aspect-auto lg:min-h-[600px] rounded-b-2xl lg:rounded-3xl overflow-hidden lg:mr-12 absolute bottom-0 left-0 right-0 md:relative md:bottom-auto md:left-auto md:right-auto md:mb-4 md:mx-12 lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:mb-4 md:-ml-2">
           <video
             className="w-full h-full object-cover object-center rounded-b-2xl md:rounded-2xl lg:rounded-3xl"
             src={
