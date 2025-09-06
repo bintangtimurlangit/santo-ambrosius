@@ -5,6 +5,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import Image from 'next/image'
 import { getMediaURL } from '@/lib/getHomepageData'
 import type { Media } from '@/payload-types'
+import ImageModal from './ImageModal'
 
 interface CarouselImage {
   title: string
@@ -30,6 +31,10 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
   const [isSwiping, setIsSwiping] = useState(false)
   const carouselRef = useRef<HTMLDivElement>(null)
+
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<CarouselImage | null>(null)
 
   const nextSlide = React.useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % totalImages)
@@ -60,6 +65,24 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
     action()
 
     // Restart the auto-advance timer
+    startAutoAdvance()
+  }
+
+  const handleImageClick = (imageData: CarouselImage) => {
+    setSelectedImage(imageData)
+    setIsModalOpen(true)
+
+    // Pause auto-advance when modal is open
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+    }
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+    setSelectedImage(null)
+
+    // Resume auto-advance when modal is closed
     startAutoAdvance()
   }
 
@@ -211,7 +234,7 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
             key={index}
             className="absolute w-[250px] h-[353px] sm:w-[280px] sm:h-[396px] md:w-[300px] md:h-[424px] lg:w-[400px] lg:h-[565px] transition-all duration-500 ease-in-out cursor-pointer hover:z-10"
             style={getCardStyle(index)}
-            onClick={() => handleUserInteraction(() => setCurrentIndex(index))}
+            onClick={() => imageData && handleImageClick(imageData)}
           >
             <div className="w-full h-full bg-white border border-gray-300 rounded-lg overflow-hidden relative shadow-[0_4px_20px_rgba(0,0,0,0.15)] transition-all duration-400 hover:shadow-[0_0_30px_rgba(50,70,90,0.6),0_4px_20px_rgba(0,0,0,0.15)] hover:border-slate-700/30">
               {imageData && imageUrl ? (
@@ -253,6 +276,18 @@ const PengumumanCarousel = ({ images }: PengumumanCarouselProps) => {
             <FaChevronRight />
           </button>
         </>
+      )}
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <ImageModal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          imageUrl={getMediaURL(selectedImage.image)}
+          imageAlt={selectedImage.alt || selectedImage.title || 'Pengumuman'}
+          title={selectedImage.title}
+          link={selectedImage.link}
+        />
       )}
     </div>
   )
