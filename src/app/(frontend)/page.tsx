@@ -12,7 +12,7 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <section className="bg-sky-200 mx-2 mb-12 rounded-b-2xl lg:min-h-screen pt-16 pb-8 pl-12 flex flex-col gap-12">
+      <section className="bg-sky-200 mx-2 mb-12 rounded-b-2xl lg:min-h-screen pt-8 sm:pt-12 lg:pt-16 pb-8 pl-12 flex flex-col gap-12 relative min-h-[410px] lg:min-h-screen">
         <div className="w-full flex flex-col lg:flex-row gap-12 lg:items-center lg:justify-between lg:flex-1 pr-12">
           {homepageData?.heroSection?.title && (
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-slate-700 leading-tight m-0 tracking-tight pr-8 flex-1">
@@ -53,9 +53,9 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-        <div className="lg:flex-1 aspect-video lg:aspect-auto lg:min-h-[600px] rounded-3xl overflow-hidden mr-12 mb-4">
+        <div className="lg:flex-1 aspect-video lg:aspect-auto lg:min-h-[600px] rounded-b-2xl lg:rounded-3xl overflow-hidden lg:mr-12 absolute bottom-0 left-0 right-0 lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:mb-4">
           <video
-            className="w-full h-full object-cover object-center rounded-3xl"
+            className="w-full h-full object-cover object-center rounded-b-2xl lg:rounded-3xl"
             src={
               homepageData?.heroSection?.video
                 ? getMediaURL(homepageData.heroSection.video)
@@ -72,7 +72,7 @@ export default async function HomePage() {
 
       <section className="bg-gradient-to-t from-slate-700 to-white py-20 px-4 sm:px-8 md:px-12 pb-64 m-0">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-5xl md:text-4xl font-semibold tracking-tight text-slate-700 mb-6">
+          <h2 className="text-4xl sm:text-5xl md:text-4xl font-semibold tracking-tight text-slate-700 mb-3 sm:mb-6">
             {homepageData?.pengumumanSection?.title || 'Pengumuman'}
           </h2>
           <p className="text-sm text-gray-500 leading-relaxed max-w-4xl mx-auto mb-12">
