@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.5",
-    "@payloadcms/db-mongodb": "3.49.1",
+    "@payloadcms/db-mongodb": "3.52.0",
     "@payloadcms/next": "3.49.1",
     "@payloadcms/payload-cloud": "3.49.1",
     "@payloadcms/plugin-sentry": "3.49.1",
