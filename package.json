@@ -28,7 +28,7 @@
     "@payloadcms/ui": "^3.66.0",
     "@sentry/nextjs": "^10.4.0",
     "@tailwindcss/postcss": "^4.1.11",
-    "@xyflow/react": "^12.8.2",
+    "@xyflow/react": "^12.9.3",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
     "graphql": "^16.8.1",
