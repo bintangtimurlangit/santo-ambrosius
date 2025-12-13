@@ -31,6 +31,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = article.title
   const description = article.description
   const publishedDate = new Date(article.publishedDate).toISOString()
+  
+  // Convert relative image URL to absolute URL for Open Graph
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://santoambrosius.org'
+  const coverImageUrl = article.coverImage?.url
+    ? article.coverImage.url.startsWith('http')
+      ? article.coverImage.url
+      : `${baseUrl}${article.coverImage.url}`
+    : undefined
 
   return {
     title,
@@ -44,12 +52,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: 'article',
       publishedTime: publishedDate as string,
       authors: ['Tim Redaksi Santo Ambrosius'],
-      images: article.coverImage
+      images: coverImageUrl
         ? [
             {
-              url: article.coverImage.url,
-              width: article.coverImage.width,
-              height: article.coverImage.height,
+              url: coverImageUrl,
+              width: article.coverImage?.width,
+              height: article.coverImage?.height,
               alt: title,
             },
           ]
@@ -59,7 +67,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       card: 'summary_large_image',
       title,
       description,
-      images: article.coverImage ? [article.coverImage.url] : undefined,
+      images: coverImageUrl ? [coverImageUrl] : undefined,
     },
     alternates: {
       canonical: `/artikel/wab/${slug}`,

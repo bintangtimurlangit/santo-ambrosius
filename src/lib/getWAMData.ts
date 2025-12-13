@@ -67,11 +67,11 @@ export async function getWAMBySlug(slug: string): Promise<WAMArticle | null> {
     searchParams.set('where[slug][equals]', slug)
     searchParams.set('where[status][equals]', 'published')
     searchParams.set('limit', '1')
+    searchParams.set('depth', '1') // Ensure relations (coverImage, pdfFile) are populated
 
     // Use absolute URL for server-side fetch
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
     const url = `${baseUrl}/api/wam?${searchParams.toString()}`
-    console.log('Fetching WAM with URL:', url)
 
     const response = await fetch(url)
     if (!response.ok) {
@@ -80,7 +80,6 @@ export async function getWAMBySlug(slug: string): Promise<WAMArticle | null> {
     }
 
     const data = await response.json()
-    console.log('API response:', data)
     return data.docs?.[0] || null
   } catch (error) {
     console.error('Error fetching WAM by slug:', error)
