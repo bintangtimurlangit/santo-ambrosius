@@ -2,6 +2,7 @@ import React from 'react'
 import PengumumanCarousel from '@/components/PengumumanCarousel'
 import YubileumRibbon from '@/components/YubileumRibbon'
 import BlogArtikel from '@/components/BlogArtikel'
+import SnowEffect from '@/components/SnowEffect'
 import { getHomepageData, getMediaURL } from '@/lib/getHomepageData'
 import '@/styles/global.css'
 import Link from 'next/link'
@@ -12,7 +13,8 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <section className="bg-sky-200 mx-2 mb-12 rounded-b-2xl lg:min-h-screen pt-8 sm:pt-12 md:pt-8 lg:pt-16 pb-8 md:pb-8 pl-12 flex flex-col gap-12 relative min-h-[410px] lg:min-h-screen">
+      <section className="bg-sky-200 mx-2 mb-12 rounded-b-2xl lg:min-h-screen pt-8 sm:pt-12 md:pt-8 lg:pt-16 pb-8 md:pb-8 pl-12 flex flex-col gap-12 relative min-h-[410px] lg:min-h-screen overflow-hidden">
+        <SnowEffect />
         <div className="w-full flex flex-col lg:flex-row gap-12 lg:items-center lg:justify-between lg:flex-1 pr-12">
           {homepageData?.heroSection?.title && (
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-slate-700 leading-tight m-0 tracking-tight pr-8 flex-1">

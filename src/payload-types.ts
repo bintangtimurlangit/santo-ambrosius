@@ -59,116 +59,121 @@ export type SupportedTimezones =
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+  | 'Pacific/Fiji'
 
 export interface Config {
   auth: {
-    users: UserAuthOperations;
-  };
-  blocks: {};
+    users: UserAuthOperations
+  }
+  blocks: {}
   collections: {
-    users: User;
-    media: Media;
-    homepage: Homepage;
-    'sejarah-paroki': SejarahParoki;
-    berita: Berita;
-    renungan: Renungan;
-    wam: Wam;
-    wab: Wab;
-    'kesulitan-akses': KesulitanAkse;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
-  };
-  collectionsJoins: {};
+    users: User
+    media: Media
+    homepage: Homepage
+    'sejarah-paroki': SejarahParoki
+    berita: Berita
+    renungan: Renungan
+    wam: Wam
+    wab: Wab
+    'kesulitan-akses': KesulitanAkse
+    'payload-kv': PayloadKv
+    'payload-locked-documents': PayloadLockedDocument
+    'payload-preferences': PayloadPreference
+    'payload-migrations': PayloadMigration
+  }
+  collectionsJoins: {}
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
-    homepage: HomepageSelect<false> | HomepageSelect<true>;
-    'sejarah-paroki': SejarahParokiSelect<false> | SejarahParokiSelect<true>;
-    berita: BeritaSelect<false> | BeritaSelect<true>;
-    renungan: RenunganSelect<false> | RenunganSelect<true>;
-    wam: WamSelect<false> | WamSelect<true>;
-    wab: WabSelect<false> | WabSelect<true>;
-    'kesulitan-akses': KesulitanAksesSelect<false> | KesulitanAksesSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
-  };
+    users: UsersSelect<false> | UsersSelect<true>
+    media: MediaSelect<false> | MediaSelect<true>
+    homepage: HomepageSelect<false> | HomepageSelect<true>
+    'sejarah-paroki': SejarahParokiSelect<false> | SejarahParokiSelect<true>
+    berita: BeritaSelect<false> | BeritaSelect<true>
+    renungan: RenunganSelect<false> | RenunganSelect<true>
+    wam: WamSelect<false> | WamSelect<true>
+    wab: WabSelect<false> | WabSelect<true>
+    'kesulitan-akses': KesulitanAksesSelect<false> | KesulitanAksesSelect<true>
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
+    'payload-locked-documents':
+      | PayloadLockedDocumentsSelect<false>
+      | PayloadLockedDocumentsSelect<true>
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>
+  }
   db: {
-    defaultIDType: string;
-  };
-  globals: {};
-  globalsSelect: {};
-  locale: null;
+    defaultIDType: string
+  }
+  fallbackLocale: null
+  globals: {}
+  globalsSelect: {}
+  locale: null
   user: User & {
-    collection: 'users';
-  };
+    collection: 'users'
+  }
   jobs: {
-    tasks: unknown;
-    workflows: unknown;
-  };
+    tasks: unknown
+    workflows: unknown
+  }
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   login: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   registerFirstUser: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   unlock: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
+  id: string
+  updatedAt: string
+  createdAt: string
+  email: string
+  resetPasswordToken?: string | null
+  resetPasswordExpiration?: string | null
+  salt?: string | null
+  hash?: string | null
+  loginAttempts?: number | null
+  lockUntil?: string | null
   sessions?:
     | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
+        id: string
+        createdAt?: string | null
+        expiresAt: string
       }[]
-    | null;
-  password?: string | null;
+    | null
+  password?: string | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
+  id: string
+  alt: string
+  updatedAt: string
+  createdAt: string
+  url?: string | null
+  thumbnailURL?: string | null
+  filename?: string | null
+  mimeType?: string | null
+  filesize?: number | null
+  width?: number | null
+  height?: number | null
+  focalX?: number | null
+  focalY?: number | null
 }
 /**
  * Manage homepage content including hero section
@@ -177,34 +182,34 @@ export interface Media {
  * via the `definition` "homepage".
  */
 export interface Homepage {
-  id: string;
+  id: string
   /**
    * Internal title for this content (not displayed on frontend)
    */
-  title: string;
+  title: string
   heroSection: {
     /**
      * The main hero title displayed on the homepage
      */
-    title: string;
+    title: string
     /**
      * Hero background video (MP4 format recommended)
      */
-    video: string | Media;
+    video: string | Media
     /**
      * Alternative text for the video (for accessibility)
      */
-    videoAlt?: string | null;
-  };
+    videoAlt?: string | null
+  }
   pengumumanSection: {
     /**
      * Section title for the announcements carousel
      */
-    title: string;
+    title: string
     /**
      * Section subtitle/description
      */
-    subtitle?: string | null;
+    subtitle?: string | null
     /**
      * Upload images for the pengumuman carousel
      */
@@ -213,33 +218,33 @@ export interface Homepage {
           /**
            * Title/name for this announcement image
            */
-          title: string;
+          title: string
           /**
            * Upload the announcement image
            */
-          image: string | Media;
+          image: string | Media
           /**
            * Alternative text for accessibility
            */
-          alt?: string | null;
+          alt?: string | null
           /**
            * Optional link when image is clicked
            */
-          link?: string | null;
-          id?: string | null;
+          link?: string | null
+          id?: string | null
         }[]
-      | null;
-  };
+      | null
+  }
   meta?: {
-    title?: string | null;
-    description?: string | null;
+    title?: string | null
+    description?: string | null
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (string | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
+    image?: (string | null) | Media
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manage Sejarah Paroki (Parish History) page content
@@ -248,58 +253,58 @@ export interface Homepage {
  * via the `definition` "sejarah-paroki".
  */
 export interface SejarahParoki {
-  id: string;
+  id: string
   /**
    * Page title for the Sejarah Paroki page
    */
-  title: string;
+  title: string
   heroSection: {
     /**
      * Hero section title
      */
-    title: string;
+    title: string
     /**
      * Hero section subtitle/description
      */
-    subtitle?: string | null;
+    subtitle?: string | null
     /**
      * Hero background image (church/historical photo)
      */
-    backgroundImage?: (string | null) | Media;
-  };
+    backgroundImage?: (string | null) | Media
+  }
   content?: {
     /**
      * Main article content about the parish history (optional - if not provided, timeline will be shown)
      */
-    article?: string | null;
+    article?: string | null
     /**
      * Featured image for the article
      */
-    featuredImage?: (string | null) | Media;
+    featuredImage?: (string | null) | Media
     /**
      * Caption for the featured image
      */
-    imageCaption?: string | null;
+    imageCaption?: string | null
     quote?: {
       /**
        * Quote text
        */
-      text?: string | null;
+      text?: string | null
       /**
        * Quote author
        */
-      author?: string | null;
-    };
-  };
+      author?: string | null
+    }
+  }
   timeline?: {
     /**
      * Timeline introduction title (displays when no article content)
      */
-    introTitle?: string | null;
+    introTitle?: string | null
     /**
      * Timeline introduction description (displays when no article content)
      */
-    introDescription?: string | null;
+    introDescription?: string | null
     /**
      * Add timeline events with years, titles, and descriptions
      */
@@ -308,29 +313,29 @@ export interface SejarahParoki {
           /**
            * Year of the event (e.g., "1979", "2017")
            */
-          year: string;
+          year: string
           /**
            * Title of the timeline event
            */
-          title: string;
+          title: string
           /**
            * Detailed description of the event (supports HTML)
            */
-          content: string;
-          id?: string | null;
+          content: string
+          id?: string | null
         }[]
-      | null;
-  };
+      | null
+  }
   meta?: {
-    title?: string | null;
-    description?: string | null;
+    title?: string | null
+    description?: string | null
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (string | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
+    image?: (string | null) | Media
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manage news articles from Sapta Bidang and general parish news
@@ -339,71 +344,79 @@ export interface SejarahParoki {
  * via the `definition` "berita".
  */
 export interface Berita {
-  id: string;
+  id: string
   /**
    * The title of the news article
    */
-  title: string;
+  title: string
   /**
    * URL-friendly slug (auto-generated from title)
    */
-  slug: string;
+  slug: string
   /**
    * Short description/excerpt of the news article (used in previews)
    */
-  description: string;
+  description: string
   /**
    * Choose which Sapta Bidang this news article belongs to
    */
-  saptaBidang: 'pewartaan' | 'pelayanan' | 'persekutuan' | 'peribadatan' | 'pemerhati' | 'pitk' | 'okk' | 'serba-serbi';
+  saptaBidang:
+    | 'pewartaan'
+    | 'pelayanan'
+    | 'persekutuan'
+    | 'peribadatan'
+    | 'pemerhati'
+    | 'pitk'
+    | 'okk'
+    | 'serba-serbi'
   /**
    * Main image for the news article (will be shown in previews and at the top of the article)
    */
-  featuredImage: string | Media;
+  featuredImage: string | Media
   /**
    * Main content of the news article (supports rich text formatting and images)
    */
   content: {
     root: {
-      type: string;
+      type: string
       children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
+        type: any
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  }
   /**
    * Name of the article author
    */
-  author: string;
+  author: string
   /**
    * Date when the news article was first published
    */
-  publishedDate: string;
+  publishedDate: string
   /**
    * Estimated reading time in minutes (auto-calculated based on content length)
    */
-  readingTime?: number | null;
+  readingTime?: number | null
   /**
    * Publication status of the news article
    */
-  status: 'draft' | 'published' | 'archived';
+  status: 'draft' | 'published' | 'archived'
   meta?: {
-    title?: string | null;
-    description?: string | null;
+    title?: string | null
+    description?: string | null
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (string | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
+    image?: (string | null) | Media
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manage spiritual reflection articles
@@ -412,67 +425,67 @@ export interface Berita {
  * via the `definition` "renungan".
  */
 export interface Renungan {
-  id: string;
+  id: string
   /**
    * The title of the reflection article
    */
-  title: string;
+  title: string
   /**
    * URL-friendly slug (auto-generated from title)
    */
-  slug: string;
+  slug: string
   /**
    * Short description/excerpt of the reflection article (used in previews)
    */
-  description: string;
+  description: string
   /**
    * Main image for the reflection article (will be shown in previews and at the top of the article)
    */
-  featuredImage: string | Media;
+  featuredImage: string | Media
   /**
    * Main content of the reflection article (supports rich text formatting and images)
    */
   content: {
     root: {
-      type: string;
+      type: string
       children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
+        type: any
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  }
   /**
    * Name of the article author
    */
-  author: string;
+  author: string
   /**
    * Date when the reflection article was first published
    */
-  publishedDate: string;
+  publishedDate: string
   /**
    * Estimated reading time in minutes (auto-calculated based on content length)
    */
-  readingTime?: number | null;
+  readingTime?: number | null
   /**
    * Publication status of the reflection article
    */
-  status: 'draft' | 'published' | 'archived';
+  status: 'draft' | 'published' | 'archived'
   meta?: {
-    title?: string | null;
-    description?: string | null;
+    title?: string | null
+    description?: string | null
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (string | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
+    image?: (string | null) | Media
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manage Warta Ambrosius Mingguan (Weekly Newsletter) PDF files
@@ -481,49 +494,49 @@ export interface Renungan {
  * via the `definition` "wam".
  */
 export interface Wam {
-  id: string;
+  id: string
   /**
    * The title of the WAM newsletter (e.g., "WAM Edisi 15 Januari 2024")
    */
-  title: string;
+  title: string
   /**
    * URL-friendly slug (auto-generated from title)
    */
-  slug: string;
+  slug: string
   /**
    * Short description of the WAM newsletter content
    */
-  description: string;
+  description: string
   /**
    * Cover image for the WAM newsletter (shown in card previews)
    */
-  coverImage: string | Media;
+  coverImage: string | Media
   /**
    * PDF file of the WAM newsletter
    */
-  pdfFile: string | Media;
+  pdfFile: string | Media
   /**
    * Issue number of the WAM newsletter
    */
-  issueNumber: number;
+  issueNumber: number
   /**
    * Edition/period of the newsletter (e.g., "Januari 2024")
    */
-  edition: string;
+  edition: string
   /**
    * Date when the WAM article was first published
    */
-  publishedDate: string;
+  publishedDate: string
   /**
    * File size in KB (auto-calculated)
    */
-  fileSize?: number | null;
+  fileSize?: number | null
   /**
    * Publication status of the WAM article
    */
-  status: 'draft' | 'published' | 'archived';
-  updatedAt: string;
-  createdAt: string;
+  status: 'draft' | 'published' | 'archived'
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manage Warta Ambrosius Bulanan (Monthly Newsletter) PDF files
@@ -532,49 +545,49 @@ export interface Wam {
  * via the `definition` "wab".
  */
 export interface Wab {
-  id: string;
+  id: string
   /**
    * The title of the WAB newsletter (e.g., "WAB Edisi Januari 2024")
    */
-  title: string;
+  title: string
   /**
    * URL-friendly slug (auto-generated from title)
    */
-  slug: string;
+  slug: string
   /**
    * Short description of the WAB newsletter content
    */
-  description: string;
+  description: string
   /**
    * Cover image for the WAB newsletter (shown in card previews)
    */
-  coverImage: string | Media;
+  coverImage: string | Media
   /**
    * PDF file of the WAB newsletter
    */
-  pdfFile: string | Media;
+  pdfFile: string | Media
   /**
    * Issue number of the WAB newsletter
    */
-  issueNumber: number;
+  issueNumber: number
   /**
    * Edition/period of the newsletter (e.g., "Januari 2024")
    */
-  edition: string;
+  edition: string
   /**
    * Date when the WAB article was first published
    */
-  publishedDate: string;
+  publishedDate: string
   /**
    * File size in KB (auto-calculated)
    */
-  fileSize?: number | null;
+  fileSize?: number | null
   /**
    * Publication status of the WAB article
    */
-  status: 'draft' | 'published' | 'archived';
-  updatedAt: string;
-  createdAt: string;
+  status: 'draft' | 'published' | 'archived'
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Form laporan kendala akses situs. Data ini hanya untuk diagnosa dan perbaikan akses.
@@ -583,412 +596,443 @@ export interface Wab {
  * via the `definition` "kesulitan-akses".
  */
 export interface KesulitanAkse {
-  id: string;
+  id: string
   /**
    * Nama lengkap pelapor
    */
-  namaLengkap: string;
-  email: string;
+  namaLengkap: string
+  email: string
   /**
    * Nomor WhatsApp (opsional), mis: 62812xxxxxxx
    */
-  whatsapp?: string | null;
-  jenisPerangkat: 'desktop' | 'ponsel' | 'tablet';
+  whatsapp?: string | null
+  jenisPerangkat: 'desktop' | 'ponsel' | 'tablet'
   /**
    * Contoh: Windows 11, macOS 14, Android 14, iOS 17
    */
-  sistemOperasi?: string | null;
+  sistemOperasi?: string | null
   /**
    * Contoh: Chrome 126, Safari 17, Firefox 127, Edge 126
    */
-  browser?: string | null;
+  browser?: string | null
   /**
    * Contoh: Wi‑Fi Indihome, Telkomsel 4G
    */
-  koneksi?: string | null;
+  koneksi?: string | null
   /**
    * Waktu mulai terjadinya masalah
    */
-  mulaiTerjadi?: string | null;
+  mulaiTerjadi?: string | null
   /**
    * URL halaman yang bermasalah (opsional)
    */
-  halaman?: string | null;
+  halaman?: string | null
   /**
    * Jelaskan masalah secara detail
    */
-  deskripsi: string;
+  deskripsi: string
   /**
    * Unggah tangkapan layar (opsional)
    */
-  screenshot?: (string | null) | Media;
+  screenshot?: (string | null) | Media
   /**
    * Centang langkah-langkah yang sudah dicoba
    */
   langkahDicoba?:
-    | ('reload' | 'clear-cache' | 'other-browser' | 'incognito' | 'other-device' | 'disable-extensions')[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | (
+        | 'reload'
+        | 'clear-cache'
+        | 'other-browser'
+        | 'incognito'
+        | 'other-device'
+        | 'disable-extensions'
+      )[]
+    | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv".
+ */
+export interface PayloadKv {
+  id: string
+  key: string
+  data:
+    | {
+        [k: string]: unknown
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: string
   document?:
     | ({
-        relationTo: 'users';
-        value: string | User;
+        relationTo: 'users'
+        value: string | User
       } | null)
     | ({
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'media'
+        value: string | Media
       } | null)
     | ({
-        relationTo: 'homepage';
-        value: string | Homepage;
+        relationTo: 'homepage'
+        value: string | Homepage
       } | null)
     | ({
-        relationTo: 'sejarah-paroki';
-        value: string | SejarahParoki;
+        relationTo: 'sejarah-paroki'
+        value: string | SejarahParoki
       } | null)
     | ({
-        relationTo: 'berita';
-        value: string | Berita;
+        relationTo: 'berita'
+        value: string | Berita
       } | null)
     | ({
-        relationTo: 'renungan';
-        value: string | Renungan;
+        relationTo: 'renungan'
+        value: string | Renungan
       } | null)
     | ({
-        relationTo: 'wam';
-        value: string | Wam;
+        relationTo: 'wam'
+        value: string | Wam
       } | null)
     | ({
-        relationTo: 'wab';
-        value: string | Wab;
+        relationTo: 'wab'
+        value: string | Wab
       } | null)
     | ({
-        relationTo: 'kesulitan-akses';
-        value: string | KesulitanAkse;
-      } | null);
-  globalSlug?: string | null;
+        relationTo: 'kesulitan-akses'
+        value: string | KesulitanAkse
+      } | null)
+  globalSlug?: string | null
   user: {
-    relationTo: 'users';
-    value: string | User;
-  };
-  updatedAt: string;
-  createdAt: string;
+    relationTo: 'users'
+    value: string | User
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: string
   user: {
-    relationTo: 'users';
-    value: string | User;
-  };
-  key?: string | null;
+    relationTo: 'users'
+    value: string | User
+  }
+  key?: string | null
   value?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
-  name?: string | null;
-  batch?: number | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  name?: string | null
+  batch?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
+  updatedAt?: T
+  createdAt?: T
+  email?: T
+  resetPasswordToken?: T
+  resetPasswordExpiration?: T
+  salt?: T
+  hash?: T
+  loginAttempts?: T
+  lockUntil?: T
   sessions?:
     | T
     | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
+        id?: T
+        createdAt?: T
+        expiresAt?: T
+      }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
+  alt?: T
+  updatedAt?: T
+  createdAt?: T
+  url?: T
+  thumbnailURL?: T
+  filename?: T
+  mimeType?: T
+  filesize?: T
+  width?: T
+  height?: T
+  focalX?: T
+  focalY?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage_select".
  */
 export interface HomepageSelect<T extends boolean = true> {
-  title?: T;
+  title?: T
   heroSection?:
     | T
     | {
-        title?: T;
-        video?: T;
-        videoAlt?: T;
-      };
+        title?: T
+        video?: T
+        videoAlt?: T
+      }
   pengumumanSection?:
     | T
     | {
-        title?: T;
-        subtitle?: T;
+        title?: T
+        subtitle?: T
         images?:
           | T
           | {
-              title?: T;
-              image?: T;
-              alt?: T;
-              link?: T;
-              id?: T;
-            };
-      };
+              title?: T
+              image?: T
+              alt?: T
+              link?: T
+              id?: T
+            }
+      }
   meta?:
     | T
     | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        title?: T
+        description?: T
+        image?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "sejarah-paroki_select".
  */
 export interface SejarahParokiSelect<T extends boolean = true> {
-  title?: T;
+  title?: T
   heroSection?:
     | T
     | {
-        title?: T;
-        subtitle?: T;
-        backgroundImage?: T;
-      };
+        title?: T
+        subtitle?: T
+        backgroundImage?: T
+      }
   content?:
     | T
     | {
-        article?: T;
-        featuredImage?: T;
-        imageCaption?: T;
+        article?: T
+        featuredImage?: T
+        imageCaption?: T
         quote?:
           | T
           | {
-              text?: T;
-              author?: T;
-            };
-      };
+              text?: T
+              author?: T
+            }
+      }
   timeline?:
     | T
     | {
-        introTitle?: T;
-        introDescription?: T;
+        introTitle?: T
+        introDescription?: T
         events?:
           | T
           | {
-              year?: T;
-              title?: T;
-              content?: T;
-              id?: T;
-            };
-      };
+              year?: T
+              title?: T
+              content?: T
+              id?: T
+            }
+      }
   meta?:
     | T
     | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        title?: T
+        description?: T
+        image?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "berita_select".
  */
 export interface BeritaSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  description?: T;
-  saptaBidang?: T;
-  featuredImage?: T;
-  content?: T;
-  author?: T;
-  publishedDate?: T;
-  readingTime?: T;
-  status?: T;
+  title?: T
+  slug?: T
+  description?: T
+  saptaBidang?: T
+  featuredImage?: T
+  content?: T
+  author?: T
+  publishedDate?: T
+  readingTime?: T
+  status?: T
   meta?:
     | T
     | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        title?: T
+        description?: T
+        image?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "renungan_select".
  */
 export interface RenunganSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  description?: T;
-  featuredImage?: T;
-  content?: T;
-  author?: T;
-  publishedDate?: T;
-  readingTime?: T;
-  status?: T;
+  title?: T
+  slug?: T
+  description?: T
+  featuredImage?: T
+  content?: T
+  author?: T
+  publishedDate?: T
+  readingTime?: T
+  status?: T
   meta?:
     | T
     | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        title?: T
+        description?: T
+        image?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "wam_select".
  */
 export interface WamSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  description?: T;
-  coverImage?: T;
-  pdfFile?: T;
-  issueNumber?: T;
-  edition?: T;
-  publishedDate?: T;
-  fileSize?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  title?: T
+  slug?: T
+  description?: T
+  coverImage?: T
+  pdfFile?: T
+  issueNumber?: T
+  edition?: T
+  publishedDate?: T
+  fileSize?: T
+  status?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "wab_select".
  */
 export interface WabSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  description?: T;
-  coverImage?: T;
-  pdfFile?: T;
-  issueNumber?: T;
-  edition?: T;
-  publishedDate?: T;
-  fileSize?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  title?: T
+  slug?: T
+  description?: T
+  coverImage?: T
+  pdfFile?: T
+  issueNumber?: T
+  edition?: T
+  publishedDate?: T
+  fileSize?: T
+  status?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "kesulitan-akses_select".
  */
 export interface KesulitanAksesSelect<T extends boolean = true> {
-  namaLengkap?: T;
-  email?: T;
-  whatsapp?: T;
-  jenisPerangkat?: T;
-  sistemOperasi?: T;
-  browser?: T;
-  koneksi?: T;
-  mulaiTerjadi?: T;
-  halaman?: T;
-  deskripsi?: T;
-  screenshot?: T;
-  langkahDicoba?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  namaLengkap?: T
+  email?: T
+  whatsapp?: T
+  jenisPerangkat?: T
+  sistemOperasi?: T
+  browser?: T
+  koneksi?: T
+  mulaiTerjadi?: T
+  halaman?: T
+  deskripsi?: T
+  screenshot?: T
+  langkahDicoba?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv_select".
+ */
+export interface PayloadKvSelect<T extends boolean = true> {
+  key?: T
+  data?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T;
-  globalSlug?: T;
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  document?: T
+  globalSlug?: T
+  user?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences_select".
  */
 export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T;
-  key?: T;
-  value?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  user?: T
+  key?: T
+  value?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations_select".
  */
 export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T;
-  batch?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  batch?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown;
+  [k: string]: unknown
 }
-
 
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}
