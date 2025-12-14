@@ -13,7 +13,7 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen">
-      <section className="bg-sky-200 mx-2 mb-12 rounded-b-2xl lg:min-h-screen pt-8 sm:pt-12 md:pt-8 lg:pt-16 pb-8 md:pb-8 pl-12 flex flex-col gap-12 relative min-h-[410px] lg:min-h-screen overflow-hidden">
+      <section className="bg-sky-200 mx-2 mb-12 rounded-b-2xl lg:min-h-screen pt-8 sm:pt-12 md:pt-8 lg:pt-16 pb-0 md:pb-8 pl-12 flex flex-col gap-12 relative min-h-[calc(240px+56.25vw-8px)] sm:min-h-[calc(280px+56.25vw-2px)] md:min-h-[410px] lg:min-h-screen overflow-hidden">
         <SnowEffect />
         <div className="w-full flex flex-col lg:flex-row gap-12 lg:items-center lg:justify-between lg:flex-1 pr-12">
           {homepageData?.heroSection?.title && (
@@ -55,7 +55,10 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-        <div className="lg:flex-1 aspect-video lg:aspect-auto lg:min-h-[600px] rounded-b-2xl lg:rounded-3xl overflow-hidden lg:mr-12 absolute bottom-0 left-0 right-0 md:relative md:bottom-auto md:left-auto md:right-auto md:mb-4 md:mx-12 lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:mb-4 md:-ml-2">
+        <div
+          className="lg:flex-1 aspect-video lg:aspect-auto lg:min-h-[600px] rounded-b-2xl lg:rounded-3xl overflow-hidden lg:mr-12 absolute top-[240px] sm:top-[280px] left-0 right-0 md:relative md:top-auto md:left-auto md:right-auto md:mb-4 md:mx-12 lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:mb-4 md:-ml-2"
+          style={{ bottom: 0 }}
+        >
           <video
             className="w-full h-full object-cover object-center rounded-b-2xl md:rounded-2xl lg:rounded-3xl"
             src={
