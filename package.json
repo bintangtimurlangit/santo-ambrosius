@@ -18,7 +18,7 @@
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
   },
   "dependencies": {
-    "@dagrejs/dagre": "^1.1.5",
+    "@dagrejs/dagre": "^1.1.8",
     "@payloadcms/db-mongodb": "^3.66.0",
     "@payloadcms/next": "^3.66.0",
     "@payloadcms/payload-cloud": "^3.66.0",
