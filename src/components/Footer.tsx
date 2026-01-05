@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import {
   FaFacebook,
@@ -126,8 +125,6 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-
-            {/* Empty right column */}
             <div></div>
           </div>
         </div>
@@ -143,18 +140,6 @@ export default function Footer() {
             <p className="text-gray-400 text-sm text-center sm:text-left">
               © 2025 Gereja Santo Ambrosius. All rights reserved.
             </p>
-
-            {/* Luce Mascot standing on copyright bar */}
-            <div className="hidden xl:block absolute right-8 xl:right-20 2xl:right-44 -top-56">
-              <Image
-                src="/luce-mascot.png"
-                alt="Luce - Vatican Mascot for Jubilee 2025"
-                width={150}
-                height={200}
-                className="h-[180px] xl:h-[200px] 2xl:h-[220px] w-auto object-contain"
-                priority
-              />
-            </div>
           </div>
         </div>
       </div>
