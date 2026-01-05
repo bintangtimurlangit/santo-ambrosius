@@ -3,12 +3,11 @@
 import React from 'react'
 import { PiStarFourFill } from 'react-icons/pi'
 
-const YubileumRibbon = () => {
-  // Generate random rotations and positions for dynamic layout
-  const lightRibbonRotation = 0.3 * 10 - 5 // -5 to 5 degrees
-  const darkRibbonRotation = 0.5 * 10 - 5 // -5 to 5 degrees
-  const darkRibbonOffset = 1 * 15 + 30 // 30-45px from top (dark ribbon first)
-  const lightRibbonOffset = 1.2 * 15 + 70 // 50-65px from top (light ribbon second)
+const Ribbon = () => {
+  const lightRibbonRotation = 0.3 * 10 - 5
+  const darkRibbonRotation = 0.5 * 10 - 5
+  const darkRibbonOffset = 1 * 15 + 30
+  const lightRibbonOffset = 1.2 * 15 + 70
 
   return (
     <div className="relative w-full h-64 md:h-48 overflow-hidden z-10">
@@ -23,40 +22,40 @@ const YubileumRibbon = () => {
       >
         <div className="flex items-center justify-center w-full h-full gap-12 whitespace-nowrap translate-x-16">
           <span
-            className="text-slate-700 font-light text-7xl md:text-6xl"
+            className="text-slate-700 font-light text-6xl md:text-5xl"
             style={{ letterSpacing: '-0.04em' }}
           >
-            Tahun Yubileum
+            Kita Berempati, Kita Peduli, Lestari Bumi Ini
           </span>
           <span>
-            <PiStarFourFill size={30} color="white" />
+            <PiStarFourFill size={30} color="#334155" />
           </span>
           <span
-            className="text-slate-700 font-light text-7xl md:text-6xl"
+            className="text-slate-700 font-light text-6xl md:text-5xl"
             style={{ letterSpacing: '-0.04em' }}
           >
-            Tahun Yubileum
+            Kita Berempati, Kita Peduli, Lestari Bumi Ini
           </span>
           <span>
-            <PiStarFourFill size={30} color="white" />
+            <PiStarFourFill size={30} color="#334155" />
           </span>
           <span
-            className="text-slate-700 font-light text-7xl md:text-6xl"
+            className="text-slate-700 font-light text-6xl md:text-5xl"
             style={{ letterSpacing: '-0.04em' }}
           >
-            Tahun Yubileum
+            Kita Berempati, Kita Peduli, Lestari Bumi Ini
           </span>
           <span>
-            <PiStarFourFill size={30} color="white" />
+            <PiStarFourFill size={30} color="#334155" />
           </span>
           <span
-            className="text-slate-700 font-light text-7xl md:text-6xl"
+            className="text-slate-700 font-light text-6xl md:text-5xl"
             style={{ letterSpacing: '-0.04em' }}
           >
-            Tahun Yubileum
+            Kita Berempati, Kita Peduli, Lestari Bumi Ini
           </span>
           <span>
-            <PiStarFourFill size={30} color="white" />
+            <PiStarFourFill size={30} color="#334155" />
           </span>
         </div>
       </div>
@@ -72,37 +71,37 @@ const YubileumRibbon = () => {
       >
         <div className="flex items-center justify-center w-full h-full gap-12 whitespace-nowrap -translate-x-12">
           <span
-            className="text-white font-light text-7xl md:text-6xl"
+            className="text-white font-light text-6xl md:text-5xl"
             style={{ letterSpacing: '-0.04em' }}
           >
-            Tahun Yubileum
+            Kita Berempati, Kita Peduli, Lestari Bumi Ini
           </span>
           <span>
             <PiStarFourFill size={30} color="white" />
           </span>
           <span
-            className="text-white font-light text-7xl md:text-6xl"
+            className="text-white font-light text-6xl md:text-5xl"
             style={{ letterSpacing: '-0.04em' }}
           >
-            Tahun Yubileum
+            Kita Berempati, Kita Peduli, Lestari Bumi Ini
           </span>
           <span>
             <PiStarFourFill size={30} color="white" />
           </span>
           <span
-            className="text-white font-light text-7xl md:text-6xl"
+            className="text-white font-light text-6xl md:text-5xl"
             style={{ letterSpacing: '-0.04em' }}
           >
-            Tahun Yubileum
+            Kita Berempati, Kita Peduli, Lestari Bumi Ini
           </span>
           <span>
             <PiStarFourFill size={30} color="white" />
           </span>
           <span
-            className="text-white font-light text-7xl md:text-6xl"
+            className="text-white font-light text-6xl md:text-5xl"
             style={{ letterSpacing: '-0.04em' }}
           >
-            Tahun Yubileum
+            Kita Berempati, Kita Peduli, Lestari Bumi Ini
           </span>
           <span>
             <PiStarFourFill size={30} color="white" />
@@ -113,4 +112,4 @@ const YubileumRibbon = () => {
   )
 }
 
-export default YubileumRibbon
+export default Ribbon

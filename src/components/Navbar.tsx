@@ -234,13 +234,6 @@ export default function Navbar() {
             Hubungi Kami
           </Link>
 
-          <Link
-            href="/porta-sancta"
-            className="no-underline text-black font-light text-base transition-all duration-200 hover:drop-shadow-[0.5px_0_0_currentColor]"
-          >
-            Porta Sancta
-          </Link>
-
           <div className="flex gap-2 items-center">
             <a
               href="https://wa.me/6285810262017"
@@ -431,13 +424,6 @@ export default function Navbar() {
             className="block px-4 py-3 text-slate-700 font-medium hover:bg-slate-50 transition-colors duration-200 no-underline border-b border-slate-200"
           >
             Hubungi Kami
-          </Link>
-          <Link
-            href="/porta-sancta"
-            onClick={closeMobileMenu}
-            className="block px-4 py-3 text-slate-700 font-medium hover:bg-slate-50 transition-colors duration-200 no-underline"
-          >
-            Porta Sancta
           </Link>
 
           {/* Mobile Action Buttons (only on very small screens) */}

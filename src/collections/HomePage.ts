@@ -54,6 +54,14 @@ export const HomePage: CollectionConfig = {
             description: 'Alternative text for the video (for accessibility)',
           },
         },
+        {
+          name: 'showSnowEffect',
+          type: 'checkbox',
+          defaultValue: false,
+          admin: {
+            description: 'Enable snow effect on the homepage (for Christmas season)',
+          },
+        },
       ],
     },
     {
