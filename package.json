@@ -27,7 +27,7 @@
     "@payloadcms/richtext-lexical": "^3.66.0",
     "@payloadcms/ui": "^3.66.0",
     "@sentry/nextjs": "^10.4.0",
-    "@tailwindcss/postcss": "^4.1.11",
+    "@tailwindcss/postcss": "^4.1.17",
     "@xyflow/react": "^12.8.2",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
