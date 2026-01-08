@@ -21,7 +21,7 @@
     "@dagrejs/dagre": "^1.1.8",
     "@payloadcms/db-mongodb": "^3.66.0",
     "@payloadcms/next": "^3.66.0",
-    "@payloadcms/payload-cloud": "^3.66.0",
+    "@payloadcms/payload-cloud": "^3.70.0",
     "@payloadcms/plugin-sentry": "^3.66.0",
     "@payloadcms/plugin-seo": "^3.66.0",
     "@payloadcms/richtext-lexical": "^3.66.0",
