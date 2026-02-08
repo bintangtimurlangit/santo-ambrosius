@@ -71,7 +71,7 @@ const RichTextRenderer: React.FC<RichTextRendererProps> = ({ content, className 
   const renderNode = (node: LexicalNode, index: number): React.ReactNode => {
     if (node.type === 'paragraph') {
       return (
-        <p key={index} className="mb-4 leading-relaxed text-slate-700">
+        <p key={index} className="mb-4 leading-normal text-slate-700">
           {node.children?.map((child, childIndex) => renderNode(child, childIndex))}
         </p>
       )
