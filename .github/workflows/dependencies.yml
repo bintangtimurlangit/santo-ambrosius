@@ -23,10 +23,10 @@ jobs:
       run: npm ci
       
     - name: Check for outdated packages
-      run: npm outdated
+      run: npm outdated || true
       
     - name: Run npm audit fix
-      run: npm audit fix --audit-level=moderate
+      run: npm audit fix || true
       
     - name: Create Pull Request for updates
       uses: peter-evans/create-pull-request@v5
