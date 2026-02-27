@@ -25,15 +25,15 @@ export default function RomoParokiPage() {
                 </p>
               </div>
 
-              {/* Pastor 1 - Rm. Yosef Natalis Kurnianto */}
+              {/* Pastor 1 - Rm. Antonius Pramono Wahyu Nugroho (Romo Pram) */}
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                   {/* Pastor Photo */}
                   <div className="lg:col-span-1">
                     <div className="relative aspect-[3/4] w-full max-w-sm mx-auto rounded-xl overflow-hidden shadow-lg">
                       <Image
-                        src="/romo-nat.jpg"
-                        alt="Rm. Yosef Natalis Kurnianto"
+                        src="/romo-pram.jpeg"
+                        alt="Rm. Antonius Pramono Wahyu Nugroho"
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 33vw"
@@ -41,8 +41,9 @@ export default function RomoParokiPage() {
                     </div>
                     <div className="text-center mt-4">
                       <h2 className="text-lg md:text-xl font-medium text-slate-800">
-                        Rm. Yosef Natalis Kurnianto, Pr
+                        Rm. Antonius Pramono Wahyu Nugroho, Pr
                       </h2>
+                      <p className="text-slate-600 text-sm mt-1">Romo Pram</p>
                     </div>
                   </div>
 
@@ -54,13 +55,13 @@ export default function RomoParokiPage() {
                         <h3 className="text-lg font-medium text-slate-800 mb-2">
                           Tempat & Tanggal Lahir
                         </h3>
-                        <p className="text-slate-600">Cilandak - Jakarta, 31 Desember 1979</p>
+                        <p className="text-slate-600">Yogyakarta, 30 Mei 1974</p>
                       </div>
 
                       <div className="border-b border-gray-100 pb-3">
                         <h3 className="text-lg font-medium text-slate-800 mb-2">Tahbisan Imam</h3>
                         <p className="text-slate-600">
-                          15 Agustus 2008 di Paroki St. Matias - Kosambi Baru
+                          22 Agustus 2013, Paroki Bekasi, Gereja St. Arnoldus Janssen
                         </p>
                       </div>
                     </div>
@@ -68,48 +69,26 @@ export default function RomoParokiPage() {
                     {/* Pastoral Assignment */}
                     <div>
                       <h3 className="text-lg font-medium text-slate-800 mb-4">
-                        Perutusan Pastoral
+                        Riwayat Perutusan Pastoral
                       </h3>
                       <div className="space-y-3 text-slate-600 leading-relaxed">
                         <p>
-                          <strong>2004:</strong> Tahun Orientasi Pastoral di Paroki St. Maria,
-                          Tangerang
+                          <strong>2013 – 2014:</strong> Menyelesaikan Studi S2 di Fakultas Teologi Wedabhakti Yogyakarta
                         </p>
                         <p>
-                          <strong>2007 - 2008:</strong> Diakonat di Paroki St. Fransiskus Xaverius,
-                          Tanjung Priok dan Paroki Regina Caeli, Pantai Indah Kapuk
+                          <strong>2014 – 2015:</strong> Pastor Rekan Paroki Ciputat – Gereja St. Nikodemus
                         </p>
                         <p>
-                          <strong>2008 - 2012:</strong> Pastor Rekan di Gereja Ibu Teresa - Paroki
-                          Cikarang
+                          <strong>2015 – 2018:</strong> Pastor Rekan Paroki Harapan Indah Bekasi – Gereja St. Albertus Agung
                         </p>
                         <p>
-                          <strong>2012 - 2013:</strong> Pastor Rekan di Gereja Gregorius Agung -
-                          Paroki Kutabumi, Tangerang
+                          <strong>2018 – 2019:</strong> Pastor Rekan Paroki Pasar Minggu – Gereja Keluarga Kudus
                         </p>
                         <p>
-                          <strong>2013 - 2016:</strong> Pastor Rekan di Gereja St. Bonaventura -
-                          Paroki Pulomas
+                          <strong>2019 – 2026:</strong> Pastor Kepala Paroki Pasar Minggu – Gereja Keluarga Kudus
                         </p>
                         <p>
-                          <strong>12 Sep - 7 Des 2016:</strong> Pastor Rekan di Gereja St. Monika -
-                          Paroki Serpong, dengan tugas khusus mempersiapkan pendirian Paroki Villa
-                          Melati Mas
-                        </p>
-                        <p>
-                          <strong>7 Des 2016 - 25 Feb 2017:</strong> Pastor Paroki Administratif di
-                          Gereja St. Ambrosius - Paroki Villa Melati Mas
-                        </p>
-                        <p>
-                          <strong>26 Feb 2017 - sekarang:</strong> Pastor Paroki di Gereja St.
-                          Ambrosius - Paroki Villa Melati Mas
-                        </p>
-                        <p>
-                          <strong>2015 - sekarang:</strong> Wakil Ketua Tim Karya Kunjungan Pastoral
-                          (TKKP - KAJ)
-                        </p>
-                        <p>
-                          <strong>2019 - sekarang:</strong> Wakil Deken Dekenat Tangerang II
+                          <strong>2026 – sekarang:</strong> Pastor Kepala Paroki Villa Melati Mas – Gereja St. Ambrosius
                         </p>
                       </div>
                     </div>
