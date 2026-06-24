@@ -3,7 +3,18 @@
 import React from 'react'
 import { PiStarFourFill } from 'react-icons/pi'
 
-const Ribbon = () => {
+const DEFAULT_TEXT = 'Kita Berempati, Kita Peduli, Lestari Bumi Ini'
+
+interface RibbonProps {
+  /** Text repeated across the light (top) ribbon */
+  lightText?: string
+  /** Text repeated across the dark (bottom) ribbon */
+  darkText?: string
+}
+
+const REPEAT = 4
+
+const Ribbon = ({ lightText = DEFAULT_TEXT, darkText = DEFAULT_TEXT }: RibbonProps) => {
   const lightRibbonRotation = 0.3 * 10 - 5
   const darkRibbonRotation = 0.5 * 10 - 5
   const darkRibbonOffset = 1 * 15 + 30
@@ -21,42 +32,19 @@ const Ribbon = () => {
         }}
       >
         <div className="flex items-center justify-center w-full h-full gap-12 whitespace-nowrap translate-x-16">
-          <span
-            className="text-slate-700 font-light text-6xl md:text-5xl"
-            style={{ letterSpacing: '-0.04em' }}
-          >
-            Kita Berempati, Kita Peduli, Lestari Bumi Ini
-          </span>
-          <span>
-            <PiStarFourFill size={30} color="#334155" />
-          </span>
-          <span
-            className="text-slate-700 font-light text-6xl md:text-5xl"
-            style={{ letterSpacing: '-0.04em' }}
-          >
-            Kita Berempati, Kita Peduli, Lestari Bumi Ini
-          </span>
-          <span>
-            <PiStarFourFill size={30} color="#334155" />
-          </span>
-          <span
-            className="text-slate-700 font-light text-6xl md:text-5xl"
-            style={{ letterSpacing: '-0.04em' }}
-          >
-            Kita Berempati, Kita Peduli, Lestari Bumi Ini
-          </span>
-          <span>
-            <PiStarFourFill size={30} color="#334155" />
-          </span>
-          <span
-            className="text-slate-700 font-light text-6xl md:text-5xl"
-            style={{ letterSpacing: '-0.04em' }}
-          >
-            Kita Berempati, Kita Peduli, Lestari Bumi Ini
-          </span>
-          <span>
-            <PiStarFourFill size={30} color="#334155" />
-          </span>
+          {Array.from({ length: REPEAT }).map((_, i) => (
+            <React.Fragment key={i}>
+              <span
+                className="text-slate-700 font-light text-6xl md:text-5xl"
+                style={{ letterSpacing: '-0.04em' }}
+              >
+                {lightText}
+              </span>
+              <span>
+                <PiStarFourFill size={30} color="#334155" />
+              </span>
+            </React.Fragment>
+          ))}
         </div>
       </div>
 
@@ -70,42 +58,19 @@ const Ribbon = () => {
         }}
       >
         <div className="flex items-center justify-center w-full h-full gap-12 whitespace-nowrap -translate-x-12">
-          <span
-            className="text-white font-light text-6xl md:text-5xl"
-            style={{ letterSpacing: '-0.04em' }}
-          >
-            Kita Berempati, Kita Peduli, Lestari Bumi Ini
-          </span>
-          <span>
-            <PiStarFourFill size={30} color="white" />
-          </span>
-          <span
-            className="text-white font-light text-6xl md:text-5xl"
-            style={{ letterSpacing: '-0.04em' }}
-          >
-            Kita Berempati, Kita Peduli, Lestari Bumi Ini
-          </span>
-          <span>
-            <PiStarFourFill size={30} color="white" />
-          </span>
-          <span
-            className="text-white font-light text-6xl md:text-5xl"
-            style={{ letterSpacing: '-0.04em' }}
-          >
-            Kita Berempati, Kita Peduli, Lestari Bumi Ini
-          </span>
-          <span>
-            <PiStarFourFill size={30} color="white" />
-          </span>
-          <span
-            className="text-white font-light text-6xl md:text-5xl"
-            style={{ letterSpacing: '-0.04em' }}
-          >
-            Kita Berempati, Kita Peduli, Lestari Bumi Ini
-          </span>
-          <span>
-            <PiStarFourFill size={30} color="white" />
-          </span>
+          {Array.from({ length: REPEAT }).map((_, i) => (
+            <React.Fragment key={i}>
+              <span
+                className="text-white font-light text-6xl md:text-5xl"
+                style={{ letterSpacing: '-0.04em' }}
+              >
+                {darkText}
+              </span>
+              <span>
+                <PiStarFourFill size={30} color="white" />
+              </span>
+            </React.Fragment>
+          ))}
         </div>
       </div>
     </div>
