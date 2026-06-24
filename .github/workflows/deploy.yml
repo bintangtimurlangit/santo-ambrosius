@@ -1,4 +1,4 @@
-name: Deploy to Production
+name: Build, Publish & Deploy
 
 on:
   push:
@@ -11,107 +11,130 @@ concurrency:
   group: deploy-production
   cancel-in-progress: false
 
+env:
+  IMAGE_NAME: ghcr.io/bintangtimurlangit/santo-ambrosius
+
 jobs:
-  deploy:
+  # 1) Build the production Docker image once in CI and publish it to GHCR.
+  #    The image build runs `npm run build`, so this is also the build gate.
+  build-and-push:
     runs-on: ubuntu-latest
-    environment: production
-    
+    permissions:
+      contents: write   # create the GitHub Release
+      packages: write   # push the image to GHCR
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
+
+    - name: Log in to GHCR
+      uses: docker/login-action@v3
       with:
-        node-version: '22'
-        cache: 'npm'
-        
-    - name: Cache Next.js build
-      uses: actions/cache@v4
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Image metadata
+      id: meta
+      uses: docker/metadata-action@v5
       with:
-        path: ${{ github.workspace }}/.next/cache
-        key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.[jt]s', 'src/**/*.[jt]sx') }}
-        restore-keys: |
-          ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
+        images: ${{ env.IMAGE_NAME }}
+        tags: |
+          type=raw,value=latest
+          type=sha,prefix=sha-
 
-    - name: Install dependencies
-      run: npm ci
+    - name: Build and push image
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
 
-    - name: Run security checks
-      run: npm audit --audit-level=critical
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v1.0.${{ github.run_number }}
+        name: Release v1.0.${{ github.run_number }}
+        generate_release_notes: true
+        body: |
+          Published image: `${{ env.IMAGE_NAME }}:sha-${{ github.sha }}`
 
-    - name: Build application
-      run: npm run build
-      
+  # 2) Deploy: the VPS only pulls + runs the published image (no build).
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      packages: read    # pull the image from GHCR
+    steps:
     - name: Deploy to VPS
       uses: appleboy/ssh-action@v1.0.3
+      env:
+        GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GHCR_USER: ${{ github.actor }}
+        IMAGE_TAG: sha-${{ github.sha }}
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.VPS_SSH_KEY }}
+        envs: GHCR_TOKEN,GHCR_USER,IMAGE_TAG
         script: |
           set -euo pipefail
           cd ${{ secrets.VPS_APP_DIR }}
-          
-          # Create production directory if it doesn't exist
+
+          # Ensure the repo (compose file + .env.production + mongo-init) is present and current
           mkdir -p production
           cd production
-          
-          # If directory exists but is not a git repo, remove it
           if [ -d "santo-ambrosius" ] && [ ! -d "santo-ambrosius/.git" ]; then
-            echo "Existing directory without git detected. Removing..."
             rm -rf santo-ambrosius
           fi
-          
-          # Clone or update production repository
           if [ ! -d "santo-ambrosius" ]; then
-            echo "Cloning production repository..."
             git clone https://github.com/${{ github.repository }}.git santo-ambrosius
           fi
-          
           cd santo-ambrosius
-          
-          # Ensure it's a git repo and sync to origin/main
-          if [ ! -d ".git" ]; then
-            echo "Directory exists but not a git repo. Recreating..."
-            cd .. && rm -rf santo-ambrosius
-            git clone https://github.com/${{ github.repository }}.git santo-ambrosius
-            cd santo-ambrosius
-          fi
           git fetch origin
           git reset --hard origin/main
-          
+
           # Restore .env.production from parent if missing
           if [ ! -f ".env.production" ] && [ -f "../.env.production" ]; then
-            echo "Copying ../.env.production into repo..."
             cp ../.env.production .env.production
           fi
-          
-          # Ensure production environment file exists
           if [ ! -f ".env.production" ]; then
-            echo "ERROR: .env.production file not found at $(pwd)!"
-            echo "Create it at $(pwd)/.env.production or at $(pwd)/../.env.production for auto-copy on next deploy."
+            echo "ERROR: .env.production not found at $(pwd)!"
             exit 1
           fi
-          
-          # Deploy with docker compose v2
-          echo "Deploying to production with docker compose..."
-          docker compose -f docker-compose.yml down || true
-          docker compose -f docker-compose.yml up -d --build
-          
-          # Wait for services to be healthy
-          echo "Waiting for services to be healthy..."
-          sleep 30
-          
-          # Check container status
+
+          # Pre-deploy MongoDB snapshot (best-effort; keep the last 10)
+          mkdir -p ../backups
+          if docker exec santo-ambrosius-mongo sh -c \
+              'mongodump --username admin --password "$MONGO_INITDB_ROOT_PASSWORD" --authenticationDatabase admin --archive --gzip' \
+              > "../backups/mongo-$(date +%F-%H%M%S).gz"; then
+            echo "Pre-deploy MongoDB backup written."
+          else
+            echo "WARNING: pre-deploy backup failed; continuing."
+          fi
+          ls -1t ../backups/mongo-*.gz 2>/dev/null | tail -n +11 | xargs -r rm -f || true
+
+          # Authenticate and pull the published image. With `set -e`, a failed
+          # pull exits here BEFORE touching the running app, so prod stays up.
+          echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+          export APP_IMAGE_TAG="$IMAGE_TAG"
+          docker compose -f docker-compose.yml pull app
+
+          # Recreate only the app container from the new image. Mongo and its
+          # named volume are untouched (no `down`, never `-v`).
+          docker compose -f docker-compose.yml up -d
+          docker logout ghcr.io || true
+
           docker compose -f docker-compose.yml ps
-          
-          echo "Production deployment completed successfully!"
-          
+
     - name: Production Status
       run: |
-        echo "🚀 Production deployment to ${{ secrets.VPS_HOST }} completed!"
-        echo "Repository: ${{ github.repository }}"
-        echo "Branch: ${{ github.ref_name }}"
+        echo "🚀 Deployed ${{ env.IMAGE_NAME }}:sha-${{ github.sha }} to production"
         echo "Commit: ${{ github.sha }}"
         echo "Deployed at: $(date -u)"

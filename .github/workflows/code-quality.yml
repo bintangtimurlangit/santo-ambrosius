@@ -76,5 +76,8 @@ jobs:
         NODE_OPTIONS: --no-deprecation
       run: npx playwright test --reporter=line
       
+    # On push to main the deploy workflow builds the production image (which
+    # runs the same build), so only verify the build on pull requests.
     - name: Build verification
+      if: github.event_name == 'pull_request'
       run: npm run build

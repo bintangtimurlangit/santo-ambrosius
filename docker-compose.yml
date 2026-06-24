@@ -1,6 +1,8 @@
 services:
   app:
-    build: .
+    # Image is built and published to GHCR by CI; the VPS only pulls + runs it.
+    # APP_IMAGE_TAG is exported by the deploy job (defaults to latest otherwise).
+    image: ghcr.io/bintangtimurlangit/santo-ambrosius:${APP_IMAGE_TAG:-latest}
     container_name: santo-ambrosius-app
     ports:
       - '3000:3000'
