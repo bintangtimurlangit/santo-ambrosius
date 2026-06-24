@@ -6,6 +6,11 @@ on:
   push:
     branches: [ main, develop ]
 
+# Cancel superseded runs on the same ref to avoid piling up parallel jobs.
+concurrency:
+  group: code-quality-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -43,16 +48,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-playwright-
 
-    - name: Wait for MongoDB
-      run: |
-        sudo apt-get update -y
-        sudo apt-get install -y netcat-openbsd
-        for i in {1..60}; do
-          nc -z 127.0.0.1 27017 && echo "Mongo is up" && exit 0
-          echo "Waiting for Mongo ($i) ..."; sleep 1
-        done
-        echo "Mongo did not start in time"; exit 1
-        
+    - name: Cache Next.js build
+      uses: actions/cache@v4
+      with:
+        path: ${{ github.workspace }}/.next/cache
+        key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.[jt]s', 'src/**/*.[jt]sx') }}
+        restore-keys: |
+          ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
+
     - name: Install dependencies
       run: npm ci
 
@@ -75,6 +78,3 @@ jobs:
       
     - name: Build verification
       run: npm run build
-      
-    - name: Check bundle size
-      run: npx @next/bundle-analyzer@latest build/static || echo "Bundle analyzer not available"
