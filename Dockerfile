@@ -30,6 +30,14 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+# NEXT_PUBLIC_* vars are inlined into client JS at build time — they must be
+# declared here as ARGs so `next build` can embed the real URL instead of
+# falling back to the hardcoded "http://localhost:3000" default.
+ARG NEXT_PUBLIC_SITE_URL=https://santoambrosius.org
+ARG NEXT_PUBLIC_SERVER_URL=https://santoambrosius.org
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_SERVER_URL=$NEXT_PUBLIC_SERVER_URL
+
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
