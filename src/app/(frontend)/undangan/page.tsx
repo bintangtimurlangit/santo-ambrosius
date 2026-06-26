@@ -1,15 +1,14 @@
 import React from 'react'
 import { Metadata } from 'next'
-import { Cormorant_Garamond } from 'next/font/google'
+import { Fraunces } from 'next/font/google'
 import Ribbon from '@/components/Ribbon'
 import UndanganAudio from '@/components/UndanganAudio'
 import { FaWhatsapp, FaMapMarkerAlt, FaUser, FaClock, FaCalendarAlt } from 'react-icons/fa'
 
-// Elegant display serif used only for the hero title (scoped, does not change the site font).
-const display = Cormorant_Garamond({
+// Readable display serif used only for the hero title (scoped, does not change the site font).
+const display = Fraunces({
   subsets: ['latin'],
   weight: ['500', '600', '700'],
-  style: ['normal', 'italic'],
   display: 'swap',
 })
 
@@ -22,46 +21,115 @@ export const metadata: Metadata = {
   },
 }
 
+type Romo = {
+  years: number
+  name: string
+  date: string
+  photo: string
+  objectPosition: string
+  birth: string
+  parents: string
+  career: [string, string][]
+}
+
 /** Para Romo yang dirayakan peringatan tahbisannya. */
-const romos = [
+const romos: Romo[] = [
   {
     years: 40,
     name: 'Romo Thomas Aquino Rochadi Widagdo, Pr',
     date: '15 Agustus 1986',
-    photo: '/romo-rochadi.png',
-    bio: '',
+    photo: '/romo/thomas-rochadi.jpeg',
+    objectPosition: 'center 20%',
+    birth: 'Kalimundu, Bantul — 15 Mei 1958',
+    parents: 'Raden Sebastianus Brotosudibyo & Roro Sebastiana Siti Rochialun',
+    career: [
+      ['1986–1990', 'Pastor Rekan di Paroki Mangga Besar, Gereja St. Petrus & Paulus'],
+      ['1990–1994', 'Pastor Kepala di Paroki Pulomas, Gereja St. Bonaventura'],
+      ['1994–1999', 'Pastor Kepala di Paroki Bojong Indah, Gereja St. Thomas Rasul'],
+      ['1999–2004', 'Pastor Rekan di Paroki Cijantung, Gereja St. Aloysius Gonzaga'],
+      ['2004–2005', 'Pastor Rekan di Paroki Pejompongan, Gereja Kristus Raja'],
+      ['2005', 'Sabbatical Year di Filipina'],
+      ['2005–2014', 'Bertugas kembali di Paroki Pejompongan, Gereja Kristus Raja'],
+      ['2014–2026', 'Bertugas di Paroki Cilangkap, Gereja St. Maria Vianney'],
+      ['2026', 'Pastor Rekan di Paroki Villa Melati Mas, Gereja St. Ambrosius'],
+    ],
   },
   {
     years: 40,
     name: 'Romo Yohanes Purbo Tamtomo, Pr',
     date: '15 Agustus 1986',
-    photo: '',
-    bio: '',
+    photo: '/romo/yohanes-purbo.jpeg',
+    objectPosition: '70% 25%',
+    birth: 'Yogyakarta, 1959',
+    parents: 'JS Hadisuprapto & Maria Norbentin Praptini',
+    career: [
+      ['1986', 'Pastor Rekan di Gereja St. Bonaventura, Pulomas'],
+      ['1988', 'Belajar ke Roma'],
+      ['1992', 'Pelayanan di KAJ sebagai Sekretaris Bapak Uskup Leo Soekoto'],
+      ['2017–sekarang', 'Pelayanan di Seminari Tinggi JP II KAJ'],
+    ],
   },
   {
     years: 30,
     name: 'Romo Aloysius Susilo Wijoyo, Pr',
     date: '15 Agustus 1996',
-    photo: '',
-    bio: '',
+    photo: '/romo/aloysius-susilo.jpeg',
+    objectPosition: 'center 25%',
+    birth: 'Yogyakarta, 11 Februari 1968',
+    parents: 'Blasius Supardi KA & Christina Sijam',
+    career: [
+      ['1996–1998', 'Pastor Rekan di Paroki Kelapa Gading'],
+      ['1998–2001', 'Pastor Unika Atma Jaya, Jakarta'],
+      ['2001–2005', 'Pastor Staf Seminari Tinggi KAJ'],
+      ['2005–2008', 'Pastor Kepala Paroki Pejompongan'],
+      ['2008–2017', 'Pastor Kepala Paroki Kosambi Baru'],
+      ['2017–2022', 'Pastor Kepala Paroki Pulo Gebang'],
+      ['2022–sekarang', 'Pastor Kepala Paroki Ciputat'],
+    ],
   },
   {
     years: 30,
     name: 'Romo Yos Bintoro, Pr',
     date: '15 Agustus 1996',
-    photo: '',
-    bio: '',
+    photo: '/romo/yos-bintoro.jpeg',
+    objectPosition: 'center 20%',
+    birth: 'Jakarta, 30 November 1967',
+    parents:
+      'Kanjeng Raden Tumenggung Rafael Ignatius Martokusumo, SE & Raden Ayu Maria Dolores Mursyanti Suryo Mursandi',
+    career: [
+      ['1992–1993', 'Frater orientasi pastoral di Paroki Santa Maria, Tangerang'],
+      [
+        '1996',
+        'Ditahbiskan menjadi Imam di Gereja St. Yohanes Penginjil, Jakarta; mengikuti Pendidikan Perwira Karier di Akademi Militer Magelang',
+      ],
+      [
+        '1997–2018',
+        'Bertugas di Akademi Angkatan Udara Yogyakarta dan mendirikan Gereja Santo Mikael Lanud Adisutjipto',
+      ],
+      [
+        '2019',
+        'Diangkat sebagai Wakil Uskup Ordinariatus Castrensis Indonesia, memprakarsai Pusat Studi Perdamaian dan Resolusi Konflik serta kaderisasi imam-imam muda sebagai perwira organik di TNI dan POLRI',
+      ],
+      ['2020', 'Kembali ke KAJ dan ditempatkan di Gereja Santo Agustinus, Halim'],
+      [
+        '2020–sekarang',
+        'Mengembangkan tata kelola Ordinariatus Castrensis Indonesia sebagai model pastoral militer yang kontekstual bagi Gereja universal',
+      ],
+    ],
   },
   {
     years: 25,
     name: 'Romo Yustinus Ardianto, Pr',
     date: '15 Agustus 2001',
     photo: '',
-    bio: '',
+    objectPosition: 'center',
+    birth: '',
+    parents: '',
+    career: [],
   },
 ]
 
-/** Placeholder avatar used until a real photo is supplied. */
+/** Circular avatar used for the celebrant and the signatures. */
 function PhotoAvatar({
   photo,
   alt,
@@ -97,23 +165,26 @@ export default function UndanganPage() {
 
       {/* ===== Hero ===== */}
       <div className="px-2">
-        <section
-          className="rounded-b-2xl h-[calc(100vh-100px)] md:h-[calc(100vh-120px)] relative overflow-hidden bg-slate-800"
-          style={{
-            backgroundImage: 'url("/undangan-hero.webp")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
-        >
-          {/* Brand-shaded overlay: deepens toward the bottom to blend into the ribbon below */}
+        <section className="rounded-b-2xl h-[calc(100vh-100px)] md:h-[calc(100vh-120px)] relative overflow-hidden bg-slate-900">
+          {/* Drone video reused from the front page (poster falls back to the church photo) */}
+          <video
+            className="absolute inset-0 w-full h-full object-cover object-center rounded-b-2xl"
+            src="/api/media/file/hero-video.mp4"
+            poster="/undangan-hero.webp"
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-label="Video udara Gereja Santo Ambrosius"
+          />
+          {/* Black fill overlay so the title stands out */}
+          <div className="absolute inset-0 bg-black/60 rounded-b-2xl"></div>
+          {/* Bottom blend into the slate ribbon below */}
           <div
-            className="absolute inset-0 rounded-b-2xl"
-            style={{
-              background:
-                'linear-gradient(to bottom, rgba(15,23,42,0.55) 0%, rgba(30,41,59,0.45) 40%, rgba(51,65,85,0.92) 100%)',
-            }}
+            className="absolute inset-x-0 bottom-0 h-1/3 rounded-b-2xl"
+            style={{ background: 'linear-gradient(to bottom, transparent, rgba(51,65,85,0.9))' }}
           ></div>
+
           <div className="relative z-10 flex items-center justify-center h-full">
             <div className="text-center px-8">
               <p
@@ -122,7 +193,7 @@ export default function UndanganPage() {
                 Undangan
               </p>
               <h1
-                className={`${display.className} text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-white leading-[1.05] m-0 mb-8`}
+                className={`${display.className} text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.05] m-0 mb-8 drop-shadow-lg`}
               >
                 Peringatan 40, 30, 25
                 <br />
@@ -200,7 +271,7 @@ export default function UndanganPage() {
 
         {/* ===== Para Romo (biodata) ===== */}
         <section className="px-4 md:px-8 lg:px-12 pb-16">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-700 mb-3">
                 Para Romo
@@ -210,24 +281,72 @@ export default function UndanganPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-8">
+            <div className="space-y-8">
               {romos.map((r) => (
-                <div
+                <article
                   key={r.name}
-                  className="w-full sm:w-[330px] bg-white rounded-2xl p-8 shadow-sm border border-slate-100 flex flex-col items-center text-center"
+                  className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col sm:flex-row"
                 >
-                  <PhotoAvatar photo={r.photo} alt={r.name} />
-                  <span className="mt-5 inline-block rounded-full bg-sky-100 text-sky-700 text-xs font-semibold px-3 py-1 uppercase tracking-wider">
-                    {r.years} Tahun Imamat
-                  </span>
-                  <h3 className="mt-4 text-lg font-semibold text-slate-800 leading-snug">
-                    {r.name}
-                  </h3>
-                  <p className="text-sm text-slate-500 mt-1">Tahbisan: {r.date}</p>
-                  <p className="text-sm text-slate-600 mt-4 leading-relaxed">
-                    {r.bio || 'Biodata akan segera ditambahkan.'}
-                  </p>
-                </div>
+                  {/* Photo */}
+                  <div className="sm:w-56 md:w-64 flex-shrink-0 bg-sky-50">
+                    {r.photo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={r.photo}
+                        alt={r.name}
+                        className="w-full h-72 sm:h-full object-cover"
+                        style={{ objectPosition: r.objectPosition }}
+                      />
+                    ) : (
+                      <div className="w-full h-72 sm:h-full flex items-center justify-center text-sky-300">
+                        <FaUser size={56} />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Biodata */}
+                  <div className="flex-1 p-6 md:p-8">
+                    <span className="inline-block rounded-full bg-sky-100 text-sky-700 text-xs font-semibold px-3 py-1 uppercase tracking-wider">
+                      {r.years} Tahun Imamat
+                    </span>
+                    <h3 className="mt-3 text-xl font-semibold text-slate-800 leading-snug">
+                      {r.name}
+                    </h3>
+                    <p className="text-sm text-slate-500 mt-1">Tahbisan: {r.date}</p>
+
+                    {(r.birth || r.parents) && (
+                      <div className="mt-4 text-sm text-slate-600 space-y-1">
+                        {r.birth && (
+                          <p>
+                            <span className="text-slate-400">Lahir:</span> {r.birth}
+                          </p>
+                        )}
+                        {r.parents && (
+                          <p>
+                            <span className="text-slate-400">Orang Tua:</span> {r.parents}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {r.career.length > 0 ? (
+                      <div className="mt-5">
+                        <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-2">
+                          Riwayat Karya
+                        </p>
+                        <ul className="space-y-1.5">
+                          {r.career.map(([yr, desc]) => (
+                            <li key={yr + desc} className="text-sm text-slate-600 leading-relaxed">
+                              <span className="font-semibold text-sky-700">{yr}</span> — {desc}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : (
+                      <p className="mt-4 text-sm text-slate-500 italic">Biodata akan menyusul.</p>
+                    )}
+                  </div>
+                </article>
               ))}
             </div>
           </div>
@@ -365,12 +484,6 @@ export default function UndanganPage() {
                 <h4 className="mt-4 font-semibold text-slate-800">Sonny Aloysius Sumendap</h4>
                 <p className="text-sm text-slate-500">Ketua Panitia Peringatan 40 Tahun Imamat</p>
               </div>
-            </div>
-
-            <div className="mt-16 pt-10 border-t border-slate-200">
-              <h3 className="text-lg font-semibold text-slate-700">
-                Turut Merayakan Peringatan Tahbisan Imamat
-              </h3>
             </div>
           </div>
         </section>
