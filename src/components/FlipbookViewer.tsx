@@ -47,8 +47,13 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
       try {
         const pdfjsLib = await import('pdfjs-dist')
 
-        // Set worker source to local file
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs'
+        // Resolve the worker from the installed pdfjs-dist package so the bundler
+        // emits it at build time. This guarantees the worker version always matches
+        // the API version — bumping pdfjs-dist can no longer cause a version mismatch.
+        pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+          'pdfjs-dist/build/pdf.worker.min.mjs',
+          import.meta.url,
+        ).toString()
 
         // Use optimized loading settings for large files
         const loadingTask = pdfjsLib.getDocument({
