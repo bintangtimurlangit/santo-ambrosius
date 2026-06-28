@@ -21,10 +21,10 @@ const Ribbon = ({ lightText = DEFAULT_TEXT, darkText = DEFAULT_TEXT }: RibbonPro
   const lightRibbonOffset = 1.2 * 15 + 70
 
   return (
-    <div className="relative w-full h-64 md:h-48 overflow-hidden z-10">
+    <div className="relative w-full h-44 sm:h-56 md:h-48 overflow-hidden z-10">
       {/* Light Blue Ribbon */}
       <div
-        className="absolute w-[calc(100%+200px)] h-20 bg-sky-200 overflow-hidden -left-24"
+        className="absolute w-[calc(100%+200px)] h-14 sm:h-20 bg-sky-200 overflow-hidden -left-24"
         style={{
           transform: `rotate(${lightRibbonRotation}deg)`,
           top: `${lightRibbonOffset}px`,
@@ -35,7 +35,7 @@ const Ribbon = ({ lightText = DEFAULT_TEXT, darkText = DEFAULT_TEXT }: RibbonPro
           {Array.from({ length: REPEAT }).map((_, i) => (
             <React.Fragment key={i}>
               <span
-                className="text-slate-700 font-light text-6xl md:text-5xl"
+                className="text-slate-700 font-light text-2xl sm:text-4xl md:text-5xl"
                 style={{ letterSpacing: '-0.04em' }}
               >
                 {lightText}
@@ -50,7 +50,7 @@ const Ribbon = ({ lightText = DEFAULT_TEXT, darkText = DEFAULT_TEXT }: RibbonPro
 
       {/* Dark Blue Ribbon */}
       <div
-        className="absolute w-[calc(100%+200px)] h-20 bg-slate-700 overflow-hidden -left-24"
+        className="absolute w-[calc(100%+200px)] h-14 sm:h-20 bg-slate-700 overflow-hidden -left-24"
         style={{
           transform: `rotate(${darkRibbonRotation}deg)`,
           top: `${darkRibbonOffset}px`,
@@ -61,7 +61,7 @@ const Ribbon = ({ lightText = DEFAULT_TEXT, darkText = DEFAULT_TEXT }: RibbonPro
           {Array.from({ length: REPEAT }).map((_, i) => (
             <React.Fragment key={i}>
               <span
-                className="text-white font-light text-6xl md:text-5xl"
+                className="text-white font-light text-2xl sm:text-4xl md:text-5xl"
                 style={{ letterSpacing: '-0.04em' }}
               >
                 {darkText}

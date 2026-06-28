@@ -3,6 +3,8 @@ import { Metadata } from 'next'
 import { Fraunces } from 'next/font/google'
 import Ribbon from '@/components/Ribbon'
 import UndanganAudio from '@/components/UndanganAudio'
+import EnvelopeIntro from '@/components/EnvelopeIntro'
+import Reveal from '@/components/Reveal'
 import { FaWhatsapp, FaMapMarkerAlt, FaUser, FaClock, FaCalendarAlt } from 'react-icons/fa'
 
 // Readable display serif used only for the hero title (scoped, does not change the site font).
@@ -38,7 +40,7 @@ const romos: Romo[] = [
     years: 40,
     name: 'Romo Thomas Aquino Rochadi Widagdo, Pr',
     date: '15 Agustus 1986',
-    photo: '/romo/thomas-rochadi.jpeg',
+    photo: '/romo/thomas-rochadi.webp',
     objectPosition: 'center 20%',
     birth: 'Kalimundu, Bantul — 15 Mei 1958',
     parents: 'Raden Sebastianus Brotosudibyo & Roro Sebastiana Siti Rochialun',
@@ -59,7 +61,7 @@ const romos: Romo[] = [
     name: 'Romo Yohanes Purbo Tamtomo, Pr',
     date: '15 Agustus 1986',
     photo: '/romo/yohanes-purbo.jpeg',
-    objectPosition: '70% 25%',
+    objectPosition: '68% 18%',
     birth: 'Yogyakarta, 1959',
     parents: 'JS Hadisuprapto & Maria Norbentin Praptini',
     career: [
@@ -92,7 +94,7 @@ const romos: Romo[] = [
     name: 'Romo Yos Bintoro, Pr',
     date: '15 Agustus 1996',
     photo: '/romo/yos-bintoro.jpeg',
-    objectPosition: 'center 20%',
+    objectPosition: 'center 30%',
     birth: 'Jakarta, 30 November 1967',
     parents:
       'Kanjeng Raden Tumenggung Rafael Ignatius Martokusumo, SE & Raden Ayu Maria Dolores Mursyanti Suryo Mursandi',
@@ -160,25 +162,22 @@ function PhotoAvatar({
 export default function UndanganPage() {
   return (
     <div className="min-h-screen">
+      {/* Tap-to-open envelope intro (covers the page until opened) */}
+      <EnvelopeIntro />
+
       {/* Background music */}
       <UndanganAudio src="/audio/aku-abdi-tuhan.mp3" />
 
       {/* ===== Hero ===== */}
       <div className="px-2">
         <section className="rounded-b-2xl h-[calc(100vh-100px)] md:h-[calc(100vh-120px)] relative overflow-hidden bg-slate-900">
-          {/* Drone video reused from the front page (poster falls back to the church photo) */}
-          <video
+          {/* Interior of Gereja Santo Ambrosius */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             className="absolute inset-0 w-full h-full object-cover object-center rounded-b-2xl"
-            src="/api/media/file/hero-video.mp4"
-            poster="/undangan-hero.webp"
-            autoPlay
-            muted
-            loop
-            playsInline
-            aria-label="Video udara Gereja Santo Ambrosius"
+            src="/undangan-hero.webp"
+            alt="Interior Gereja Santo Ambrosius"
           />
-          {/* Black fill overlay so the title stands out */}
-          <div className="absolute inset-0 bg-black/60 rounded-b-2xl"></div>
           {/* Bottom blend into the slate ribbon below */}
           <div
             className="absolute inset-x-0 bottom-0 h-1/3 rounded-b-2xl"
@@ -217,13 +216,16 @@ export default function UndanganPage() {
       >
         {/* Ribbon (motto) */}
         <div className="relative">
-          <Ribbon lightText="Deus Interior Intimo Meo" darkText="Deus Interior Intimo Tuo" />
+          <Ribbon lightText="Deus Intimeor Intimo Meo" darkText="Deus Intimeor Intimo Tuo" />
         </div>
 
         {/* ===== Invitation body ===== */}
         <section className="px-4 md:px-8 lg:px-12 pt-10 md:pt-16 pb-16">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 px-6 md:px-12 py-10 md:py-14 text-center">
+            <Reveal
+              variant="scale"
+              className="bg-white rounded-2xl shadow-sm border border-slate-100 px-6 md:px-12 py-10 md:py-14 text-center"
+            >
               <p className="text-base md:text-lg text-slate-700 leading-relaxed">
                 Dengan penuh rasa syukur atas kasih setia Tuhan, kami segenap umat dan Panitia
                 Peringatan Tahbisan 40, 30 &amp; 25 Tahun Imamat mengundang{' '}
@@ -258,33 +260,34 @@ export default function UndanganPage() {
                 dipersembahkan oleh:
               </p>
 
-              <div className="mt-8 flex flex-col items-center">
+              <Reveal variant="scale" delay={120} className="mt-8 flex flex-col items-center">
                 <PhotoAvatar alt="Mgr. Ignatius Kardinal Suharyo, Pr" />
                 <h4 className="mt-5 text-xl md:text-2xl font-semibold text-slate-800">
                   Mgr. Ignatius Kardinal Suharyo, Pr
                 </h4>
                 <p className="text-slate-500">Uskup Agung Jakarta</p>
-              </div>
-            </div>
+              </Reveal>
+            </Reveal>
           </div>
         </section>
 
         {/* ===== Para Romo (biodata) ===== */}
         <section className="px-4 md:px-8 lg:px-12 pb-16">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
+            <Reveal className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-700 mb-3">
                 Para Romo
               </h2>
               <p className="text-slate-500 max-w-2xl mx-auto">
                 Mengenang perjalanan panggilan dan pelayanan para Romo yang dirayakan.
               </p>
-            </div>
+            </Reveal>
 
             <div className="space-y-8">
-              {romos.map((r) => (
-                <article
+              {romos.map((r, i) => (
+                <Reveal
                   key={r.name}
+                  variant={i % 2 === 0 ? 'left' : 'right'}
                   className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col sm:flex-row"
                 >
                   {/* Photo */}
@@ -346,7 +349,7 @@ export default function UndanganPage() {
                       <p className="mt-4 text-sm text-slate-500 italic">Biodata akan menyusul.</p>
                     )}
                   </div>
-                </article>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -355,46 +358,52 @@ export default function UndanganPage() {
         {/* ===== Detail Acara ===== */}
         <section className="px-4 md:px-8 lg:px-12 pb-16">
           <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-12">
+            <Reveal className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-700 mb-3">
                 Waktu &amp; Tempat
               </h2>
-            </div>
+            </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
               {/* Waktu */}
-              <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 text-center">
+              <Reveal className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 text-center">
                 <div className="flex justify-center mb-4 text-sky-500">
                   <FaCalendarAlt size={28} />
                 </div>
                 <h3 className="text-lg font-semibold text-slate-800 mb-2">Waktu Pelaksanaan</h3>
                 <p className="text-slate-600">Minggu, 16 Agustus 2026</p>
                 <p className="text-slate-600 font-medium">Pukul 17.00 WIB</p>
-              </div>
+              </Reveal>
 
               {/* Acara */}
-              <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 text-center">
+              <Reveal
+                delay={120}
+                className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 text-center"
+              >
                 <div className="flex justify-center mb-4 text-sky-500">
                   <FaClock size={28} />
                 </div>
                 <h3 className="text-lg font-semibold text-slate-800 mb-2">Acara</h3>
                 <p className="text-slate-600">Misa Syukur Peringatan Tahbisan Imamat</p>
                 <p className="text-slate-600">Ramah Tamah dan Hiburan</p>
-              </div>
+              </Reveal>
 
               {/* Lokasi */}
-              <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 text-center">
+              <Reveal
+                delay={240}
+                className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 text-center"
+              >
                 <div className="flex justify-center mb-4 text-sky-500">
                   <FaMapMarkerAlt size={28} />
                 </div>
                 <h3 className="text-lg font-semibold text-slate-800 mb-2">Lokasi</h3>
                 <p className="text-slate-600">Gereja Santo Ambrosius</p>
                 <p className="text-slate-600">Paroki Villa Melati Mas</p>
-              </div>
+              </Reveal>
             </div>
 
             {/* Map */}
-            <div className="rounded-2xl overflow-hidden shadow-sm border border-slate-100">
+            <Reveal className="rounded-2xl overflow-hidden shadow-sm border border-slate-100">
               <iframe
                 title="Lokasi Gereja Santo Ambrosius"
                 src="https://www.google.com/maps?q=Gereja+Santo+Ambrosius+Villa+Melati+Mas&output=embed"
@@ -405,8 +414,8 @@ export default function UndanganPage() {
                 referrerPolicy="no-referrer-when-downgrade"
                 allowFullScreen
               />
-            </div>
-            <div className="mt-6 text-center">
+            </Reveal>
+            <Reveal delay={120} className="mt-6 text-center">
               <a
                 href="https://maps.app.goo.gl/2tAcDKkcZNb78u8i6"
                 target="_blank"
@@ -416,14 +425,14 @@ export default function UndanganPage() {
                 <FaMapMarkerAlt size={16} />
                 Buka di Google Maps
               </a>
-            </div>
+            </Reveal>
           </div>
         </section>
 
         {/* ===== Konfirmasi Kehadiran ===== */}
         <section className="px-4 md:px-8 lg:px-12 pb-16">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-sky-100 rounded-2xl shadow-sm px-8 py-12 text-center">
+            <Reveal variant="scale" className="bg-sky-100 rounded-2xl shadow-sm px-8 py-12 text-center">
               <h2 className="text-2xl md:text-3xl font-semibold text-slate-700 mb-2">
                 Konfirmasi Kehadiran
               </h2>
@@ -431,7 +440,7 @@ export default function UndanganPage() {
                 Mohon konfirmasi kehadiran Anda melalui kontak berikut:
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <div className="bg-white rounded-xl p-6 shadow-sm">
+                <Reveal variant="left" delay={120} className="bg-white rounded-xl p-6 shadow-sm">
                   <p className="text-sm text-slate-500 mb-1">Konfirmasi 1</p>
                   <p className="font-medium text-slate-800 mb-3">PIC Undangan</p>
                   <a
@@ -442,8 +451,8 @@ export default function UndanganPage() {
                   >
                     <FaWhatsapp size={18} /> 0xxx-xxxx-xxxx
                   </a>
-                </div>
-                <div className="bg-white rounded-xl p-6 shadow-sm">
+                </Reveal>
+                <Reveal variant="right" delay={240} className="bg-white rounded-xl p-6 shadow-sm">
                   <p className="text-sm text-slate-500 mb-1">Konfirmasi 2</p>
                   <p className="font-medium text-slate-800 mb-3">Tim Romo Rochadi</p>
                   <a
@@ -454,21 +463,21 @@ export default function UndanganPage() {
                   >
                     <FaWhatsapp size={18} /> 0xxx-xxxx-xxxx
                   </a>
-                </div>
+                </Reveal>
               </div>
-            </div>
+            </Reveal>
           </div>
         </section>
 
         {/* ===== Penutup / Tanda Tangan ===== */}
         <section className="px-4 md:px-8 lg:px-12 pb-24">
-          <div className="max-w-4xl mx-auto text-center">
+          <Reveal className="max-w-4xl mx-auto text-center">
             <p className="text-slate-600 italic mb-12">
               Atas kehadiran dan doa restu yang diberikan, kami mengucapkan terima kasih.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-              <div className="flex flex-col items-center">
+              <Reveal variant="left" className="flex flex-col items-center">
                 <PhotoAvatar
                   photo="/romo-pram.jpeg"
                   alt="Romo Antonius Pramono Wahyu Nugroho, Pr"
@@ -478,14 +487,14 @@ export default function UndanganPage() {
                   Romo Antonius Pramono Wahyu Nugroho, Pr
                 </h4>
                 <p className="text-sm text-slate-500">Pastor Kepala Paroki Villa Melati Mas</p>
-              </div>
-              <div className="flex flex-col items-center">
+              </Reveal>
+              <Reveal variant="right" delay={120} className="flex flex-col items-center">
                 <PhotoAvatar alt="Sonny Aloysius Sumendap" size="sm" />
                 <h4 className="mt-4 font-semibold text-slate-800">Sonny Aloysius Sumendap</h4>
                 <p className="text-sm text-slate-500">Ketua Panitia Peringatan 40 Tahun Imamat</p>
-              </div>
+              </Reveal>
             </div>
-          </div>
+          </Reveal>
         </section>
       </div>
     </div>
