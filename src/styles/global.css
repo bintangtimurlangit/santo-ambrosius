@@ -27,3 +27,217 @@
   animation: snowfall linear infinite;
   pointer-events: none;
 }
+
+/* ===== Scroll reveal (Reveal.tsx) ===== */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.85s ease,
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+/* Entrance variants — kept gentle on purpose. */
+.reveal-up {
+  transform: translateY(26px);
+}
+.reveal-left {
+  transform: translateX(-32px);
+}
+.reveal-right {
+  transform: translateX(32px);
+}
+.reveal-scale {
+  transform: scale(0.96);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ===== Undangan envelope intro (EnvelopeIntro.tsx) ===== */
+.env-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 38%, #f0f9ff 0%, #bae6fd 55%, #7dd3fc 100%);
+  transition:
+    opacity 0.8s ease,
+    visibility 0.8s ease;
+}
+.env-overlay.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* The clickable stage */
+.env-scene {
+  --w: min(86vw, 400px);
+  --h: calc(var(--w) * 0.66);
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  perspective: 1300px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.envelope {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+/* Back wall */
+.env-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: linear-gradient(150deg, #e0f2fe, #bae6fd);
+  box-shadow: 0 35px 70px -25px rgba(2, 132, 199, 0.55);
+}
+
+/* The letter (rises out on open) */
+.env-letter {
+  position: absolute;
+  left: 6%;
+  bottom: 5%;
+  width: 88%;
+  height: 84%;
+  z-index: 2;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.45s;
+}
+.env-scene.is-opening .env-letter {
+  transform: translateY(-64%) scale(1.04);
+  z-index: 8;
+  box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.35);
+}
+
+.env-letter-inner {
+  height: 100%;
+  padding: 8% 9%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #334155;
+}
+.env-kicker {
+  font-size: clamp(0.6rem, 2.4vw, 0.8rem);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #0284c7;
+}
+.env-title {
+  margin: 0.5em 0 0;
+  font-weight: 700;
+  line-height: 1.1;
+  font-size: clamp(1.1rem, 5vw, 1.7rem);
+  color: #1e293b;
+}
+.env-rule {
+  width: 42px;
+  height: 2px;
+  margin: 0.9em 0;
+  background: #7dd3fc;
+  border-radius: 2px;
+}
+.env-sub {
+  margin: 0;
+  font-size: clamp(0.7rem, 2.8vw, 0.9rem);
+  color: #475569;
+}
+.env-date {
+  margin: 0.35em 0 0;
+  font-size: clamp(0.72rem, 2.9vw, 0.92rem);
+  font-weight: 600;
+  color: #0369a1;
+}
+
+/* Front pocket (covers the lower half so the letter hides behind it) */
+.env-front {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border-radius: 14px;
+  background:
+    linear-gradient(160deg, #f8fcff, #e0f2fe) padding-box,
+    linear-gradient(to top, #f8fcff 0, #f8fcff 56%, transparent 56%);
+  clip-path: polygon(0 44%, 50% 100%, 100% 44%, 100% 100%, 0 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* Top flap that opens upward on tap */
+.env-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 58%;
+  z-index: 7;
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 0.9s cubic-bezier(0.6, 0, 0.2, 1);
+  background: linear-gradient(160deg, #e8f6ff, #bae6fd);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  box-shadow: 0 6px 10px -6px rgba(2, 132, 199, 0.4);
+  backface-visibility: hidden;
+}
+.env-scene.is-opening .env-flap {
+  transform: rotateX(178deg);
+  z-index: 1;
+}
+
+.env-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3.2rem;
+  text-align: center;
+  color: #0c4a6e;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  animation: env-hint-pulse 2s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+.env-scene.is-opening .env-hint {
+  opacity: 0;
+}
+@keyframes env-hint-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .env-letter,
+  .env-flap,
+  .env-hint {
+    transition: none;
+    animation: none;
+  }
+}
