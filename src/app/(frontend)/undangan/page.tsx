@@ -28,7 +28,6 @@ type Romo = {
   name: string
   date: string
   photo: string
-  objectPosition: string
   birth: string
   parents: string
   career: [string, string][]
@@ -41,7 +40,6 @@ const romos: Romo[] = [
     name: 'Romo Thomas Aquino Rochadi Widagdo, Pr',
     date: '15 Agustus 1986',
     photo: '/romo/thomas-rochadi.webp',
-    objectPosition: 'center 20%',
     birth: 'Kalimundu, Bantul — 15 Mei 1958',
     parents: 'Raden Sebastianus Brotosudibyo & Roro Sebastiana Siti Rochialun',
     career: [
@@ -60,8 +58,7 @@ const romos: Romo[] = [
     years: 40,
     name: 'Romo Yohanes Purbo Tamtomo, Pr',
     date: '15 Agustus 1986',
-    photo: '/romo/yohanes-purbo.jpeg',
-    objectPosition: '68% 18%',
+    photo: '/romo/yohanes-purbo.webp',
     birth: 'Yogyakarta, 1959',
     parents: 'JS Hadisuprapto & Maria Norbentin Praptini',
     career: [
@@ -75,8 +72,7 @@ const romos: Romo[] = [
     years: 30,
     name: 'Romo Aloysius Susilo Wijoyo, Pr',
     date: '15 Agustus 1996',
-    photo: '/romo/aloysius-susilo.jpeg',
-    objectPosition: 'center 25%',
+    photo: '/romo/aloysius-susilo.webp',
     birth: 'Yogyakarta, 11 Februari 1968',
     parents: 'Blasius Supardi KA & Christina Sijam',
     career: [
@@ -93,8 +89,7 @@ const romos: Romo[] = [
     years: 30,
     name: 'Romo Yos Bintoro, Pr',
     date: '15 Agustus 1996',
-    photo: '/romo/yos-bintoro.jpeg',
-    objectPosition: 'center 30%',
+    photo: '/romo/yos-bintoro.webp',
     birth: 'Jakarta, 30 November 1967',
     parents:
       'Kanjeng Raden Tumenggung Rafael Ignatius Martokusumo, SE & Raden Ayu Maria Dolores Mursyanti Suryo Mursandi',
@@ -123,11 +118,22 @@ const romos: Romo[] = [
     years: 25,
     name: 'Romo Yustinus Ardianto, Pr',
     date: '15 Agustus 2001',
-    photo: '',
-    objectPosition: 'center',
-    birth: '',
-    parents: '',
-    career: [],
+    photo: '/romo/yustinus-ardianto.webp',
+    birth: 'Jakarta, 9 Mei 1974',
+    parents: 'Yohanes Doemeri & Maria Laurensia Suwarsiatun',
+    career: [
+      [
+        '2001',
+        'Ditahbiskan menjadi Imam pada 15 Agustus 2001 di Paroki Hati Santa Perawan Maria Tak Bernoda, Tangerang',
+      ],
+      [
+        '2001–2009',
+        'Ketua Komisi KomSos KAK; tinggal di Paroki Bojong Indah dan Paroki Jalan Malang',
+      ],
+      ['2009–2012', 'Studi di Ateneo de Manila University, Filipina'],
+      ['2012–2017', 'Pastor Paroki Kalvari, Lubang Buaya'],
+      ['2017–sekarang', 'Direktur Pusat Pastoral Samadi'],
+    ],
   },
 ]
 
@@ -216,8 +222,24 @@ export default function UndanganPage() {
       >
         {/* Ribbon (motto) */}
         <div className="relative">
-          <Ribbon lightText="Deus Intimeor Intimo Meo" darkText="Deus Intimeor Intimo Tuo" />
+          <Ribbon lightText="Deus Intimior Intimo Meo" darkText="Deus Intimior Intimo Tuo" />
         </div>
+
+        {/* ===== Ayat Suci ===== */}
+        <section className="px-6 md:px-8 pt-10 md:pt-16">
+          <Reveal variant="scale" className="max-w-3xl mx-auto text-center">
+            <p
+              className={`${display.className} text-xl md:text-2xl lg:text-3xl italic text-slate-700 leading-relaxed`}
+            >
+              &ldquo;Sembuhkanlah orang sakit; bangkitkanlah orang mati; tahirkanlah orang kusta;
+              usirlah setan-setan. Kamu telah memperolehnya dengan cuma-cuma, karena itu berikanlah
+              pula dengan cuma-cuma.&rdquo;
+            </p>
+            <p className="mt-5 text-sm md:text-base font-semibold uppercase tracking-widest text-sky-600">
+              Matius 10:8
+            </p>
+          </Reveal>
+        </section>
 
         {/* ===== Invitation body ===== */}
         <section className="px-4 md:px-8 lg:px-12 pt-10 md:pt-16 pb-16">
@@ -261,7 +283,7 @@ export default function UndanganPage() {
               </p>
 
               <Reveal variant="scale" delay={120} className="mt-8 flex flex-col items-center">
-                <PhotoAvatar alt="Mgr. Ignatius Kardinal Suharyo, Pr" />
+                <PhotoAvatar photo="/romo/suharyo.webp" alt="Mgr. Ignatius Kardinal Suharyo, Pr" />
                 <h4 className="mt-5 text-xl md:text-2xl font-semibold text-slate-800">
                   Mgr. Ignatius Kardinal Suharyo, Pr
                 </h4>
@@ -290,18 +312,17 @@ export default function UndanganPage() {
                   variant={i % 2 === 0 ? 'left' : 'right'}
                   className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col sm:flex-row"
                 >
-                  {/* Photo */}
-                  <div className="sm:w-56 md:w-64 flex-shrink-0 bg-sky-50">
+                  {/* Photo — fixed 4:5 frame so every Romo is shown at the same scale */}
+                  <div className="sm:w-56 md:w-64 flex-shrink-0 bg-sky-50 sm:self-start">
                     {r.photo ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={r.photo}
                         alt={r.name}
-                        className="w-full h-72 sm:h-full object-cover"
-                        style={{ objectPosition: r.objectPosition }}
+                        className="w-full aspect-[4/5] object-cover object-top"
                       />
                     ) : (
-                      <div className="w-full h-72 sm:h-full flex items-center justify-center text-sky-300">
+                      <div className="w-full aspect-[4/5] flex items-center justify-center text-sky-300">
                         <FaUser size={56} />
                       </div>
                     )}
@@ -489,7 +510,7 @@ export default function UndanganPage() {
                 <p className="text-sm text-slate-500">Pastor Kepala Paroki Villa Melati Mas</p>
               </Reveal>
               <Reveal variant="right" delay={120} className="flex flex-col items-center">
-                <PhotoAvatar alt="Sonny Aloysius Sumendap" size="sm" />
+                <PhotoAvatar photo="/romo/sonny.webp" alt="Sonny Aloysius Sumendap" size="sm" />
                 <h4 className="mt-4 font-semibold text-slate-800">Sonny Aloysius Sumendap</h4>
                 <p className="text-sm text-slate-500">Ketua Panitia Peringatan 40 Tahun Imamat</p>
               </Reveal>
