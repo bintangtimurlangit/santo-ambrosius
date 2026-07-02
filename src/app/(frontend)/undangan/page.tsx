@@ -362,9 +362,9 @@ export default function UndanganPage() {
                           {r.career.map(([yr, desc]) => (
                             <li
                               key={yr + desc}
-                              className="flex gap-2 text-sm text-slate-600 leading-relaxed"
+                              className="flex gap-4 text-sm text-slate-600 leading-relaxed"
                             >
-                              <span className="font-semibold text-sky-700 shrink-0 w-24 whitespace-nowrap">
+                              <span className="font-semibold text-sky-700 shrink-0 w-32 whitespace-nowrap">
                                 {yr}
                               </span>
                               <span className="flex-1">{desc}</span>
@@ -471,24 +471,24 @@ export default function UndanganPage() {
                   <p className="text-sm text-slate-500 mb-1">Konfirmasi 1</p>
                   <p className="font-medium text-slate-800 mb-3">PIC Paroki</p>
                   <a
-                    href="https://wa.me/62XXXXXXXXXXX"
+                    href="https://wa.me/6282164328052"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-600 font-medium underline"
                   >
-                    <FaWhatsapp size={18} /> 0xxx-xxxx-xxxx
+                    <FaWhatsapp size={18} /> 0821-6432-8052
                   </a>
                 </Reveal>
                 <Reveal variant="right" delay={240} className="bg-white rounded-xl p-6 shadow-sm">
                   <p className="text-sm text-slate-500 mb-1">Konfirmasi 2</p>
                   <p className="font-medium text-slate-800 mb-3">PIC Romo Rochadi</p>
                   <a
-                    href="https://wa.me/62XXXXXXXXXXX"
+                    href="https://wa.me/62811900221"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-600 font-medium underline"
                   >
-                    <FaWhatsapp size={18} /> 0xxx-xxxx-xxxx
+                    <FaWhatsapp size={18} /> 0811-900-221
                   </a>
                 </Reveal>
               </div>
