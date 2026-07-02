@@ -37,7 +37,7 @@ type Romo = {
 const romos: Romo[] = [
   {
     years: 40,
-    name: 'Romo Thomas Aquino Rochadi Widagdo, Pr',
+    name: 'Romo Thomas Aquinas Murdjanto R.W., Pr',
     date: '15 Agustus 1986',
     photo: '/romo/thomas-rochadi.webp',
     birth: 'Kalimundu, Bantul — 15 Mei 1958',
@@ -87,7 +87,7 @@ const romos: Romo[] = [
   },
   {
     years: 30,
-    name: 'Romo Yos Bintoro, Pr',
+    name: 'Romo Yoseph Maria Marcelinus Bintoro, Pr.',
     date: '15 Agustus 1996',
     photo: '/romo/yos-bintoro.webp',
     birth: 'Jakarta, 30 November 1967',
@@ -222,7 +222,7 @@ export default function UndanganPage() {
       >
         {/* Ribbon (motto) */}
         <div className="relative">
-          <Ribbon lightText="Deus Intimior Intimo Meo" darkText="Deus Intimior Intimo Tuo" />
+          <Ribbon lightText="Deus Intimior Intimo Tuo" darkText="Deus Intimior Intimo Meo" />
         </div>
 
         {/* ===== Ayat Suci ===== */}
@@ -313,13 +313,13 @@ export default function UndanganPage() {
                   className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col sm:flex-row"
                 >
                   {/* Photo — fixed 4:5 frame so every Romo is shown at the same scale */}
-                  <div className="sm:w-56 md:w-64 flex-shrink-0 bg-sky-50 sm:self-start">
+                  <div className="sm:w-56 md:w-64 flex-shrink-0 bg-sky-50">
                     {r.photo ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={r.photo}
                         alt={r.name}
-                        className="w-full aspect-[4/5] object-cover object-top"
+                        className="w-full h-full aspect-[4/5] sm:aspect-auto object-cover object-top"
                       />
                     ) : (
                       <div className="w-full aspect-[4/5] flex items-center justify-center text-sky-300">
@@ -360,8 +360,14 @@ export default function UndanganPage() {
                         </p>
                         <ul className="space-y-1.5">
                           {r.career.map(([yr, desc]) => (
-                            <li key={yr + desc} className="text-sm text-slate-600 leading-relaxed">
-                              <span className="font-semibold text-sky-700">{yr}</span> — {desc}
+                            <li
+                              key={yr + desc}
+                              className="flex gap-4 text-sm text-slate-600 leading-relaxed"
+                            >
+                              <span className="font-semibold text-sky-700 shrink-0 w-32 whitespace-nowrap">
+                                {yr}
+                              </span>
+                              <span className="flex-1">{desc}</span>
                             </li>
                           ))}
                         </ul>
@@ -463,26 +469,26 @@ export default function UndanganPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
                 <Reveal variant="left" delay={120} className="bg-white rounded-xl p-6 shadow-sm">
                   <p className="text-sm text-slate-500 mb-1">Konfirmasi 1</p>
-                  <p className="font-medium text-slate-800 mb-3">PIC Undangan</p>
+                  <p className="font-medium text-slate-800 mb-3">PIC Paroki</p>
                   <a
-                    href="https://wa.me/62XXXXXXXXXXX"
+                    href="https://wa.me/6282164328052"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-600 font-medium underline"
                   >
-                    <FaWhatsapp size={18} /> 0xxx-xxxx-xxxx
+                    <FaWhatsapp size={18} /> 0821-6432-8052
                   </a>
                 </Reveal>
                 <Reveal variant="right" delay={240} className="bg-white rounded-xl p-6 shadow-sm">
                   <p className="text-sm text-slate-500 mb-1">Konfirmasi 2</p>
-                  <p className="font-medium text-slate-800 mb-3">Tim Romo Rochadi</p>
+                  <p className="font-medium text-slate-800 mb-3">PIC Romo Rochadi</p>
                   <a
-                    href="https://wa.me/62XXXXXXXXXXX"
+                    href="https://wa.me/62811900221"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-600 font-medium underline"
                   >
-                    <FaWhatsapp size={18} /> 0xxx-xxxx-xxxx
+                    <FaWhatsapp size={18} /> 0811-900-221
                   </a>
                 </Reveal>
               </div>
