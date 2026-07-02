@@ -15,7 +15,7 @@ const display = Fraunces({
 })
 
 export const metadata: Metadata = {
-  title: 'Undangan — Peringatan Tahbisan Imamat',
+  title: 'Undangan Peringatan Tahbisan Imamat',
   description:
     'Undangan Perayaan Misa Syukur Peringatan 40, 30 & 25 Tahun Imamat para Romo di Gereja Santo Ambrosius, Paroki Villa Melati Mas. Minggu, 16 Agustus 2026.',
   alternates: {
@@ -37,7 +37,7 @@ type Romo = {
 const romos: Romo[] = [
   {
     years: 40,
-    name: 'Romo Thomas Aquinas Murdjanto R.W., Pr',
+    name: 'Romo Thomas Aquinas Murdjanto Rochadi Widagdo, Pr',
     date: '15 Agustus 1986',
     photo: '/romo/thomas-rochadi.webp',
     birth: 'Kalimundu, Bantul — 15 Mei 1958',
@@ -184,31 +184,40 @@ export default function UndanganPage() {
             src="/undangan-hero.webp"
             alt="Interior Gereja Santo Ambrosius"
           />
+          {/* Top blend (mirrors the bottom) */}
+          <div
+            className="absolute inset-x-0 top-0 h-1/3"
+            style={{ background: 'linear-gradient(to top, transparent, rgba(51,65,85,0.9))' }}
+          ></div>
           {/* Bottom blend into the slate ribbon below */}
           <div
             className="absolute inset-x-0 bottom-0 h-1/3 rounded-b-2xl"
             style={{ background: 'linear-gradient(to bottom, transparent, rgba(51,65,85,0.9))' }}
           ></div>
 
+          {/* Eyebrow label near the top */}
+          <p
+            className={`${display.className} absolute inset-x-0 top-6 md:top-8 z-10 text-center text-white uppercase tracking-[0.45em] text-base md:text-lg drop-shadow-lg`}
+          >
+            Undangan
+          </p>
+
           <div className="relative z-10 flex items-center justify-center h-full">
             <div className="text-center px-8">
-              <p
-                className={`${display.className} text-sky-200 tracking-[0.45em] uppercase text-base md:text-lg mb-6`}
-              >
-                Undangan
-              </p>
               <h1
-                className={`${display.className} text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.05] m-0 mb-8 drop-shadow-lg`}
+                className={`${display.className} text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.05] m-0 drop-shadow-xl`}
               >
-                Peringatan 40, 30, 25
+                Peringatan 40, 35, 30, 25
                 <br />
                 Tahun Imamat
               </h1>
-              <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-                Perayaan Misa Syukur — Gereja Santo Ambrosius, Paroki Villa Melati Mas
-              </p>
             </div>
           </div>
+
+          {/* Subtitle anchored near the bottom of the hero (kept on one line) */}
+          <p className="absolute inset-x-0 bottom-8 md:bottom-10 z-10 text-center px-2 whitespace-nowrap font-medium text-white/90 leading-relaxed drop-shadow-2xl text-[clamp(0.5rem,2.5vw,1.25rem)]">
+            Perayaan Misa Syukur — Gereja Santo Ambrosius, Paroki Villa Melati Mas
+          </p>
         </section>
       </div>
 
@@ -229,7 +238,7 @@ export default function UndanganPage() {
         <section className="px-6 md:px-8 pt-10 md:pt-16">
           <Reveal variant="scale" className="max-w-3xl mx-auto text-center">
             <p
-              className={`${display.className} text-xl md:text-2xl lg:text-3xl italic text-slate-700 leading-relaxed`}
+              className={`${display.className} text-lg md:text-xl lg:text-2xl italic text-slate-700 leading-relaxed`}
             >
               &ldquo;Sembuhkanlah orang sakit; bangkitkanlah orang mati; tahirkanlah orang kusta;
               usirlah setan-setan. Kamu telah memperolehnya dengan cuma-cuma, karena itu berikanlah
@@ -248,7 +257,7 @@ export default function UndanganPage() {
               variant="scale"
               className="bg-white rounded-2xl shadow-sm border border-slate-100 px-6 md:px-12 py-10 md:py-14 text-center"
             >
-              <p className="text-base md:text-lg text-slate-700 leading-relaxed">
+              <p className="text-base md:text-lg italic text-slate-700 leading-relaxed">
                 Dengan penuh rasa syukur atas kasih setia Tuhan, kami segenap umat dan Panitia
                 Peringatan Tahbisan 40, 30 &amp; 25 Tahun Imamat mengundang{' '}
                 <span className="font-medium text-slate-800">
@@ -298,10 +307,10 @@ export default function UndanganPage() {
           <div className="max-w-4xl mx-auto">
             <Reveal className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-700 mb-3">
-                Para Romo
+                Imam yang Merayakan
               </h2>
               <p className="text-slate-500 max-w-2xl mx-auto">
-                Mengenang perjalanan panggilan dan pelayanan para Romo yang dirayakan.
+                Refleksi perjalanan, syukur atas pelayanan, dan doa untuk imam yang merayakan tahbisan
               </p>
             </Reveal>
 
