@@ -68,7 +68,7 @@ export default function EnvelopeIntro() {
               <h2 className="env-title">
                 Peringatan
                 <br />
-                40 · 30 · 25
+                40 · 35 · 30 · 25
                 <br />
                 Tahun Imamat
               </h2>

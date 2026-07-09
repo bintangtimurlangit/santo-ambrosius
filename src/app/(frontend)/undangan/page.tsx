@@ -17,7 +17,7 @@ const display = Fraunces({
 export const metadata: Metadata = {
   title: 'Undangan Peringatan Tahbisan Imamat',
   description:
-    'Undangan Perayaan Misa Syukur Peringatan 40, 30 & 25 Tahun Imamat para Romo di Gereja Santo Ambrosius, Paroki Villa Melati Mas. Minggu, 16 Agustus 2026.',
+    'Undangan Perayaan Misa Syukur Peringatan 40, 35, 30 & 25 Tahun Imamat para Romo di Gereja Santo Ambrosius, Paroki Villa Melati Mas. Minggu, 16 Agustus 2026.',
   alternates: {
     canonical: '/undangan',
   },
@@ -31,15 +31,18 @@ type Romo = {
   birth: string
   parents: string
   career: [string, string][]
+  /** Optional extra classes for the biodata photo (e.g. a slight zoom). */
+  imgClassName?: string
 }
 
 /** Para Romo yang dirayakan peringatan tahbisannya. */
 const romos: Romo[] = [
   {
     years: 40,
-    name: 'Romo Thomas Aquinas Murdjanto Rochadi Widagdo, Pr',
+    name: 'Romo Thomas Aquino Murdjanto Rochadi Widagdo, Pr',
     date: '15 Agustus 1986',
     photo: '/romo/thomas-rochadi.webp',
+    imgClassName: 'scale-110 origin-top',
     birth: 'Kalimundu, Bantul — 15 Mei 1958',
     parents: 'Raden Sebastianus Brotosudibyo & Roro Sebastiana Siti Rochialun',
     career: [
@@ -51,7 +54,7 @@ const romos: Romo[] = [
       ['2005', 'Sabbatical Year di Filipina'],
       ['2005–2014', 'Bertugas kembali di Paroki Pejompongan, Gereja Kristus Raja'],
       ['2014–2026', 'Bertugas di Paroki Cilangkap, Gereja St. Maria Vianney'],
-      ['2026', 'Pastor Rekan di Paroki Villa Melati Mas, Gereja St. Ambrosius'],
+      ['2026–sekarang', 'Pastor Rekan di Paroki Villa Melati Mas, Gereja St. Ambrosius'],
     ],
   },
   {
@@ -66,6 +69,24 @@ const romos: Romo[] = [
       ['1988', 'Belajar ke Roma'],
       ['1992', 'Pelayanan di KAJ sebagai Sekretaris Bapak Uskup Leo Soekoto'],
       ['2017–sekarang', 'Pelayanan di Seminari Tinggi JP II KAJ'],
+    ],
+  },
+  {
+    years: 35,
+    name: 'Rm. Yustinus Sulistiadi, Pr',
+    date: '',
+    photo: '/romo/yustinus-sulistiadi.jpeg',
+    birth: '',
+    parents: '',
+    career: [
+      ['1991–1994', 'Pamong Seminari Menengah Wacana Bhakti'],
+      ['1994–2006', 'Studi Film & Televisi di Roma'],
+      ['2006–2011', 'Pastor Rekan St. Ignatius, Jl. Malang'],
+      ['2011–2012', 'Skriptor & Kategorial di Wisma Samadi'],
+      ['2012–2016', 'Pastor Rekan Kristus Raja, Pejompongan'],
+      ['2016–2021', 'Pastor Kepala St. Gregorius Agung, Kutabumi'],
+      ['2021–sekarang', 'Pastor Rekan St. Yohanes Maria Vianney, Cilangkap'],
+      ['2021–2026', 'Menjadi Pastor di Paroki Pulogebang'],
     ],
   },
   {
@@ -172,7 +193,7 @@ export default function UndanganPage() {
       <EnvelopeIntro />
 
       {/* Background music */}
-      <UndanganAudio src="/audio/aku-abdi-tuhan.mp3" />
+      <UndanganAudio src="/audio/musik-undangan.mp3" />
 
       {/* ===== Hero ===== */}
       <div className="px-2">
@@ -259,7 +280,7 @@ export default function UndanganPage() {
             >
               <p className="text-base md:text-lg italic text-slate-700 leading-relaxed">
                 Dengan penuh rasa syukur atas kasih setia Tuhan, kami segenap umat dan Panitia
-                Peringatan Tahbisan 40, 30 &amp; 25 Tahun Imamat mengundang{' '}
+                Peringatan Tahbisan 40, 35, 30 &amp; 25 Tahun Imamat mengundang{' '}
                 <span className="font-medium text-slate-800">
                   Pastor, Suster, Biarawan/Biarawati, dan Bapak/Ibu/Saudara/i
                 </span>{' '}
@@ -267,7 +288,7 @@ export default function UndanganPage() {
               </p>
 
               <div className="my-10 space-y-6">
-                {[40, 30, 25].map((year) => (
+                {[40, 35, 30, 25].map((year) => (
                   <div key={year}>
                     <h3 className="text-sm font-semibold uppercase tracking-widest text-sky-600 mb-3">
                       {year} Tahun Imamat
@@ -277,8 +298,8 @@ export default function UndanganPage() {
                         .filter((r) => r.years === year)
                         .map((r) => (
                           <li key={r.name} className="text-slate-700">
-                            <span className="font-medium text-slate-800">{r.name}</span>{' '}
-                            <span className="text-slate-500">({r.date})</span>
+                            <span className="font-medium text-slate-800">{r.name}</span>
+                            {r.date && <span className="text-slate-500"> ({r.date})</span>}
                           </li>
                         ))}
                     </ul>
@@ -322,13 +343,13 @@ export default function UndanganPage() {
                   className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col sm:flex-row"
                 >
                   {/* Photo — fixed 4:5 frame so every Romo is shown at the same scale */}
-                  <div className="sm:w-56 md:w-64 flex-shrink-0 bg-sky-50">
+                  <div className="sm:w-56 md:w-64 flex-shrink-0 bg-sky-50 overflow-hidden">
                     {r.photo ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={r.photo}
                         alt={r.name}
-                        className="w-full h-full aspect-[4/5] sm:aspect-auto object-cover object-top"
+                        className={`w-full h-full aspect-[4/5] sm:aspect-auto object-cover object-top ${r.imgClassName ?? ''}`}
                       />
                     ) : (
                       <div className="w-full aspect-[4/5] flex items-center justify-center text-sky-300">
@@ -345,7 +366,7 @@ export default function UndanganPage() {
                     <h3 className="mt-3 text-xl font-semibold text-slate-800 leading-snug">
                       {r.name}
                     </h3>
-                    <p className="text-sm text-slate-500 mt-1">Tahbisan: {r.date}</p>
+                    {r.date && <p className="text-sm text-slate-500 mt-1">Tahbisan: {r.date}</p>}
 
                     {(r.birth || r.parents) && (
                       <div className="mt-4 text-sm text-slate-600 space-y-1">
