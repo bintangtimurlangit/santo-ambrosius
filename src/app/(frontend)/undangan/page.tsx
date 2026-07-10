@@ -39,22 +39,22 @@ type Romo = {
 const romos: Romo[] = [
   {
     years: 40,
-    name: 'Romo Thomas Aquino Murdjanto Rochadi Widagdo, Pr',
+    name: 'Romo Thomas Aquinas Murdjanto Rochadi Widagdo, Pr',
     date: '15 Agustus 1986',
     photo: '/romo/thomas-rochadi.webp',
     imgClassName: 'scale-110 origin-top',
     birth: 'Kalimundu, Bantul — 15 Mei 1958',
-    parents: 'Raden Sebastianus Brotosudibyo & Roro Sebastiana Siti Rochialun',
+    parents: 'Raden Sebastianus Brotosudibyo dan Roro Sebastiana Siti Rochialun',
     career: [
-      ['1986–1990', 'Pastor Rekan di Paroki Mangga Besar, Gereja St. Petrus & Paulus'],
-      ['1990–1994', 'Pastor Kepala di Paroki Pulomas, Gereja St. Bonaventura'],
-      ['1994–1999', 'Pastor Kepala di Paroki Bojong Indah, Gereja St. Thomas Rasul'],
-      ['1999–2004', 'Pastor Rekan di Paroki Cijantung, Gereja St. Aloysius Gonzaga'],
-      ['2004–2005', 'Pastor Rekan di Paroki Pejompongan, Gereja Kristus Raja'],
-      ['2005', 'Sabbatical Year di Filipina'],
-      ['2005–2014', 'Bertugas kembali di Paroki Pejompongan, Gereja Kristus Raja'],
+      ['1986–1990', 'Sebagai Pastor Rekan di Paroki Mangga Besar, Gereja St. Petrus Paulus'],
+      ['1990–1994', 'Pastur Kepala di Paroki Pulomas, Gereja St. Bonaventura'],
+      ['1994–1999', 'Pastur Kepala di Paroki Bojong Indah, Gereja  St. Thomas Rasul'],
+      ['1999–2004', 'Pastur Rekan di Paroki Cijantung, St. Aloysius Gonzaga'],
+      ['2004–2005', 'Pastur Rekan di Paroki Pejompongan, Gereja Kristus Raja'],
+      ['2005 Mei - Sept', 'Sabatical Years di Filipina'],
+      ['2005–2014', 'Bertugas kembali Paroki Pejompongan, Gereja Kristus Raja'],
       ['2014–2026', 'Bertugas di Paroki Cilangkap, Gereja St. Maria Vianney'],
-      ['2026–sekarang', 'Pastor Rekan di Paroki Villa Melati Mas, Gereja St. Ambrosius'],
+      ['2026–sekarang', 'Bertugas sebagai Pastor Rekan di Paroki Villa Melati Mas, Gereja St. Ambrosius'],
     ],
   },
   {
@@ -63,11 +63,11 @@ const romos: Romo[] = [
     date: '15 Agustus 1986',
     photo: '/romo/yohanes-purbo.webp',
     birth: 'Yogyakarta, 1959',
-    parents: 'JS Hadisuprapto & Maria Norbentin Praptini',
+    parents: 'JS Hadisuprapto dan Maria Norbentin Praptini',
     career: [
-      ['1986', 'Pastor Rekan di Gereja St. Bonaventura, Pulomas'],
+      ['1986', 'Pastor Rekan di Paroki Pulomas, Gereja St. Bonaventura'],
       ['1988', 'Belajar ke Roma'],
-      ['1992', 'Pelayanan di KAJ sebagai Sekretaris Bapak Uskup Leo Soekoto'],
+      ['1992', 'Pelayanan di KAJ sebagai Sekretaris Bapak Uskup Leo Sukoto'],
       ['2017–sekarang', 'Pelayanan di Seminari Tinggi JP II KAJ'],
     ],
   },
@@ -76,17 +76,17 @@ const romos: Romo[] = [
     name: 'Rm. Yustinus Sulistiadi, Pr',
     date: '',
     photo: '/romo/yustinus-sulistiadi.jpeg',
-    birth: '',
-    parents: '',
+    birth: 'Solo, 14 Agustus 1964',
+    parents: 'Ignatius Soenardjo dan Hedwigis Srimulyati',
     career: [
-      ['1991–1994', 'Pamong Seminari Menengah Wacana Bhakti'],
-      ['1994–2006', 'Studi Film & Televisi di Roma'],
-      ['2006–2011', 'Pastor Rekan St. Ignatius, Jl. Malang'],
+      ['1991–1994', 'Pamong Seminari Menengah Wacana Bhakti, Anggota Komisi Liturgi'],
+      ['1994–2006', 'Studi Fim & Televisi di Roma'],
+      ['2006–2011', 'Pastor Rekan di Paroki Menteng, Gereja St. Ignatius Loyola'],
       ['2011–2012', 'Skriptor & Kategorial di Wisma Samadi'],
-      ['2012–2016', 'Pastor Rekan Kristus Raja, Pejompongan'],
-      ['2016–2021', 'Pastor Kepala St. Gregorius Agung, Kutabumi'],
-      ['2021–sekarang', 'Pastor Rekan St. Yohanes Maria Vianney, Cilangkap'],
-      ['2021–2026', 'Menjadi Pastor di Paroki Pulogebang'],
+      ['2012–2016', 'Pastor Rekan di Paroki Pejompongan, Gereja St. Kristus Raja'],
+      ['2016–2021', 'Pastor Kepala Paroki Sukabumi, Gereja St. Gregorius Agung'],
+      ['2021–2025', 'Pastor Rekan di Paroki Cilangkap, Gereja St. Yohanes Maria Vianney'],
+      ['2021–2026', 'Pastor Rekan di Paroki Pulo Gebang, Gereja St. Gabriel'],
     ],
   },
   {
@@ -95,15 +95,15 @@ const romos: Romo[] = [
     date: '15 Agustus 1996',
     photo: '/romo/aloysius-susilo.webp',
     birth: 'Yogyakarta, 11 Februari 1968',
-    parents: 'Blasius Supardi KA & Christina Sijam',
+    parents: 'Blasius Supardi KA dan Christina Sijam',
     career: [
       ['1996–1998', 'Pastor Rekan di Paroki Kelapa Gading'],
       ['1998–2001', 'Pastor Unika Atma Jaya, Jakarta'],
-      ['2001–2005', 'Pastor Staf Seminari Tinggi KAJ'],
-      ['2005–2008', 'Pastor Kepala Paroki Pejompongan'],
-      ['2008–2017', 'Pastor Kepala Paroki Kosambi Baru'],
-      ['2017–2022', 'Pastor Kepala Paroki Pulo Gebang'],
-      ['2022–sekarang', 'Pastor Kepala Paroki Ciputat'],
+      ['2001–2005', 'Pastor Staff Seminari Tinggi Keuskupan Agung Jakarta (KAJ)'],
+      ['2005–2008', 'Pastor Kepala Paroki Pejompongan, Gereja St. Kristus Raja'],
+      ['2008–2017', 'Pastor Kepala Kosambi Baru, Gereja St. Matias Rasul'],
+      ['2017–2022', 'Pastor Kepala Paroki Pulo Gebang, Gereja St. Gabriel'],
+      ['2022–sekarang', 'Pastor Kepala Paroki Ciputat, Gereja St. Nikodemus'],
     ],
   },
   {
@@ -113,25 +113,25 @@ const romos: Romo[] = [
     photo: '/romo/yos-bintoro.webp',
     birth: 'Jakarta, 30 November 1967',
     parents:
-      'Kanjeng Raden Tumenggung Rafael Ignatius Martokusumo, SE & Raden Ayu Maria Dolores Mursyanti Suryo Mursandi',
+      'KRT RI Martokusumo, SE & RAy Maria Dolores Mursjanti Soerjomursandi',
     career: [
-      ['1992–1993', 'Frater orientasi pastoral di Paroki Santa Maria, Tangerang'],
+      ['1992–1993', 'Frater orientasi Pastoral Di Paroki Santa Maria, Tangerang'],
       [
         '1996',
-        'Ditahbiskan menjadi Imam di Gereja St. Yohanes Penginjil, Jakarta; mengikuti Pendidikan Perwira Karier di Akademi Militer Magelang',
+        'Ditahbiskan jadi Imam di Paroki Blok B, Gereja St Yohanes Penginjil. Mengikuti Pendidikan Perwira Karier di Akademi Militer Magelang',
       ],
       [
         '1997–2018',
-        'Bertugas di Akademi Angkatan Udara Yogyakarta dan mendirikan Gereja Santo Mikael Lanud Adisutjipto',
+        'Bertugas di Akademi Angkatan Udara Yogyakarta dan mendirikan Paroki Lanud Adisutjipto, Gereja St. Mikael',
       ],
       [
         '2019',
-        'Diangkat sebagai Wakil Uskup Ordinariatus Castrensis Indonesia, memprakarsai Pusat Studi Perdamaian dan Resolusi Konflik serta kaderisasi imam-imam muda sebagai perwira organik di TNI dan POLRI',
+        'Diangkat sebagai Wakil Uskup Ordinariatus Castrensis Indonesia Yang melahirkan Pusat Studi Perdamaian dan Resolusi Konflik Memprakarsai kaderisasi imam-imam muda sebagai perwira Organik di TNI AD, TNI AL, TNI AU dan POLRI',
       ],
-      ['2020', 'Kembali ke KAJ dan ditempatkan di Gereja Santo Agustinus, Halim'],
+      ['2020', 'Kembali ke KAJ dan ditempatkan di Paroki Halim Perdana Kusuma, Gereja St. Agustinus'],
       [
         '2020–sekarang',
-        'Mengembangkan tata kelola Ordinariatus Castrensis Indonesia sebagai model pastoral militer yang kontekstual bagi Gereja universal',
+        'Mengembangkan tata kelola Ordinariatus Cartensis Indonesia sebagai model pastoral militer yang kontekstual bagi Gereja Universal yang rencananya akan dipresentasikan kepada Bapa Suci Paul Leo XIV dalam audiensi khusus Ordinariatus Castrensis Indonesia di Vatikan serta pada Pilgrimage Militaire International di Lourdes',
       ],
     ],
   },
@@ -141,18 +141,18 @@ const romos: Romo[] = [
     date: '15 Agustus 2001',
     photo: '/romo/yustinus-ardianto.webp',
     birth: 'Jakarta, 9 Mei 1974',
-    parents: 'Yohanes Doemeri & Maria Laurensia Suwarsiatun',
+    parents: 'Yohanes Doemeri dan Maria Laurensia Suwarsiatun',
     career: [
       [
         '2001',
-        'Ditahbiskan menjadi Imam pada 15 Agustus 2001 di Paroki Hati Santa Perawan Maria Tak Bernoda, Tangerang',
+        'Pastor di Paroki Hati Santa Perawan Maria Tak Bernoda, Tangerang',
       ],
       [
         '2001–2009',
-        'Ketua Komisi KomSos KAK; tinggal di Paroki Bojong Indah dan Paroki Jalan Malang',
+        'Ketua Komisi KomSos KAK; Paroki Bojong Indah, Gereja St. Thomas Rasul dan Paroki Jalan Malang, Gereja St. Ignatius Loyola',
       ],
-      ['2009–2012', 'Studi di Ateneo de Manila University, Filipina'],
-      ['2012–2017', 'Pastor Paroki Kalvari, Lubang Buaya'],
+      ['2009–2012', 'Studi di Ateneo De Manila University, Filipina'],
+      ['2012–2017', 'Pastor Paroki Lubang Buaya, Gereja Kalvari'],
       ['2017–sekarang', 'Direktur Pusat Pastoral Samadi'],
     ],
   },
@@ -331,7 +331,7 @@ export default function UndanganPage() {
                 Imam yang Merayakan
               </h2>
               <p className="text-slate-500 max-w-2xl mx-auto">
-                Refleksi perjalanan, syukur atas pelayanan, dan doa untuk imam yang merayakan tahbisan
+                Refleksi perjalanan, syukur atas pelayanan, dan doa untuk Imam yang merayakan tahbisan
               </p>
             </Reveal>
 
@@ -498,7 +498,6 @@ export default function UndanganPage() {
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
                 <Reveal variant="left" delay={120} className="bg-white rounded-xl p-6 shadow-sm">
-                  <p className="text-sm text-slate-500 mb-1">Konfirmasi 1</p>
                   <p className="font-medium text-slate-800 mb-3">PIC Paroki</p>
                   <a
                     href="https://wa.me/6282164328052"
@@ -507,18 +506,6 @@ export default function UndanganPage() {
                     className="inline-flex items-center gap-2 text-green-600 font-medium underline"
                   >
                     <FaWhatsapp size={18} /> 0821-6432-8052
-                  </a>
-                </Reveal>
-                <Reveal variant="right" delay={240} className="bg-white rounded-xl p-6 shadow-sm">
-                  <p className="text-sm text-slate-500 mb-1">Konfirmasi 2</p>
-                  <p className="font-medium text-slate-800 mb-3">PIC Romo Rochadi</p>
-                  <a
-                    href="https://wa.me/62811900221"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-green-600 font-medium underline"
-                  >
-                    <FaWhatsapp size={18} /> 0811-900-221
                   </a>
                 </Reveal>
               </div>
