@@ -46,15 +46,15 @@ const romos: Romo[] = [
     birth: 'Kalimundu, Bantul — 15 Mei 1958',
     parents: 'Raden Sebastianus Brotosudibyo dan Roro Sebastiana Siti Rochialun',
     career: [
-      ['1986–1990', 'Sebagai Pastor Rekan di Paroki Mangga Besar, Gereja St. Petrus Paulus'],
-      ['1990–1994', 'Pastur Kepala di Paroki Pulomas, Gereja St. Bonaventura'],
-      ['1994–1999', 'Pastur Kepala di Paroki Bojong Indah, Gereja  St. Thomas Rasul'],
-      ['1999–2004', 'Pastur Rekan di Paroki Cijantung, St. Aloysius Gonzaga'],
-      ['2004–2005', 'Pastur Rekan di Paroki Pejompongan, Gereja Kristus Raja'],
-      ['2005 Mei - Sept', 'Sabatical Years di Filipina'],
-      ['2005–2014', 'Bertugas kembali Paroki Pejompongan, Gereja Kristus Raja'],
-      ['2014–2026', 'Bertugas di Paroki Cilangkap, Gereja St. Maria Vianney'],
-      ['2026–sekarang', 'Bertugas sebagai Pastor Rekan di Paroki Villa Melati Mas, Gereja St. Ambrosius'],
+      ['1986 - 1990', 'Sebagai Pastor Rekan di Paroki Mangga Besar, Gereja St. Petrus Paulus'],
+      ['1990 - 1994', 'Pastur Kepala di Paroki Pulomas, Gereja St. Bonaventura'],
+      ['1994 - 1999', 'Pastur Kepala di Paroki Bojong Indah, Gereja  St. Thomas Rasul'],
+      ['1999 - 2004', 'Pastur Rekan di Paroki Cijantung, St. Aloysius Gonzaga'],
+      ['2004 - 2005', 'Pastur Rekan di Paroki Pejompongan, Gereja Kristus Raja'],
+      ['Mei 2025 - Sept 2005', 'Sabatical Years di Filipina'],
+      ['Okt 2005 - 2014', 'Bertugas kembali Paroki Pejompongan, Gereja Kristus Raja'],
+      ['2014 - 2026', 'Bertugas di Paroki Cilangkap, Gereja St. Maria Vianney'],
+      ['2026 - sekarang', 'Bertugas sebagai Pastor Rekan di Paroki Villa Melati Mas, Gereja St. Ambrosius'],
     ],
   },
   {
@@ -68,25 +68,25 @@ const romos: Romo[] = [
       ['1986', 'Pastor Rekan di Paroki Pulomas, Gereja St. Bonaventura'],
       ['1988', 'Belajar ke Roma'],
       ['1992', 'Pelayanan di KAJ sebagai Sekretaris Bapak Uskup Leo Sukoto'],
-      ['2017–sekarang', 'Pelayanan di Seminari Tinggi JP II KAJ'],
+      ['2017 - sekarang', 'Pelayanan di Seminari Tinggi JP II KAJ'],
     ],
   },
   {
     years: 35,
-    name: 'Rm. Yustinus Sulistiadi, Pr',
-    date: '',
+    name: 'Romo Yustinus Sulistiadi, Pr',
+    date: '15 Agustus 1991',
     photo: '/romo/yustinus-sulistiadi.jpeg',
     birth: 'Solo, 14 Agustus 1964',
     parents: 'Ignatius Soenardjo dan Hedwigis Srimulyati',
     career: [
-      ['1991–1994', 'Pamong Seminari Menengah Wacana Bhakti, Anggota Komisi Liturgi'],
-      ['1994–2006', 'Studi Fim & Televisi di Roma'],
-      ['2006–2011', 'Pastor Rekan di Paroki Menteng, Gereja St. Ignatius Loyola'],
-      ['2011–2012', 'Skriptor & Kategorial di Wisma Samadi'],
-      ['2012–2016', 'Pastor Rekan di Paroki Pejompongan, Gereja St. Kristus Raja'],
-      ['2016–2021', 'Pastor Kepala Paroki Sukabumi, Gereja St. Gregorius Agung'],
-      ['2021–2025', 'Pastor Rekan di Paroki Cilangkap, Gereja St. Yohanes Maria Vianney'],
-      ['2021–2026', 'Pastor Rekan di Paroki Pulo Gebang, Gereja St. Gabriel'],
+      ['1991 - 1994', 'Pamong Seminari Menengah Wacana Bhakti, Anggota Komisi Liturgi'],
+      ['1994 - 2006', 'Studi Fim & Televisi di Roma'],
+      ['2006 - 2011', 'Pastor Rekan di Paroki Menteng, Gereja St. Ignatius Loyola'],
+      ['2011 - 2012', 'Skriptor & Kategorial di Wisma Samadi'],
+      ['2012 - 2016', 'Pastor Rekan di Paroki Pejompongan, Gereja St. Kristus Raja'],
+      ['2016 - 2021', 'Pastor Kepala Paroki Sukabumi, Gereja St. Gregorius Agung'],
+      ['2021 - 2025', 'Pastor Rekan di Paroki Cilangkap, Gereja St. Yohanes Maria Vianney'],
+      ['2025 - 2026', 'Pastor Rekan di Paroki Pulo Gebang, Gereja St. Gabriel'],
     ],
   },
   {
@@ -97,13 +97,13 @@ const romos: Romo[] = [
     birth: 'Yogyakarta, 11 Februari 1968',
     parents: 'Blasius Supardi KA dan Christina Sijam',
     career: [
-      ['1996–1998', 'Pastor Rekan di Paroki Kelapa Gading'],
-      ['1998–2001', 'Pastor Unika Atma Jaya, Jakarta'],
-      ['2001–2005', 'Pastor Staff Seminari Tinggi Keuskupan Agung Jakarta (KAJ)'],
-      ['2005–2008', 'Pastor Kepala Paroki Pejompongan, Gereja St. Kristus Raja'],
-      ['2008–2017', 'Pastor Kepala Kosambi Baru, Gereja St. Matias Rasul'],
-      ['2017–2022', 'Pastor Kepala Paroki Pulo Gebang, Gereja St. Gabriel'],
-      ['2022–sekarang', 'Pastor Kepala Paroki Ciputat, Gereja St. Nikodemus'],
+      ['1996 - 1998', 'Pastor Rekan di Paroki Kelapa Gading, Gereja St. Yakobus'],
+      ['1998 - 2001', 'Pastor Unika Atma Jaya, Jakarta'],
+      ['2001 - 2005', 'Pastor Staff Seminari Tinggi Keuskupan Agung Jakarta (KAJ)'],
+      ['2005 - 2008', 'Pastor Kepala Paroki Pejompongan, Gereja St. Kristus Raja'],
+      ['2008 - 2017', 'Pastor Kepala Kosambi Baru, Gereja St. Matias Rasul'],
+      ['2017 - 2022', 'Pastor Kepala Paroki Pulo Gebang, Gereja St. Gabriel'],
+      ['2022 - sekarang', 'Pastor Kepala Paroki Ciputat, Gereja St. Nikodemus'],
     ],
   },
   {
@@ -115,13 +115,13 @@ const romos: Romo[] = [
     parents:
       'KRT RI Martokusumo, SE & RAy Maria Dolores Mursjanti Soerjomursandi',
     career: [
-      ['1992–1993', 'Frater orientasi Pastoral Di Paroki Santa Maria, Tangerang'],
+      ['1992 - 1993', 'Frater orientasi Pastoral di Paroki Tangerang, Gereja Santa Perawan Maria Berhati Tak Bernoda'],
       [
         '1996',
         'Ditahbiskan jadi Imam di Paroki Blok B, Gereja St Yohanes Penginjil. Mengikuti Pendidikan Perwira Karier di Akademi Militer Magelang',
       ],
       [
-        '1997–2018',
+        '1997 - 2018',
         'Bertugas di Akademi Angkatan Udara Yogyakarta dan mendirikan Paroki Lanud Adisutjipto, Gereja St. Mikael',
       ],
       [
@@ -130,7 +130,7 @@ const romos: Romo[] = [
       ],
       ['2020', 'Kembali ke KAJ dan ditempatkan di Paroki Halim Perdana Kusuma, Gereja St. Agustinus'],
       [
-        '2020–sekarang',
+        '2020 - sekarang',
         'Mengembangkan tata kelola Ordinariatus Cartensis Indonesia sebagai model pastoral militer yang kontekstual bagi Gereja Universal yang rencananya akan dipresentasikan kepada Bapa Suci Paul Leo XIV dalam audiensi khusus Ordinariatus Castrensis Indonesia di Vatikan serta pada Pilgrimage Militaire International di Lourdes',
       ],
     ],
@@ -145,15 +145,15 @@ const romos: Romo[] = [
     career: [
       [
         '2001',
-        'Pastor di Paroki Hati Santa Perawan Maria Tak Bernoda, Tangerang',
+        'Pastor di Paroki Tangerang, Gereja Santa Perawan Maria Berhati Tak Bernoda',
       ],
       [
-        '2001–2009',
+        '2001 - 2009',
         'Ketua Komisi KomSos KAK; Paroki Bojong Indah, Gereja St. Thomas Rasul dan Paroki Jalan Malang, Gereja St. Ignatius Loyola',
       ],
-      ['2009–2012', 'Studi di Ateneo De Manila University, Filipina'],
-      ['2012–2017', 'Pastor Paroki Lubang Buaya, Gereja Kalvari'],
-      ['2017–sekarang', 'Direktur Pusat Pastoral Samadi'],
+      ['2009 - 2012', 'Studi di Ateneo De Manila University, Filipina'],
+      ['2012 - 2017', 'Pastor Paroki Lubang Buaya, Gereja Kalvari'],
+      ['2017 - sekarang', 'Direktur Pusat Pastoral Samadi'],
     ],
   },
 ]
@@ -498,15 +498,18 @@ export default function UndanganPage() {
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
                 <Reveal variant="left" delay={120} className="bg-white rounded-xl p-6 shadow-sm">
-                  <p className="font-medium text-slate-800 mb-3">PIC Paroki</p>
+                  <p className="font-medium text-slate-800 mb-3">RSVP</p>
                   <a
-                    href="https://wa.me/6282164328052"
+                    href="https://wa.me/6285195559488"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-600 font-medium underline"
                   >
-                    <FaWhatsapp size={18} /> 0821-6432-8052
+                    <FaWhatsapp size={18} /> 0851-9555-9488
                   </a>
+                  <p className="text-sm text-slate-500 mt-3">
+                    Konfirmasi paling lambat tanggal 13 Agustus 2026
+                  </p>
                 </Reveal>
               </div>
             </Reveal>
