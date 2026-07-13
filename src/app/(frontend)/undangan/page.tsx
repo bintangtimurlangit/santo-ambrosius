@@ -163,17 +163,23 @@ function PhotoAvatar({
   photo,
   alt,
   size = 'lg',
+  imgClassName,
 }: {
   photo?: string
   alt: string
   size?: 'lg' | 'sm'
+  imgClassName?: string
 }) {
   const dimension = size === 'lg' ? 'w-32 h-32' : 'w-24 h-24'
   if (photo) {
     return (
       <div className={`${dimension} rounded-full overflow-hidden shadow-md ring-4 ring-sky-100`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={photo} alt={alt} className="w-full h-full object-cover" />
+        <img
+          src={photo}
+          alt={alt}
+          className={`w-full h-full object-cover ${imgClassName ?? ''}`}
+        />
       </div>
     )
   }
@@ -496,8 +502,12 @@ export default function UndanganPage() {
               <p className="text-slate-600 mb-8">
                 Mohon konfirmasi kehadiran Anda melalui kontak berikut:
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <Reveal variant="left" delay={120} className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="flex justify-center max-w-2xl mx-auto">
+                <Reveal
+                  variant="left"
+                  delay={120}
+                  className="bg-white rounded-xl p-6 shadow-sm w-full max-w-xs"
+                >
                   <p className="font-medium text-slate-800 mb-3">RSVP</p>
                   <a
                     href="https://wa.me/6285195559488"
@@ -529,6 +539,7 @@ export default function UndanganPage() {
                   photo="/romo-pram.jpeg"
                   alt="Romo Antonius Pramono Wahyu Nugroho, Pr"
                   size="sm"
+                  imgClassName="object-top"
                 />
                 <h4 className="mt-4 font-semibold text-slate-800">
                   Romo Antonius Pramono Wahyu Nugroho, Pr
