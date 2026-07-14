@@ -110,7 +110,7 @@ const romos: Romo[] = [
     years: 30,
     name: 'Romo Yoseph Maria Marcelinus Bintoro, Pr.',
     date: '15 Agustus 1996',
-    photo: '/romo/yos-bintoro.webp',
+    photo: '/romo/yos-bintoro-2026.png',
     birth: 'Jakarta, 30 November 1967',
     parents:
       'KRT RI Martokusumo, SE & RAy Maria Dolores Mursjanti Soerjomursandi',
@@ -539,7 +539,7 @@ export default function UndanganPage() {
                   photo="/romo-pram.jpeg"
                   alt="Romo Antonius Pramono Wahyu Nugroho, Pr"
                   size="sm"
-                  imgClassName="object-top"
+                  imgClassName="object-top scale-[1.45] origin-top"
                 />
                 <h4 className="mt-4 font-semibold text-slate-800">
                   Romo Antonius Pramono Wahyu Nugroho, Pr
