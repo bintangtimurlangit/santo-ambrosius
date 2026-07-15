@@ -54,7 +54,10 @@ const romos: Romo[] = [
       ['Mei - Sept 2005', 'Sabatical Years di Filipina'],
       ['Okt 2005 - 2014', 'Bertugas kembali Paroki Pejompongan, Gereja Kristus Raja'],
       ['2014 - 2026', 'Bertugas di Paroki Cilangkap, Gereja St. Maria Vianney'],
-      ['2026 - sekarang', 'Bertugas sebagai Pastor Rekan di Paroki Villa Melati Mas, Gereja St. Ambrosius'],
+      [
+        '2026 - sekarang',
+        'Bertugas sebagai Pastor Rekan di Paroki Villa Melati Mas, Gereja St. Ambrosius',
+      ],
     ],
   },
   {
@@ -62,7 +65,7 @@ const romos: Romo[] = [
     name: 'Romo Yohanes Purbo Tamtomo, Pr',
     date: '15 Agustus 1986',
     photo: '/romo/yohanes-purbo.webp',
-    birth: 'Yogyakarta, 1959',
+    birth: 'Yogyakarta, 6 Mei 1959',
     parents: 'JS Hadisuprapto dan Maria Norbentin Praptini',
     career: [
       ['1986', 'Pastor Rekan di Paroki Pulomas, Gereja St. Bonaventura'],
@@ -84,7 +87,7 @@ const romos: Romo[] = [
       ['2006 - 2011', 'Pastor Rekan di Paroki Menteng, Gereja St. Ignatius Loyola'],
       ['2011 - 2012', 'Skriptor & Kategorial di Wisma Samadi'],
       ['2012 - 2016', 'Pastor Rekan di Paroki Pejompongan, Gereja St. Kristus Raja'],
-      ['2016 - 2021', 'Pastor Kepala Paroki Sukabumi, Gereja St. Gregorius Agung'],
+      ['2016 - 2021', 'Pastor Kepala Paroki Kutabumi, Gereja St. Gregorius Agung'],
       ['2021 - 2025', 'Pastor Rekan di Paroki Cilangkap, Gereja St. Yohanes Maria Vianney'],
       ['2025 - 2026', 'Pastor Rekan di Paroki Pulo Gebang, Gereja St. Gabriel'],
     ],
@@ -112,10 +115,12 @@ const romos: Romo[] = [
     date: '15 Agustus 1996',
     photo: '/romo/yos-bintoro-2026.png',
     birth: 'Jakarta, 30 November 1967',
-    parents:
-      'KRT RI Martokusumo, SE & RAy Maria Dolores Mursjanti Soerjomursandi',
+    parents: 'KRT RI Martokusumo, SE & RAy Maria Dolores Mursjanti Soerjomursandi',
     career: [
-      ['1992 - 1993', 'Frater orientasi Pastoral di Paroki Tangerang, Gereja Santa Perawan Maria Berhati Tak Bernoda'],
+      [
+        '1992 - 1993',
+        'Frater orientasi Pastoral di Paroki Tangerang, Gereja Santa Perawan Maria Berhati Tak Bernoda',
+      ],
       [
         '1996',
         'Ditahbiskan jadi Imam di Paroki Blok B, Gereja St Yohanes Penginjil. Mengikuti Pendidikan Perwira Karier di Akademi Militer Magelang',
@@ -128,7 +133,10 @@ const romos: Romo[] = [
         '2019',
         'Diangkat sebagai Wakil Uskup Ordinariatus Castrensis Indonesia Yang melahirkan Pusat Studi Perdamaian dan Resolusi Konflik Memprakarsai kaderisasi imam-imam muda sebagai perwira Organik di TNI AD, TNI AL, TNI AU dan POLRI',
       ],
-      ['2020', 'Kembali ke KAJ dan ditempatkan di Paroki Halim Perdana Kusuma, Gereja St. Agustinus'],
+      [
+        '2020',
+        'Kembali ke KAJ dan ditempatkan di Paroki Halim Perdana Kusuma, Gereja St. Agustinus',
+      ],
       [
         '2020 - sekarang',
         'Mengembangkan tata kelola Ordinariatus Cartensis Indonesia sebagai model pastoral militer yang kontekstual bagi Gereja Universal yang rencananya akan dipresentasikan kepada Bapa Suci Paul Leo XIV dalam audiensi khusus Ordinariatus Castrensis Indonesia di Vatikan serta pada Pilgrimage Militaire International di Lourdes',
@@ -143,10 +151,7 @@ const romos: Romo[] = [
     birth: 'Jakarta, 9 Mei 1974',
     parents: 'Yohanes Doemeri dan Maria Laurensia Suwarsiatun',
     career: [
-      [
-        '2001',
-        'Pastor di Paroki Tangerang, Gereja Santa Perawan Maria Berhati Tak Bernoda',
-      ],
+      ['2001', 'Pastor di Paroki Tangerang, Gereja Santa Perawan Maria Berhati Tak Bernoda'],
       [
         '2001 - 2009',
         'Ketua Komisi KomSos KAJ; Paroki Bojong Indah, Gereja St. Thomas Rasul dan Paroki Jalan Malang, Gereja St. Ignatius Loyola',
@@ -175,11 +180,7 @@ function PhotoAvatar({
     return (
       <div className={`${dimension} rounded-full overflow-hidden shadow-md ring-4 ring-sky-100`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={photo}
-          alt={alt}
-          className={`w-full h-full object-cover ${imgClassName ?? ''}`}
-        />
+        <img src={photo} alt={alt} className={`w-full h-full object-cover ${imgClassName ?? ''}`} />
       </div>
     )
   }
@@ -337,7 +338,8 @@ export default function UndanganPage() {
                 Imam yang Merayakan
               </h2>
               <p className="text-slate-500 max-w-2xl mx-auto">
-                Refleksi perjalanan, syukur atas pelayanan, dan doa untuk Imam yang merayakan tahbisan
+                Refleksi perjalanan, syukur atas pelayanan, dan doa untuk Imam yang merayakan
+                tahbisan
               </p>
             </Reveal>
 
@@ -495,7 +497,10 @@ export default function UndanganPage() {
         {/* ===== Konfirmasi Kehadiran ===== */}
         <section className="px-4 md:px-8 lg:px-12 pb-16">
           <div className="max-w-4xl mx-auto">
-            <Reveal variant="scale" className="bg-sky-100 rounded-2xl shadow-sm px-8 py-12 text-center">
+            <Reveal
+              variant="scale"
+              className="bg-sky-100 rounded-2xl shadow-sm px-8 py-12 text-center"
+            >
               <h2 className="text-2xl md:text-3xl font-semibold text-slate-700 mb-2">
                 Konfirmasi Kehadiran
               </h2>
