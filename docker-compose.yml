@@ -17,7 +17,10 @@ services:
     volumes:
       - media_data:/app/media
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO /dev/null http://localhost:3000/ || exit 1"]
+      # Use 127.0.0.1 (not localhost): the app binds IPv4-only (HOSTNAME=0.0.0.0),
+      # but "localhost" resolves to ::1 first in the container, giving a false
+      # "connection refused" and a permanently-unhealthy status.
+      test: ["CMD-SHELL", "wget -qO /dev/null http://127.0.0.1:3000/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 12
