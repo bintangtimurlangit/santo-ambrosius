@@ -33,6 +33,9 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
   const [flipDirection, setFlipDirection] = useState<'next' | 'prev' | null>(null)
   const [flipActive, setFlipActive] = useState(false)
   const [flipOverlayStyle, setFlipOverlayStyle] = useState<React.CSSProperties | null>(null)
+  // Logical (CSS) width of the rendered canvas; the backing store is rendered at
+  // devicePixelRatio for sharpness, so we track the CSS size separately.
+  const [canvasCssWidth, setCanvasCssWidth] = useState<number | null>(null)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -96,18 +99,30 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
         const canvas = canvasRef.current!
         const context = canvas.getContext('2d')!
 
-        if (isTwoPage && currentPage + 1 <= totalPages) {
+        // Render the backing store at device resolution so it stays sharp on
+        // high-DPI (Retina) screens; the CSS size is kept at the logical size.
+        const dpr = window.devicePixelRatio || 1
+        const pdfTransform = dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : undefined
+
+        // Page 1 is always shown alone as the cover. Interior pages are paired
+        // into spreads (2-3, 4-5, …). On narrow screens everything is single-page.
+        const renderAsSpread = isTwoPage && currentPage !== 1 && currentPage + 1 <= totalPages
+
+        if (renderAsSpread) {
           // Render two pages side by side
-          // For two-page spread: page 1 shows pages 1-2, page 2 shows pages 3-4, etc.
           const page1 = await pdfDoc.getPage(currentPage)
           const page2 = await pdfDoc.getPage(currentPage + 1)
 
           const viewport1 = page1.getViewport({ scale })
           const viewport2 = page2.getViewport({ scale })
 
-          // Set canvas size for two pages
-          canvas.width = viewport1.width + viewport2.width + PAGE_GAP_PX // gap
-          canvas.height = Math.max(viewport1.height, viewport2.height)
+          const cssWidth = viewport1.width + viewport2.width + PAGE_GAP_PX
+          const cssHeight = Math.max(viewport1.height, viewport2.height)
+
+          // Backing store in device pixels, CSS size kept logical
+          canvas.width = Math.floor(cssWidth * dpr)
+          canvas.height = Math.floor(cssHeight * dpr)
+          setCanvasCssWidth(cssWidth)
 
           // Clear canvas with white background
           context.fillStyle = 'white'
@@ -119,11 +134,11 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
           const tempContext1 = tempCanvas1.getContext('2d')!
           const tempContext2 = tempCanvas2.getContext('2d')!
 
-          // Set temp canvas sizes
-          tempCanvas1.width = viewport1.width
-          tempCanvas1.height = viewport1.height
-          tempCanvas2.width = viewport2.width
-          tempCanvas2.height = viewport2.height
+          // Set temp canvas sizes (device pixels)
+          tempCanvas1.width = Math.floor(viewport1.width * dpr)
+          tempCanvas1.height = Math.floor(viewport1.height * dpr)
+          tempCanvas2.width = Math.floor(viewport2.width * dpr)
+          tempCanvas2.height = Math.floor(viewport2.height * dpr)
 
           // Fill temp canvases with white background
           tempContext1.fillStyle = 'white'
@@ -136,24 +151,27 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
             canvasContext: tempContext1,
             viewport: viewport1,
             canvas: tempCanvas1,
+            transform: pdfTransform,
           }).promise
 
           await page2.render({
             canvasContext: tempContext2,
             viewport: viewport2,
             canvas: tempCanvas2,
+            transform: pdfTransform,
           }).promise
 
-          // Draw temp canvases to main canvas
+          // Draw temp canvases to main canvas (device-pixel coordinates)
           context.drawImage(tempCanvas1, 0, 0)
-          context.drawImage(tempCanvas2, viewport1.width + PAGE_GAP_PX, 0)
+          context.drawImage(tempCanvas2, Math.floor((viewport1.width + PAGE_GAP_PX) * dpr), 0)
         } else {
-          // Render single page (either mobile view or last odd page in two-page spread)
+          // Render single page (cover, mobile view, or trailing odd page)
           const page = await pdfDoc.getPage(currentPage)
           const viewport = page.getViewport({ scale })
 
-          canvas.width = viewport.width
-          canvas.height = viewport.height
+          canvas.width = Math.floor(viewport.width * dpr)
+          canvas.height = Math.floor(viewport.height * dpr)
+          setCanvasCssWidth(viewport.width)
 
           // Clear canvas with white background
           context.fillStyle = 'white'
@@ -163,6 +181,7 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
             canvasContext: context,
             viewport: viewport,
             canvas: canvas,
+            transform: pdfTransform,
           }).promise
         }
       } catch (err) {
@@ -176,12 +195,25 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
   // Check screen size for two-page layout
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsTwoPage(window.innerWidth >= 1024) // lg breakpoint
+      const twoPage = window.innerWidth >= 1024 // lg breakpoint
+      setIsTwoPage(twoPage)
+      // Snap odd interior pages down to the even page so spreads stay aligned
+      // (2-3, 4-5, …) after the lone cover when entering two-page mode.
+      if (twoPage) {
+        setCurrentPage((p) => (p !== 1 && p % 2 === 1 ? p - 1 : p))
+      }
     }
 
     checkScreenSize()
     window.addEventListener('resize', checkScreenSize)
     return () => window.removeEventListener('resize', checkScreenSize)
+  }, [])
+
+  // Keep isFullscreen in sync with the real fullscreen state (e.g. Esc to exit).
+  useEffect(() => {
+    const handleFullscreenChange = () => setIsFullscreen(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
   }, [])
 
   const goToPage = (pageNumber: number) => {
@@ -198,14 +230,18 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
 
         const canvasRect = canvas.getBoundingClientRect()
         const parentRect = pageContainer.getBoundingClientRect()
-        const displayScale = canvasRect.width / canvas.width
-        const gapDisplay = PAGE_GAP_PX * displayScale
+        const cssWidth = canvasCssWidth || canvas.width
+        // Whether the page currently on screen is a two-page spread (the cover
+        // and trailing odd pages render single even in two-page mode).
+        const currentIsSpread = isTwoPage && currentPage !== 1 && currentPage + 1 <= totalPages
 
-        if (isTwoPage) {
-          const nativePageWidth = Math.max(0, (canvas.width - PAGE_GAP_PX) / 2)
+        if (currentIsSpread) {
+          const deviceScale = canvas.width / cssWidth // device px per CSS px (~dpr)
+          const gapDevice = PAGE_GAP_PX * deviceScale
+          const nativePageWidth = Math.max(0, (canvas.width - gapDevice) / 2)
           const isNext = pageNumber > currentPage
           const which = isNext ? 'right' : 'left'
-          const sx = which === 'right' ? nativePageWidth + PAGE_GAP_PX : 0
+          const sx = which === 'right' ? nativePageWidth + gapDevice : 0
 
           // Crop only the half being flipped
           const tempCanvas = document.createElement('canvas')
@@ -228,6 +264,7 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
           dataUrl = tempCanvas.toDataURL('image/png')
 
           // Position overlay exactly over the flipped half
+          const gapDisplay = PAGE_GAP_PX * (canvasRect.width / cssWidth)
           const pageDisplayWidth = (canvasRect.width - gapDisplay) / 2
           const overlayLeft =
             canvasRect.left -
@@ -284,45 +321,68 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
     }, 600)
   }
 
+  // In two-page mode, page 1 is the lone cover, then spreads start at even pages
+  // (2-3, 4-5, …). canGoNext/canGoPrev also drive the arrow disabled states.
+  const canGoPrev = currentPage > 1
+  const canGoNext = isTwoPage
+    ? currentPage === 1
+      ? totalPages >= 2
+      : currentPage + 2 <= totalPages
+    : currentPage < totalPages
+
   const nextPage = () => {
+    if (!canGoNext) return
     if (isTwoPage) {
-      // For two-page spread: ensure we don't go beyond totalPages
-      const nextPageNum = currentPage + 2
-      if (nextPageNum <= totalPages) {
-        goToPage(nextPageNum)
-      }
+      // From the cover (page 1) step into the first spread (page 2).
+      goToPage(currentPage === 1 ? 2 : currentPage + 2)
     } else {
       goToPage(currentPage + 1)
     }
   }
 
   const prevPage = () => {
+    if (!canGoPrev) return
     if (isTwoPage) {
-      // For two-page spread: ensure we don't go below 1
-      const prevPageNum = currentPage - 2
-      if (prevPageNum >= 1) {
-        goToPage(prevPageNum)
-      }
+      // From the first spread (page 2) step back to the cover.
+      goToPage(currentPage === 2 ? 1 : currentPage - 2)
     } else {
       goToPage(currentPage - 1)
     }
   }
 
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      containerRef.current?.requestFullscreen()
-      setIsFullscreen(true)
-    } else {
-      document.exitFullscreen()
-      setIsFullscreen(false)
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await containerRef.current?.requestFullscreen()
+      } else {
+        await document.exitFullscreen()
+      }
+      // isFullscreen is synced by the fullscreenchange listener below.
+    } catch (err) {
+      console.error('Fullscreen error:', err)
     }
   }
 
-  const downloadPDF = () => {
-    const link = document.createElement('a')
-    link.href = pdfUrl
-    link.download = title || 'document.pdf'
-    link.click()
+  const downloadPDF = async () => {
+    const fileName = `${(title || 'document').replace(/\.pdf$/i, '')}.pdf`
+    try {
+      // Fetch as a blob so the browser downloads the file (with the right name)
+      // instead of navigating to / opening the PDF in a new tab.
+      const response = await fetch(pdfUrl)
+      const blob = await response.blob()
+      const objectUrl = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = objectUrl
+      link.download = fileName
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(objectUrl)
+    } catch (err) {
+      console.error('Download error:', err)
+      // Fallback: open in a new tab if the fetch/blob download fails.
+      window.open(pdfUrl, '_blank')
+    }
   }
 
   // Swipe handlers for mobile
@@ -380,7 +440,7 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`${showHeader ? 'bg-white' : 'bg-transparent'} rounded-lg shadow-lg overflow-hidden ${className}`}
+      className={`${isFullscreen ? 'bg-white flex items-center justify-center' : showHeader ? 'bg-white' : 'bg-transparent'} rounded-lg shadow-lg overflow-hidden ${className}`}
     >
       {/* Header */}
       {showHeader && (
@@ -422,7 +482,7 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
 
       {/* PDF Viewer */}
       <div
-        className={`relative ${showHeader ? 'bg-slate-100' : 'bg-white/80 backdrop-blur-sm'} min-h-[600px] flex items-center justify-center rounded-xl border border-slate-200/50`}
+        className={`relative ${showHeader ? 'bg-slate-100' : 'bg-white/80 backdrop-blur-sm'} ${isFullscreen ? 'h-screen w-screen' : 'min-h-[600px]'} flex items-center justify-center rounded-xl border border-slate-200/50`}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -436,7 +496,11 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
           <canvas
             ref={canvasRef}
             className="shadow-2xl rounded-lg bg-white"
-            style={{ maxWidth: '100%', height: 'auto' }}
+            style={{
+              maxWidth: '100%',
+              height: 'auto',
+              width: canvasCssWidth ? `${canvasCssWidth}px` : undefined,
+            }}
           />
           {/* Flip Overlay */}
           {flipImage && flipOverlayStyle && (
@@ -488,7 +552,7 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
         <div className="absolute top-1/2 left-4 transform -translate-y-1/2 z-10 hidden lg:block">
           <button
             onClick={prevPage}
-            disabled={currentPage <= 1}
+            disabled={!canGoPrev}
             className="p-3 bg-white/95 backdrop-blur-sm rounded-full shadow-lg hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             title="Previous Page"
           >
@@ -499,7 +563,7 @@ const FlipbookViewer: React.FC<FlipbookViewerProps> = ({
         <div className="absolute top-1/2 right-4 transform -translate-y-1/2 z-10 hidden lg:block">
           <button
             onClick={nextPage}
-            disabled={currentPage >= totalPages}
+            disabled={!canGoNext}
             className="p-3 bg-white/95 backdrop-blur-sm rounded-full shadow-lg hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             title="Next Page"
           >
