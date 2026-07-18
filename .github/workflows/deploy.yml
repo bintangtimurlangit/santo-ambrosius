@@ -75,66 +75,51 @@ jobs:
     permissions:
       packages: read    # pull the image from GHCR
     steps:
+    # script_path (below) uploads scripts/deploy-remote.sh from the checkout,
+    # so the deploy job needs the repo on the runner.
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # The remote deploy logic lives in scripts/deploy-remote.sh. Both the
+    # primary attempt and the retry run the exact same script.
     - name: Deploy to VPS
+      id: deploy
+      continue-on-error: true
       uses: appleboy/ssh-action@v1.0.3
       env:
         GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GHCR_USER: ${{ github.actor }}
         IMAGE_TAG: sha-${{ github.sha }}
+        VPS_APP_DIR: ${{ secrets.VPS_APP_DIR }}
+        GITHUB_REPO: ${{ github.repository }}
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.VPS_SSH_KEY }}
-        envs: GHCR_TOKEN,GHCR_USER,IMAGE_TAG
-        script: |
-          set -euo pipefail
-          cd ${{ secrets.VPS_APP_DIR }}
+        timeout: 60s          # SSH connect timeout (was the default 30s that timed out)
+        command_timeout: 15m
+        envs: GHCR_TOKEN,GHCR_USER,IMAGE_TAG,VPS_APP_DIR,GITHUB_REPO
+        script_path: scripts/deploy-remote.sh
 
-          # Ensure the repo (compose file + .env.production + mongo-init) is present and current
-          mkdir -p production
-          cd production
-          if [ -d "santo-ambrosius" ] && [ ! -d "santo-ambrosius/.git" ]; then
-            rm -rf santo-ambrosius
-          fi
-          if [ ! -d "santo-ambrosius" ]; then
-            git clone https://github.com/${{ github.repository }}.git santo-ambrosius
-          fi
-          cd santo-ambrosius
-          git fetch origin
-          git reset --hard origin/main
-
-          # Restore .env.production from parent if missing
-          if [ ! -f ".env.production" ] && [ -f "../.env.production" ]; then
-            cp ../.env.production .env.production
-          fi
-          if [ ! -f ".env.production" ]; then
-            echo "ERROR: .env.production not found at $(pwd)!"
-            exit 1
-          fi
-
-          # Pre-deploy MongoDB snapshot (best-effort; keep the last 10)
-          mkdir -p ../backups
-          if docker exec santo-ambrosius-mongo sh -c \
-              'mongodump --username admin --password "$MONGO_INITDB_ROOT_PASSWORD" --authenticationDatabase admin --archive --gzip' \
-              > "../backups/mongo-$(date +%F-%H%M%S).gz"; then
-            echo "Pre-deploy MongoDB backup written."
-          else
-            echo "WARNING: pre-deploy backup failed; continuing."
-          fi
-          ls -1t ../backups/mongo-*.gz 2>/dev/null | tail -n +11 | xargs -r rm -f || true
-
-          # Authenticate and pull the published image. With `set -e`, a failed
-          # pull exits here BEFORE touching the running app, so prod stays up.
-          echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
-          export APP_IMAGE_TAG="$IMAGE_TAG"
-          docker compose -f docker-compose.yml pull app
-
-          # Recreate only the app container from the new image. Mongo and its
-          # named volume are untouched (no `down`, never `-v`).
-          docker compose -f docker-compose.yml up -d
-          docker logout ghcr.io || true
-
-          docker compose -f docker-compose.yml ps
+    # Retry once on a transient SSH/network failure (e.g. "dial tcp :22 i/o
+    # timeout"). The script is idempotent, so re-running it is safe.
+    - name: Deploy to VPS (retry)
+      if: steps.deploy.outcome == 'failure'
+      uses: appleboy/ssh-action@v1.0.3
+      env:
+        GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GHCR_USER: ${{ github.actor }}
+        IMAGE_TAG: sha-${{ github.sha }}
+        VPS_APP_DIR: ${{ secrets.VPS_APP_DIR }}
+        GITHUB_REPO: ${{ github.repository }}
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        timeout: 60s
+        command_timeout: 15m
+        envs: GHCR_TOKEN,GHCR_USER,IMAGE_TAG,VPS_APP_DIR,GITHUB_REPO
+        script_path: scripts/deploy-remote.sh
 
     - name: Production Status
       run: |
