@@ -5,7 +5,14 @@ import Ribbon from '@/components/Ribbon'
 import UndanganAudio from '@/components/UndanganAudio'
 import EnvelopeIntro from '@/components/EnvelopeIntro'
 import Reveal from '@/components/Reveal'
-import { FaWhatsapp, FaMapMarkerAlt, FaUser, FaClock, FaCalendarAlt } from 'react-icons/fa'
+import {
+  FaWhatsapp,
+  FaMapMarkerAlt,
+  FaUser,
+  FaClock,
+  FaCalendarAlt,
+  FaGift,
+} from 'react-icons/fa'
 
 // Readable display serif used only for the hero title (scoped, does not change the site font).
 const display = Fraunces({
@@ -515,7 +522,7 @@ export default function UndanganPage() {
                 >
                   <p className="font-medium text-slate-800 mb-3">RSVP</p>
                   <a
-                    href="https://wa.me/6285195559488"
+                    href="https://wa.me/6285195559488?text=*Terima%20kasih%2C%20konfirmasi%20Anda%20telah%20kami%20terima.*%0A%0AUntuk%20melengkapi%20data%20kehadiran%2C%20mohon%20pilih%20salah%20satu%20opsi%20di%20bawah%20ini%3A%0A%0A1.%20Hadir%20Misa%0A2.%20Hadir%20Acara%0A3.%20Hadir%20Misa%20dan%20Acara%0A4.%20Tidak%20hadir%20keduanya%0A%0AMohon%20ketik%20angka%20yang%20dipilih%20%F0%9F%99%8F"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-600 font-medium underline"
@@ -525,6 +532,38 @@ export default function UndanganPage() {
                   <p className="text-sm text-slate-500 mt-3">
                     Konfirmasi paling lambat tanggal 13 Agustus 2026
                   </p>
+                </Reveal>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ===== Persembahan Kasih ===== */}
+        <section className="px-4 md:px-8 lg:px-12 pb-16">
+          <div className="max-w-4xl mx-auto">
+            <Reveal
+              variant="scale"
+              className="bg-amber-50 rounded-2xl shadow-sm px-8 py-12 text-center"
+            >
+              <div className="flex justify-center mb-4">
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-100 text-amber-600">
+                  <FaGift size={20} />
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-semibold text-slate-700 mb-8">
+                Persembahan Kasih
+              </h2>
+              <div className="flex justify-center max-w-2xl mx-auto">
+                <Reveal
+                  variant="scale"
+                  delay={120}
+                  className="bg-white rounded-xl p-6 shadow-sm w-full max-w-xs"
+                >
+                  <p className="text-sm font-medium text-slate-800">Bank BCA</p>
+                  <p className="text-2xl font-semibold tracking-wide text-slate-800 mt-2 select-all">
+                    6050775818
+                  </p>
+                  <p className="text-slate-600 mt-3">a.n. Melawati</p>
                 </Reveal>
               </div>
             </Reveal>
