@@ -522,7 +522,7 @@ export default function UndanganPage() {
                 >
                   <p className="font-medium text-slate-800 mb-3">RSVP</p>
                   <a
-                    href="https://wa.me/6285195559488?text=*Terima%20kasih%2C%20konfirmasi%20Anda%20telah%20kami%20terima.*%0A%0AUntuk%20melengkapi%20data%20kehadiran%2C%20mohon%20pilih%20salah%20satu%20opsi%20di%20bawah%20ini%3A%0A%0A1.%20Hadir%20Misa%0A2.%20Hadir%20Acara%0A3.%20Hadir%20Misa%20dan%20Acara%0A4.%20Tidak%20hadir%20keduanya%0A%0AMohon%20ketik%20angka%20yang%20dipilih%20%F0%9F%99%8F"
+                    href="https://wa.me/6285195559488?text=*Terima%20kasih%2C%20konfirmasi%20Anda%20telah%20kami%20terima.*%0A%0AUntuk%20melengkapi%20data%20kehadiran%2C%20mohon%20pilih%20salah%20satu%20opsi%20di%20bawah%20ini%3A%0A%0A1.%20Hadir%20Misa%0A2.%20Hadir%20Acara%0A3.%20Hadir%20Misa%20dan%20Acara%0A4.%20Tidak%20hadir%20keduanya%0A%0AMohon%20ketik%20angka%20yang%20dipilih%20%F0%9F%99%8F%0A%0APersembahan%20Kasih%20dapat%20disalurkan%20melalui%20nomor%20rekening%20BCA%206050775818%20a.n.%20Melawati%20%28Bendahara%20Panitia%20HUT%20Imamat%29"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-600 font-medium underline"
