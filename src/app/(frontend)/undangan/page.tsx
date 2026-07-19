@@ -559,11 +559,14 @@ export default function UndanganPage() {
                   delay={120}
                   className="bg-white rounded-xl p-6 shadow-sm w-full max-w-xs"
                 >
-                  <p className="text-sm font-medium text-slate-800">Bank BCA</p>
-                  <p className="text-2xl font-semibold tracking-wide text-slate-800 mt-2 select-all">
-                    6050775818
+                  <p className="text-slate-700 leading-relaxed">
+                    Persembahan Kasih dapat disalurkan melalui nomor rekening
+                    BCA{" "}
+                    <span className="font-semibold select-all">
+                      6050775818
+                    </span>{" "}
+                    a.n. Melawati (Bendahara Panitia HUT Imamat)
                   </p>
-                  <p className="text-slate-600 mt-3">a.n. Melawati</p>
                 </Reveal>
               </div>
             </Reveal>
