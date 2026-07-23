@@ -5,14 +5,7 @@ import Ribbon from '@/components/Ribbon'
 import UndanganAudio from '@/components/UndanganAudio'
 import EnvelopeIntro from '@/components/EnvelopeIntro'
 import Reveal from '@/components/Reveal'
-import {
-  FaWhatsapp,
-  FaMapMarkerAlt,
-  FaUser,
-  FaClock,
-  FaCalendarAlt,
-  FaGift,
-} from 'react-icons/fa'
+import { FaWhatsapp, FaMapMarkerAlt, FaUser, FaClock, FaCalendarAlt, FaGift } from 'react-icons/fa'
 
 // Readable display serif used only for the hero title (scoped, does not change the site font).
 const display = Fraunces({
@@ -90,7 +83,7 @@ const romos: Romo[] = [
     parents: 'Ignatius Soenardjo dan Hedwigis Srimulyati',
     career: [
       ['1991 - 1994', 'Pamong Seminari Menengah Wacana Bhakti, Anggota Komisi Liturgi'],
-      ['1994 - 2006', 'Studi Fim & Televisi di Roma'],
+      ['1994 - 2006', 'Studi Film & Televisi di Roma'],
       ['2006 - 2011', 'Pastor Rekan di Paroki Menteng, Gereja St. Ignatius Loyola'],
       ['2011 - 2012', 'Skriptor & Kategorial di Wisma Samadi'],
       ['2012 - 2016', 'Pastor Rekan di Paroki Pejompongan, Gereja St. Kristus Raja'],
@@ -126,7 +119,7 @@ const romos: Romo[] = [
     career: [
       [
         '1992 - 1993',
-        'Frater orientasi Pastoral di Paroki Tangerang, Gereja Santa Perawan Maria Berhati Tak Bernoda',
+        'Frater orientasi Pastoral di Paroki Tangerang, Gereja Hati Santa Perawan Maria Tak Bernoda',
       ],
       [
         '1996',
@@ -522,7 +515,7 @@ export default function UndanganPage() {
                 >
                   <p className="font-medium text-slate-800 mb-3">RSVP</p>
                   <a
-                    href="https://wa.me/6285195559488?text=*Terima%20kasih%2C%20konfirmasi%20Anda%20telah%20kami%20terima.*%0A%0AUntuk%20melengkapi%20data%20kehadiran%2C%20mohon%20pilih%20salah%20satu%20opsi%20di%20bawah%20ini%3A%0A%0A1.%20Hadir%20Misa%0A2.%20Hadir%20Acara%0A3.%20Hadir%20Misa%20dan%20Acara%0A4.%20Tidak%20hadir%20keduanya%0A%0AMohon%20ketik%20angka%20yang%20dipilih%20%F0%9F%99%8F%0A%0APersembahan%20Kasih%20dapat%20disalurkan%20melalui%20nomor%20rekening%20BCA%206050775818%20a.n.%20Melawati%20%28Bendahara%20Panitia%20HUT%20Imamat%29"
+                    href="https://wa.me/6285195559488?text=*Terima%20kasih%2C%20konfirmasi%20Anda%20telah%20kami%20terima.*%0A%0AUntuk%20melengkapi%20data%20kehadiran%2C%20mohon%20pilih%20salah%20satu%20opsi%20di%20bawah%20ini%3A%0A%0A1.%20Hadir%20Misa%0A2.%20Hadir%20Acara%0A3.%20Hadir%20Misa%20dan%20Acara%0A4.%20Tidak%20hadir%20keduanya%0A%0AMohon%20ketik%20angka%20yang%20dipilih%20%F0%9F%99%8F%0A%0APersembahan%20Kasih%20dapat%20disalurkan%20melalui%20nomor%20rekening%20BCA%204970750059%20a.n.%20PGDP%20Gereja%20Santo%20Ambrosius%20"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-600 font-medium underline"
@@ -560,12 +553,9 @@ export default function UndanganPage() {
                   className="bg-white rounded-xl p-6 shadow-sm w-full max-w-xs"
                 >
                   <p className="text-slate-700 leading-relaxed">
-                    Persembahan Kasih dapat disalurkan melalui nomor rekening
-                    BCA{" "}
-                    <span className="font-semibold select-all">
-                      6050775818
-                    </span>{" "}
-                    a.n. Melawati (Bendahara Panitia HUT Imamat)
+                    Persembahan Kasih dapat disalurkan melalui nomor rekening BCA{' '}
+                    <span className="font-semibold select-all">4790750059</span> a.n. PGDP Gereja
+                    Santo Ambrosius
                   </p>
                 </Reveal>
               </div>
