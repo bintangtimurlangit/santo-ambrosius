@@ -39,7 +39,7 @@ type Romo = {
 const romos: Romo[] = [
   {
     years: 40,
-    name: 'Romo Thomas Aquinas Murdjanto Rochadi Widagdo, Pr',
+    name: 'Romo Thomas Aquino Murdjanto Rochadi Widagdo, Pr',
     date: '15 Agustus 1986',
     photo: '/romo/thomas-rochadi.webp',
     imgClassName: 'scale-110 origin-top',
@@ -515,7 +515,7 @@ export default function UndanganPage() {
                 >
                   <p className="font-medium text-slate-800 mb-3">RSVP</p>
                   <a
-                    href="https://wa.me/6285195559488?text=*Terima%20kasih%2C%20konfirmasi%20Anda%20telah%20kami%20terima.*%0A%0AUntuk%20melengkapi%20data%20kehadiran%2C%20mohon%20pilih%20salah%20satu%20opsi%20di%20bawah%20ini%3A%0A%0A1.%20Hadir%20Misa%0A2.%20Hadir%20Acara%0A3.%20Hadir%20Misa%20dan%20Acara%0A4.%20Tidak%20hadir%20keduanya%0A%0AMohon%20ketik%20angka%20yang%20dipilih%20%F0%9F%99%8F%0A%0APersembahan%20Kasih%20dapat%20disalurkan%20melalui%20nomor%20rekening%20BCA%204970750059%20a.n.%20PGDP%20Gereja%20Santo%20Ambrosius%20"
+                    href="https://wa.me/6285195559488?text=%2ATerima%20kasih%2C%20konfirmasi%20Anda%20telah%20kami%20terima.%2A%0A%0AUntuk%20melengkapi%20data%20kehadiran%2C%20mohon%20pilih%20salah%20satu%20opsi%20di%20bawah%20ini%3A%0A%0A1.%20Hadir%20Misa%0A2.%20Hadir%20Acara%0A3.%20Hadir%20Misa%20dan%20Acara%0A4.%20Tidak%20hadir%20keduanya%0A%0AMohon%20ketik%20angka%20yang%20dipilih%20%F0%9F%99%8F%0A%0APersembahan%20Kasih%20dapat%20disalurkan%20melalui%20nomor%20rekening%20BCA%204970750059%20a.n.%20PGDP%20Gereja%20Santo%20Ambrosius.%0A%0AUntuk%20Persembahan%20Kasih%2C%20mohon%20menambahkan%20angka%2040%20di%20belakang%20nominal.%0A%0AContoh%3A%20Rp1.000.040"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-600 font-medium underline"
@@ -554,8 +554,12 @@ export default function UndanganPage() {
                 >
                   <p className="text-slate-700 leading-relaxed">
                     Persembahan Kasih dapat disalurkan melalui nomor rekening BCA{' '}
-                    <span className="font-semibold select-all">4790750059</span> a.n. PGDP Gereja
+                    <span className="font-semibold select-all">4970750059</span> a.n. PGDP Gereja
                     Santo Ambrosius
+                  </p>
+                  <p className="text-slate-700 leading-relaxed mt-4">
+                    Mohon tambahkan angka 40{' '}
+                    <span className="whitespace-nowrap">(contoh Rp. 1.000.040)</span>
                   </p>
                 </Reveal>
               </div>
