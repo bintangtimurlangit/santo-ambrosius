@@ -554,7 +554,7 @@ export default function UndanganPage() {
                 >
                   <p className="text-slate-700 leading-relaxed">
                     Persembahan Kasih dapat disalurkan melalui nomor rekening BCA{' '}
-                    <span className="font-semibold select-all">4790750059</span> a.n. PGDP Gereja
+                    <span className="font-semibold select-all">4970750059</span> a.n. PGDP Gereja
                     Santo Ambrosius
                   </p>
                   <p className="text-slate-700 leading-relaxed mt-4">
