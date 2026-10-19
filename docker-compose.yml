@@ -5,7 +5,7 @@ services:
     image: ghcr.io/bintangtimurlangit/santo-ambrosius:${APP_IMAGE_TAG:-latest}
     container_name: santo-ambrosius-app
     ports:
-      - '3000:3000'
+      - '127.0.0.1:3000:3000'  # nginx proxies to this; never expose directly
     depends_on:
       mongo:
         condition: service_healthy
@@ -34,7 +34,7 @@ services:
       NODE_ENV: production
 
   mongo:
-    image: mongo:latest
+    image: mongo:8.0
     container_name: santo-ambrosius-mongo
     ports:
       - '127.0.0.1:27017:27017'  # Only accessible from localhost
